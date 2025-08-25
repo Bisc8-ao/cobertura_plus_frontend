@@ -1,20 +1,17 @@
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { blue } from "@mui/material/colors";
-
+import React from "react";
+import { ThemeProvider } from "@mui/material/styles";
+import { GlobalStyles } from "@mui/material";
+import { globalStyle, Theme } from "./styles";
 import { PublicRoutes } from "./routes";
 
-const Theme = createTheme({
-    palette: {
-        primary: {
-            main: blue[500],
-        },
-    },
-});
 function App() {
     return (
-        <ThemeProvider theme={Theme}>
-            <PublicRoutes />
-        </ThemeProvider>
+        <React.Fragment>
+            <ThemeProvider theme={Theme}>
+                <GlobalStyles styles={globalStyle} />
+                <PublicRoutes />
+            </ThemeProvider>
+        </React.Fragment>
     );
 }
 
