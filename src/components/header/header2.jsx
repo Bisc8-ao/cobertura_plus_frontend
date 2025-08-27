@@ -4,14 +4,21 @@ import { vectorImages } from "../../assets";
 import SettingsIcon from "@mui/icons-material/Settings";
 import * as Styled from "../../styles";
 
-function Header() {
-    const { widthScreen } = UseWidthScreen();
-
+function Header2() {
+    const {widthScreen} = UseWidthScreen()
     return (
         <React.Fragment>
             <Styled.He_Wrapper>
                 <Styled.He_Container>
                     <Styled.He_Content>
+                        <div>
+                            <Styled.RouterLink>
+                                <SettingsIcon sx={{ color: "#637381" }} />
+                                <span> <b>Precisa de</b> ajuda?</span>
+
+                            </Styled.RouterLink>
+                        </div>
+
                         <Styled.He_ImgContainer>
                             <img
                                 src={
@@ -22,14 +29,6 @@ function Header() {
                                 alt="tvcabo"
                             />
                         </Styled.He_ImgContainer>
-                        <div>
-                            <Styled.RouterLink>
-                                <span>
-                                <b>Precisa de</b> ajuda?
-                                </span>
-                                <SettingsIcon sx={{ color: "#637381" }} />
-                            </Styled.RouterLink>
-                        </div>
                     </Styled.He_Content>
                 </Styled.He_Container>
             </Styled.He_Wrapper>
@@ -37,4 +36,4 @@ function Header() {
     );
 }
 
-export { Header };
+export { Header2 };

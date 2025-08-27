@@ -13,6 +13,7 @@ export const globalStyle = {
         boxSizing: "border-box",
         padding: "0",
         margin: "0",
+       textDecoration: "none"
     },
     html: {
         scrollBehavior: "smooth",

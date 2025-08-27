@@ -1,14 +1,177 @@
-import { Container, Typography } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+    IconButton,
+    InputAdornment,
+    InputLabel,
+    OutlinedInput,
+    Typography,
+} from "@mui/material";
+import { images } from "../../../assets";
+import { styled } from "@mui/material";
+import * as Styled from "../../../styles";
+import { Link } from "react-router-dom";
+import { Button } from "../../../components";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+
+const Wrapper = styled("div")({
+    width: "100%",
+    height: "100%",
+});
+
+const schema = z.object({
+    firstName: z
+        .string()
+        .min(2, "O primeiro nome deve ter no mínimo 2 caracteres"),
+    lastName: z
+        .string()
+        .min(2, "O último nome deve ter no mínimo 2 caracteres"),
+    email: z.string().email("Endereço de email inválido"),
+    password: z
+        .string()
+        .min(6, "A palavra passe deve ter no mínimo 6 caracteres"),
+});
 
 function SignUp() {
+    const [showPassword, setShowPassword] = useState(false);
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm({
+        resolver: zodResolver(schema),
+    });
+
+    const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+    const handleMouseDownPassword = (event) => {
+        event.preventDefault();
+    };
+
+    const handleMouseUpPassword = (event) => {
+        event.preventDefault();
+    };
+
+    function onSubmit(data) {
+        console.log(data);
+    }
     return (
         <React.Fragment>
-            <Container>
-                <Typography variant="h1" component="h1">
-                    SignIn
-                </Typography>
-            </Container>
+            <Wrapper>
+                <Styled.Container_Grid gridTemplateColumns="7.5fr 4.7fr">
+                    <Styled.GridContent>
+                        <Styled.ContainerForm onSubmit={handleSubmit(onSubmit)}>
+                            <Styled.ContainerFormContent>
+                                <Typography
+                                    variant="h4"
+                                    component="h2"
+                                    sx={{
+                                        fontSize: "1.9rem",
+                                        fontWeight: "800",
+                                        lineHeight: "2.8rem",
+                                    }}
+                                >
+                                    Crie a sua conta
+                                </Typography>
+                                <span>
+                                    Já tem uma conta?{" "}
+                                    <Link to="/signin">Iniciar sessão</Link>
+                                </span>
+                            </Styled.ContainerFormContent>
+
+                            <Styled.ContainerInputs>
+                                <Styled.NameContainer>
+                                    <Styled.Input
+                                        error={!!errors.firstName}
+                                        id="outlined-basic"
+                                        label="Primeiro nome"
+                                        type="text"
+                                        {...register("firstName")}
+                                    />{" "}
+                                    <Styled.Input
+                                        error={!!errors.lastName}
+                                        id="outlined-basic"
+                                        label="Último nome"
+                                        type="text"
+                                        {...register("lastName")}
+                                    />
+                                </Styled.NameContainer>
+
+                                <Styled.Input
+                                    error={!!errors.email}
+                                    id="outlined-basic"
+                                    label="Endereço de email"
+                                    type="email"
+                                    {...register("email")}
+                                />
+                                <Styled.FormControlPassword
+                                    variant="outlined"
+                                    error={!!errors.password}
+                                >
+                                    <InputLabel htmlFor="outlined-adornment-password">
+                                        Palavra passe
+                                    </InputLabel>
+                                    <OutlinedInput
+                                        id="outlined-adornment-password"
+                                        type={
+                                            showPassword ? "text" : "password"
+                                        }
+                                        {...register("password")}
+                                        endAdornment={
+                                            <InputAdornment position="end">
+                                                <IconButton
+                                                    aria-label={
+                                                        showPassword
+                                                            ? "hide the password"
+                                                            : "display the password"
+                                                    }
+                                                    onClick={
+                                                        handleClickShowPassword
+                                                    }
+                                                    onMouseDown={
+                                                        handleMouseDownPassword
+                                                    }
+                                                    onMouseUp={
+                                                        handleMouseUpPassword
+                                                    }
+                                                    edge="end"
+                                                >
+                                                    {showPassword ? (
+                                                        <VisibilityOff />
+                                                    ) : (
+                                                        <Visibility />
+                                                    )}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        }
+                                        label="Palavra passe"
+                                    />
+                                </Styled.FormControlPassword>
+
+                                <Button
+                                    variant="contained"
+                                    text="Criar conta"
+                                    type="submit"
+                                />
+                                <Styled.TermsService>
+                                    <span>
+                                        Concordo com os{" "}
+                                        <Link>Termos de Serviço</Link> e a{" "}
+                                        <Link>Política de Privacidade</Link>.
+                                    </span>
+                                </Styled.TermsService>
+                            </Styled.ContainerInputs>
+                        </Styled.ContainerForm>
+                    </Styled.GridContent>
+                    <Styled.GridImg
+                        img={images.characters.character_2}
+                        borderRadius=" 1.5rem 0  0 1.5rem"
+                    />
+                </Styled.Container_Grid>
+            </Wrapper>
         </React.Fragment>
     );
 }
