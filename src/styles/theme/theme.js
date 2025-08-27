@@ -28,6 +28,12 @@ export const Theme = createTheme({
             500: "#fa0000ff",
             700: "#d30000ff",
         },
+        mint: {
+            50: "#CAFDF5",
+        },
+        cyan: {
+            500: "#00B8D9",
+        },
     },
 });
 

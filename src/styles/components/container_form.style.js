@@ -1,38 +1,57 @@
-import { styled } from "@mui/material";
+import { Alert, styled } from "@mui/material";
+import InfoIcon from "@mui/icons-material/Info";
 
-const ContainerForm = styled("form")({
-    display: "flex",
-    flexDirection: "column",
-    gap: "4rem",
-    width: "50%",
 
-    "@media (max-width: 1024px)": {
-        width: "70%",
-    },
-    "@media (max-width: 430px)": {
-        width: "92%",
-    },
-    "@media (max-width: 320px)": {
-        gap: "1.4rem",
-    },
-});
+const ContainerForm = styled("form")(
+    ({ theme, borderRadius, padding, width }) => ({
+        display: "flex",
+        flexDirection: "column",
+        gap: "4rem",
+        width: width || "50%",
+        padding: padding || "0",
+        background: theme.palette.common.white,
+        borderRadius: borderRadius,
 
-const ContainerFormContent = styled("div")(({ theme }) => ({
+        "@media (max-width: 1024px)": {
+            width: "70%",
+        },
+        "@media (max-width: 430px)": {
+            width: "92%",
+        },
+        "@media (max-width: 320px)": {
+            gap: "1.4rem",
+            padding: padding ? "2rem" : "0",
+        },
+    })
+);
+
+const ContainerFormContent = styled("div")(({ theme, alignment }) => ({
     display: "flex",
     flexDirection: "column",
     gap: "1.2rem",
+    justifyContent: alignment || "start",
+    alignItems: alignment || "start",
 
     "& > span ": {
         fontSize: theme.typography.sizes.base,
         fontWeight: "400",
         lineHeight: "2.2rem",
         color: theme.palette.gray[500],
+        textAlign: alignment || "start",
     },
     "& span > a": {
         color: theme.palette.primary.main,
         fontWeight: "600",
     },
 
+    "& img": {
+        width: "6rem",
+    },
+    "@media (min-width: 1512px)": {
+        "& img": {
+            width: "15%",
+        },
+    },
     "@media (max-width: 1024px)": {
         alignItems: "center",
         justifyContent: "center",
@@ -42,19 +61,49 @@ const ContainerFormContent = styled("div")(({ theme }) => ({
         gap: ".5rem",
         "& > span ": {
             fontSize: theme.typography.sizes.xs,
-
         },
     },
 }));
 
-const ContainerInputs = styled("div")({
+const ContainerInputs = styled("div")(({ theme }) => ({
     display: "flex",
     flexDirection: "column",
     gap: "2.4rem",
+
+    "& div[data-element='Link_back']": {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+    },
+
+    "& div[data-element='Link_back'] a": {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        gap:" .8rem",
+        fontSize: theme.typography.sizes.base,
+        color: theme.palette.gray[950],
+    },
     "@media (max-width: 320px)": {
         gap: "1.4rem",
     },
-});
+}));
+
+const AdaptiveAlert = styled(Alert)(({ theme }) => ({
+    background: theme.palette.mint[50],
+    fontSize: theme.typography.sizes.base,
+    "@media (max-width: 320px)": {
+        fontSize: theme.typography.sizes.xs,
+    },
+}));
+
+const AdaptiveInfoIcon = styled(InfoIcon)(({ theme }) => ({
+    color: theme.palette.cyan[500],
+    fontSize: "2.4rem",
+    "@media (max-width: 320px)": {
+        fontSize: "2rem",
+    },
+}));
 
 const TermsService = styled("div")(({ theme }) => ({
     display: "flex",
@@ -95,6 +144,7 @@ const ForgotPassword = styled("div")(({ theme }) => ({
         color: theme.palette.gray[500],
     },
 }));
+
 const NameContainer = styled("div")({
     display: "grid",
     gridTemplateColumns: "repeat(2, 1fr)",
@@ -113,4 +163,6 @@ export {
     ForgotPassword,
     TermsService,
     NameContainer,
+    AdaptiveAlert,
+    AdaptiveInfoIcon,
 };

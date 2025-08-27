@@ -11,8 +11,6 @@ import { styled } from "@mui/material";
 import * as Styled from "../../../styles";
 import { Link } from "react-router-dom";
 import { Button } from "../../../components";
-import Alert from "@mui/material/Alert";
-import InfoIcon from "@mui/icons-material/Info";
 
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
@@ -63,24 +61,13 @@ function SignIn() {
                             </Styled.ContainerFormContent>
 
                             <Styled.ContainerInputs>
-                                <Alert
+                                <Styled.AdaptiveAlert
                                     severity="info"
-                                    sx={{
-                                        background: "#CAFDF5",
-                                        fontSize: "1.4rem",
-                                    }}
-                                    icon={
-                                        <InfoIcon
-                                            sx={{
-                                                color: "#00B8D9",
-                                                fontSize: "2.4rem",
-                                            }}
-                                        />
-                                    }
+                                    icon={<Styled.AdaptiveInfoIcon />}
                                 >
                                     O seu email deve possuir{" "}
                                     <strong>@tvcabo.co.ao</strong>
-                                </Alert>
+                                </Styled.AdaptiveAlert>
                                 <Styled.Input
                                     id="outlined-basic"
                                     label="Endereço de email"
@@ -88,7 +75,9 @@ function SignIn() {
                                 />
 
                                 <Styled.ForgotPassword>
-                                    <Link>Recuperar senha!</Link>
+                                    <Link to="/forgotpassword">
+                                        Recuperar senha!
+                                    </Link>
                                     <Styled.FormControlPassword variant="outlined">
                                         <InputLabel htmlFor="outlined-adornment-password">
                                             Senha
@@ -136,8 +125,6 @@ function SignIn() {
                                     text="Iniciar sessão"
                                     type="submit"
                                 />
-
-                               
                             </Styled.ContainerInputs>
                         </Styled.ContainerForm>
                     </Styled.GridContent>
