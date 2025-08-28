@@ -32,6 +32,12 @@ describe("VerifyAccount Page", () => {
         });
         expect(link).toBeInTheDocument();
     });
+    it("should render OTP input fields with labels", () => {
+        renderVerifyAccount();
+
+        const firstOtp = screen.getByLabelText("Dígito 1 do código OTP");
+        expect(firstOtp).toBeInTheDocument();
+    });
 
     it("should render all input fields", () => {
         renderVerifyAccount();

@@ -2,10 +2,14 @@ import React from "react";
 import { images } from "../../../assets";
 import { styled, Typography } from "@mui/material";
 import * as Styled from "../../../styles";
-import { Button } from "../../../components";
+import { Button, InputOtp } from "../../../components";
 import { Link } from "react-router-dom";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { vectorImages } from "../../../assets/svgs";
+import { useForm, Controller } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
 const Wrapper = styled("div")({
     width: "100%",
     height: "100%",
@@ -17,7 +21,26 @@ const Wrapper = styled("div")({
     justifyContent: "center",
     alignItems: "center",
 });
+
+const schema = z.object({
+    email: z.string().email("E-mail inválido"),
+    otp: z.string().length(6, "O código deve ter 6 dígitos"),
+});
+
 function VerifyAccount() {
+    const {
+        register,
+        control,
+        handleSubmit,
+
+        formState: { errors },
+    } = useForm({
+        resolver: zodResolver(schema),
+    });
+
+    function onSubmit(data) {
+        console.log(data);
+    }
     return (
         <React.Fragment>
             <Wrapper>
@@ -25,6 +48,7 @@ function VerifyAccount() {
                     borderRadius="1.5rem"
                     padding="4rem"
                     width="30%"
+                    onSubmit={handleSubmit(onSubmit)}
                 >
                     <Styled.ContainerFormContent alignment="center">
                         <img src={vectorImages.icons.email} />
@@ -48,11 +72,23 @@ function VerifyAccount() {
 
                     <Styled.ContainerInputs>
                         <Styled.Input
+                            error={!!errors.email}
                             id="outlined-basic"
                             label="Endereço de email"
                             type="email"
+                            {...register("email")}
                         />
 
+                        <Controller
+                            name="otp"
+                            control={control}
+                            render={({ field, fieldState }) => (
+                                <InputOtp
+                                    {...field}
+                                    error={!!fieldState.error}
+                                />
+                            )}
+                        />
                         <Button
                             variant="contained"
                             text="Validar"
@@ -65,10 +101,7 @@ function VerifyAccount() {
                         </Styled.ContainerFormContent>
                         <div data-element="Link_back">
                             <Link to="/forgotpassword">
-                                <span>
-                                    <ArrowBackIosIcon />
-                                </span>{" "}
-                                Voltar
+                                <ArrowBackIosIcon /> Voltar
                             </Link>
                         </div>
                     </Styled.ContainerInputs>

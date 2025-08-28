@@ -12,8 +12,17 @@ const ContainerForm = styled("form")(
         background: theme.palette.common.white,
         borderRadius: borderRadius,
 
+        "@media (min-width: 1512px)": {
+            width: width ? "22%" :"50%",
+        },
         "@media (max-width: 1024px)": {
-            width: "70%",
+            width: width ? "40%" : "70%",
+        },
+        "@media (max-width: 820px)": {
+            width: width ? "50%" : "70%",
+        },
+        "@media (max-width: 768px)": {
+            width: width ? "53%" : "70%",
         },
         "@media (max-width: 430px)": {
             width: "92%",
@@ -57,6 +66,11 @@ const ContainerFormContent = styled("div")(({ theme, alignment }) => ({
         justifyContent: "center",
         textAlign: "center",
     },
+    "@media (max-width: 390px)": {
+        "& > span ": {
+            fontSize: theme.typography.sizes.xs,
+        },
+    },
     "@media (max-width: 320px)": {
         gap: ".5rem",
         "& > span ": {
@@ -80,9 +94,21 @@ const ContainerInputs = styled("div")(({ theme }) => ({
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        gap:" .8rem",
+        gap: " .8rem",
         fontSize: theme.typography.sizes.base,
         color: theme.palette.gray[950],
+    },
+    "& div[data-element='Link_back'] a svg": {
+        fontSize: theme.typography.sizes.xs,
+    },
+    "@media (max-width: 390px)": {
+        gap: "1.6rem",
+        "& div[data-element='Link_back'] a": {
+            fontSize: theme.typography.sizes.xs,
+        },
+        "& div[data-element='Link_back'] a svg": {
+            fontSize: "1rem",
+        },
     },
     "@media (max-width: 320px)": {
         gap: "1.4rem",
