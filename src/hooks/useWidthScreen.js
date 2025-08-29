@@ -1,29 +1,32 @@
-import  { useState, useEffect } from "react";
-
-
-
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 function UseWidthScreen() {
+    const location = useLocation();
+    
     const [widthScreen, setWidthScreen] = useState(
-                typeof window !== "undefined" ? window.innerWidth <= 1024 : false
-            );
+        typeof window !== "undefined" ? window.innerWidth <= 1024 : false
+    );
 
-            useEffect(() => {
-                function handleResize() {
-                    if (window.innerWidth <= 1024) {
-                        setWidthScreen(true);
-                    } else {
-                        setWidthScreen(false);
-                    }
-                }
 
-                handleResize();
+    const showHeader2 = location.pathname === "/signup" && !widthScreen;
 
-                window.addEventListener("resize", handleResize);
+    useEffect(() => {
+        function handleResize() {
+            if (window.innerWidth <= 1024) {
+                setWidthScreen(true);
+            } else {
+                setWidthScreen(false);
+            }
+        }
 
-                return () => window.removeEventListener("resize", handleResize);
-            }, []);
-  return { widthScreen };
+        handleResize();
+
+        window.addEventListener("resize", handleResize);
+
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
+    return { widthScreen, showHeader2 };
 }
 
-export  {UseWidthScreen}
+export { UseWidthScreen };
