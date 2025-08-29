@@ -1,7 +1,8 @@
-export * from "./header.style"
-export * from "./input.style"
-export * from "./button.style"
-export * from "./container_grid.style"
-export * from "./container_form.style"
-export * from "./inputOtp.style"
-
+export * from "./header.style";
+export * from "./input.style";
+export * from "./button.style";
+export * from "./container_grid.style";
+export * from "./container_form.style";
+export * from "./inputOtp.style";
+export * from "./stepper.style";
+export * from "./text_area.style";

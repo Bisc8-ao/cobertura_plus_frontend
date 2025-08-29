@@ -6,13 +6,14 @@ import {
     SignIn,
     SignUp,
     VerifyAccount,
+    Subscribe
 } from "../../pages";
 
 function PublicRoutes() {
     return (
         <BrowserRouter>
             <Routes>
-                <Route element={<AppLayout/>}>
+                <Route element={<AppLayout />}>
                     <Route path="/" element={<Home />} />
                     <Route
                         path="/forgotpassword"
@@ -21,6 +22,7 @@ function PublicRoutes() {
                     <Route path="/signin" element={<SignIn />} />
                     <Route path="/signup" element={<SignUp />} />
                     <Route path="/verifyaccount" element={<VerifyAccount />} />
+                    <Route path="/subscribe" element={<Subscribe />} />
                 </Route>
             </Routes>
         </BrowserRouter>
