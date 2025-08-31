@@ -6,3 +6,4 @@ export * from "./container_form.style";
 export * from "./inputOtp.style";
 export * from "./stepper.style";
 export * from "./text_area.style";
+export  * from "./shape.style";

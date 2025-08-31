@@ -4,11 +4,12 @@ import { Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 export const He_Wrapper = styled("header")({
     position: "fixed",
-    width:"100%"
+    width: "100%",
+    zIndex: "100",
 });
 
 export const He_Container = styled("div")({
-    padding: "2rem 3rem",
+    padding: "3rem",
     "@media (min-width: 1512px)": {
         padding: "4rem",
     },
@@ -33,7 +34,7 @@ export const Span = styled(Typography)(({theme}) =>({
 
 export const He_ImgContainer = styled("div")({
     "& img": {
-        width: "5rem",
+        width: "8rem",
         "@media (min-width: 1512px)": {
             width: "100%",
         },

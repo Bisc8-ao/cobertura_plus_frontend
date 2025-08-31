@@ -9,7 +9,7 @@ function Header() {
     const { widthScreen } = UseWidthScreen();
     const location = useLocation();
 
-    const isPageVerifyAccount = location.pathname === "/verifyaccount";
+    const isPageVerifyAccount = location.pathname === "/verifyaccount" || location.pathname === "/";
 
     const logoSrc =
         widthScreen || isPageVerifyAccount

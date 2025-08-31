@@ -19,7 +19,8 @@ export const Theme = createTheme({
             black: "#000",
         },
         gray: {
-            400:"#919EAB",
+            300: "#AEAFB0",
+            400: "#919EAB",
             500: "#637381",
             900: "#1d1b208f",
             "900_25": "#1d1b2041",
