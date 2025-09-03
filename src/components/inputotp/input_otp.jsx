@@ -1,7 +1,7 @@
 import React, { useRef, forwardRef } from "react";
 import * as Styled from "../../styles";
 
-const InputOtp = forwardRef(({ value = "", onChange, error }, ref) => {
+const InputOtp = forwardRef(({ value = "", onChange, error, gap }, ref) => {
     const length = 6;
     const inputRefs = useRef([]);
 
@@ -32,7 +32,7 @@ const InputOtp = forwardRef(({ value = "", onChange, error }, ref) => {
 
     return (
         <React.Fragment>
-            <Styled.InputOtpContainer ref={ref}>
+            <Styled.InputOtpContainer ref={ref} gap={gap}>
                 {otpArray.map((item, index) => (
                     <Styled.InputOtp
                         key={index}

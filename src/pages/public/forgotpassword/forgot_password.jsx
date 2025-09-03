@@ -7,11 +7,38 @@ import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { Button } from "../../../components";
 import { Link } from "react-router-dom";
 import { vectorImages } from "../../../assets/svgs";
+import { useNavigate } from "react-router-dom";
+
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 const Wrapper = styled("div")({
     width: "100%",
     height: "100%",
 });
+const schema = z.object({
+    email: z
+        .string()
+        .nonempty("O email é obrigatório")
+        .email("Endereço de email inválido")
+        .refine((val) => val.endsWith("@tvcabo.co.ao"), {
+            message: "O email deve terminar com @tvcabo.co.ao",
+        }),
+});
 function ForgotPassword() {
+    const navigate= useNavigate()
+
+      const {
+                register,
+                handleSubmit,
+                formState: { errors },
+            } = useForm({
+                resolver: zodResolver(schema),
+            });
+    function onSubmit(data) {
+       navigate("/verifyaccount");
+        console.log(data);
+    }
     return (
         <React.Fragment>
             <Wrapper>
@@ -21,7 +48,7 @@ function ForgotPassword() {
                         borderRadius="0 1.5rem 1.5rem 0"
                     />
                     <Styled.GridContent>
-                        <Styled.ContainerForm>
+                        <Styled.ContainerForm onSubmit={handleSubmit(onSubmit)}>
                             <Styled.ContainerFormContent alignment="center">
                                 <img src={vectorImages.icons.padlock} />
                                 <Typography
@@ -44,6 +71,11 @@ function ForgotPassword() {
 
                             <Styled.ContainerInputs>
                                 <Styled.Input
+                                    helperText={
+                                        errors.email ? errors.email.message : ""
+                                    }
+                                    error={!!errors.email}
+                                    {...register("email")}
                                     id="outlined-basic"
                                     label="Endereço de email"
                                     type="email"

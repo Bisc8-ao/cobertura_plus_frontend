@@ -3,6 +3,7 @@ import { UseWidthScreen } from "../../hooks";
 import { vectorImages } from "../../assets";
 import SettingsIcon from "@mui/icons-material/Settings";
 import * as Styled from "../../styles";
+import { Link } from "react-router-dom";
 
 function Header2() {
     const {widthScreen} = UseWidthScreen()
@@ -19,16 +20,18 @@ function Header2() {
                             </Styled.RouterLink>
                         </div>
 
-                        <Styled.He_ImgContainer>
-                            <img
-                                src={
-                                    widthScreen
-                                        ? vectorImages.logos.brand.brand_logo_2
-                                        : vectorImages.logos.brand.brand_logo_1
-                                }
-                                alt="tvcabo"
-                            />
-                        </Styled.He_ImgContainer>
+                        <Link to="/">
+                            <Styled.He_ImgContainer>
+                                <img
+                                    src={
+                                        widthScreen
+                                            ? vectorImages.logos.brand.brand_logo_2
+                                            : vectorImages.logos.brand.brand_logo_1
+                                    }
+                                    alt="tvcabo"
+                                />
+                            </Styled.He_ImgContainer>
+                        </Link>
                     </Styled.He_Content>
                 </Styled.He_Container>
             </Styled.He_Wrapper>

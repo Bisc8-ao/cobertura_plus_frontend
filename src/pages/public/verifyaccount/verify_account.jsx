@@ -3,7 +3,7 @@ import { images } from "../../../assets";
 import { styled, Typography } from "@mui/material";
 import * as Styled from "../../../styles";
 import { Button, InputOtp } from "../../../components";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { vectorImages } from "../../../assets/svgs";
 import { useForm, Controller } from "react-hook-form";
@@ -23,11 +23,17 @@ const Wrapper = styled("div")({
 });
 
 const schema = z.object({
-    email: z.string().email("E-mail inválido"),
+    email: z
+        .string()
+        .email("E-mail inválido")
+        .refine((val) => val.endsWith("@tvcabo.co.ao"), {
+            message: "O email deve terminar com @tvcabo.co.ao",
+        }),
     otp: z.string().length(6, "O código deve ter 6 dígitos"),
 });
 
 function VerifyAccount() {
+    const navigate = useNavigate()
     const {
         register,
         control,
@@ -39,6 +45,8 @@ function VerifyAccount() {
     });
 
     function onSubmit(data) {
+        alert("Dados atualizados, inicia sessão")
+        navigate("/signin");
         console.log(data);
     }
     return (
@@ -86,6 +94,7 @@ function VerifyAccount() {
                                 <InputOtp
                                     {...field}
                                     error={!!fieldState.error}
+                                    gap="1.2rem"
                                 />
                             )}
                         />

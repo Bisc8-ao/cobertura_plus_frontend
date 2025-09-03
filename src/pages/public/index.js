@@ -4,3 +4,4 @@ export { SignIn } from "./signin";
 export { SignUp } from "./signup";
 export { VerifyAccount } from "./verifyaccount";
 export { Subscribe } from "./subscribe";
+export {Sandbox} from "./sandbox"

@@ -3,13 +3,13 @@ import { UseWidthScreen } from "../../hooks";
 import { vectorImages } from "../../assets";
 import SettingsIcon from "@mui/icons-material/Settings";
 import * as Styled from "../../styles";
-import { useLocation } from "react-router-dom";
+import { useLocation,Link } from "react-router-dom";
 
 function Header() {
-    const { widthScreen } = UseWidthScreen();
+    const { widthScreen, isPageHome } = UseWidthScreen();
     const location = useLocation();
 
-    const isPageVerifyAccount = location.pathname === "/verifyaccount" || location.pathname === "/";
+    const isPageVerifyAccount = location.pathname === "/verifyaccount" || location.pathname === "/" || location.pathname=== "/sandbox";
 
     const logoSrc =
         widthScreen || isPageVerifyAccount
@@ -19,12 +19,14 @@ function Header() {
     return (
         <React.Fragment>
             <Styled.He_Wrapper>
-                <Styled.He_Container>
+                <Styled.He_Container isPageHome={isPageHome}>
                     <Styled.He_Content>
-                        <Styled.He_ImgContainer>
-                            <img src={logoSrc} alt="tvcabo" />
-                        </Styled.He_ImgContainer>
-                        <Styled.RouterLink>
+                        <Link to="/">
+                            <Styled.He_ImgContainer>
+                                <img src={logoSrc} alt="tvcabo" />
+                            </Styled.He_ImgContainer>
+                        </Link>
+                        <Styled.RouterLink isPageHome={isPageHome}>
                             <span>
                                 <b>Precisa de</b> ajuda?
                             </span>

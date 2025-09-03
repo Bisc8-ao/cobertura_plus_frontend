@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-
+import { useNavigate } from "react-router-dom";
 const schena = z.object({
     firstName: z
         .string()
@@ -35,6 +35,7 @@ function UseSteps() {
         } = useForm({
             resolver: zodResolver(schena),
         });
+    const navigate= useNavigate()
 
         const steps = ["Apresentação", "Dados", "Mensagem"];
         const [activeStep, setActiveStep] = useState(0);
@@ -71,8 +72,10 @@ function UseSteps() {
             errors.message,
         ]);
 
-        function onSubmit(data) {
-            console.log(data);
+    function onSubmit(data) {
+            alert(`Verifica o seu email`);
+        console.log(data);
+        navigate("/")
         }
   return{register, handleSubmit, errors, steps, activeStep, handleNext, handleBack, onSubmit}
 }

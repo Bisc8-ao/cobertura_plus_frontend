@@ -4,7 +4,8 @@ import brand_logo_2 from "./logos/brand/logo_2.svg";
 import padlock from "./icons/padlock.svg";
 import email from "./icons/email_icon.svg";
 import vector from "./shapes/vector.png";
-import  shap_1 from "./shapes/shape_1.svg";
+import shap_1 from "./shapes/shape_1.svg";
+import send from "./icons/send.svg";
 const vectorImages = {
     logos: {
         brand: {
@@ -15,10 +16,11 @@ const vectorImages = {
     icons: {
         padlock,
         email,
+        send,
     },
     shapes: {
         shap_1,
-        vector
+        vector,
     },
 };
 

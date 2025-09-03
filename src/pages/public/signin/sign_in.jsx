@@ -1,4 +1,8 @@
 import React, { useState } from "react";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
 import {
     IconButton,
     InputAdornment,
@@ -13,14 +17,37 @@ import { Link } from "react-router-dom";
 import { Button } from "../../../components";
 
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-
+import { useNavigate } from "react-router-dom";
 const Wrapper = styled("div")({
     width: "100%",
     height: "100%",
 });
 
+
+const schema = z.object({
+    email: z
+        .string()
+        .nonempty("O email é obrigatório")
+        .email("Endereço de email inválido")
+        .refine((val) => val.endsWith("@tvcabo.co.ao"), {
+            message: "O email deve terminar com @tvcabo.co.ao",
+        }),
+    password: z
+        .string()
+        .nonempty("A senha é obrigatória")
+        .min(6, "A senha deve ter no mínimo 6 caracteres"),
+});
+
 function SignIn() {
+     const {
+            register,
+            handleSubmit,
+            formState: { errors },
+        } = useForm({
+            resolver: zodResolver(schema),
+        });
     const [showPassword, setShowPassword] = useState(false);
+    const navigate = useNavigate()
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -32,6 +59,12 @@ function SignIn() {
         event.preventDefault();
     };
 
+    function onSubmit(data) {
+
+          navigate("/dashboard");
+         console.log(data);
+     }
+
     return (
         <React.Fragment>
             <Wrapper>
@@ -41,7 +74,7 @@ function SignIn() {
                         borderRadius="0 1.5rem 1.5rem 0"
                     />
                     <Styled.GridContent>
-                        <Styled.ContainerForm>
+                        <Styled.ContainerForm onSubmit={handleSubmit(onSubmit)}>
                             <Styled.ContainerFormContent>
                                 <Typography
                                     variant="h4"
@@ -69,20 +102,34 @@ function SignIn() {
                                     <strong>@tvcabo.co.ao</strong>
                                 </Styled.AdaptiveAlert>
                                 <Styled.Input
+                                    error={!!errors.email}
+                                    {...register("email")}
                                     id="outlined-basic"
                                     label="Endereço de email"
                                     type="email"
+                                    helperText={
+                                        errors.email ? errors.email.message : ""
+                                    }
                                 />
 
                                 <Styled.ForgotPassword>
                                     <Link to="/forgotpassword">
                                         Recuperar senha!
                                     </Link>
-                                    <Styled.FormControlPassword variant="outlined">
+                                    <Styled.FormControlPassword
+                                        variant="outlined"
+                                        error={!!errors.password}
+                                    >
                                         <InputLabel htmlFor="outlined-adornment-password">
                                             Senha
                                         </InputLabel>
                                         <OutlinedInput
+                                            helperText={
+                                                errors.password
+                                                    ? errors.password.message
+                                                    : ""
+                                            }
+                                            {...register("password")}
                                             id="outlined-adornment-password"
                                             type={
                                                 showPassword

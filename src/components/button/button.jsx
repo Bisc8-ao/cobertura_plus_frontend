@@ -1,6 +1,6 @@
 import React from "react";
 import * as Styled from "../../styles";
-function Button({ text, onClick, type, variant, disabled, icon }) {
+function Button({ text, onClick, type, variant, disabled, icon, isPageHome }) {
     return (
         <React.Fragment>
             <Styled.MainButton
@@ -8,6 +8,7 @@ function Button({ text, onClick, type, variant, disabled, icon }) {
                 type={type}
                 variant={variant}
                 disabled={disabled}
+                isPageHome={isPageHome}
             >
                 {icon && icon}
                 <span>{text}</span>

@@ -30,14 +30,14 @@ const InputOtp = styled("input")(({ theme, error }) => ({
 }));
 
 
-const InputOtpContainer = styled("div")({
+const InputOtpContainer = styled("div")(({ gap }) => ({
     display: "flex",
 
-    gap: "1.2rem",
+    gap: gap,
 
     "@media (min-width: 1512px)": {
-        gap: "1.2rem",
+        gap: gap,
     },
-});
+}));
 
 export { InputOtp, InputOtpContainer };

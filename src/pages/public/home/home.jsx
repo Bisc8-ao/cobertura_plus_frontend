@@ -1,103 +1,53 @@
-import React from "react";
-import { Box, styled } from "@mui/material";
+import React, { useState } from "react";
+
 import { Button } from "../../../components";
-import { vectorImages } from "../../../assets/svgs";
+import { vectorImages} from "../../../assets";
 import * as Styled from "../../../styles";
 import { useNavigate } from "react-router-dom";
-
-const Wrapper = styled("section")(({ theme }) => ({
-    width: "100%",
-    height: "100%",
-    padding: "1.2rem",
-    position: "relative",
-    overflow: "hidden",
-    "@media (min-width: 1512px)": {
-        padding: " 2.5rem",
-    },
-}));
-
-const Container = styled("div")(({ theme }) => ({
-    display: "flex",
-    alignItems: "flex-end",
-    width: "100%",
-    height: "100%",
-
-    padding: " 10rem 2rem",
-    borderRadius: "1.5rem",
-    position: "relative",
-    zIndex: 1,
-    overflow: "hidden",
-    "&::after": {
-        content: '""',
-        position: "absolute",
-        top: "0",
-        left: "0",
-        background: "linear-gradient(0deg, rgba(0,0,0,0.15), rgba(0,0,0,0.15))",
-        filter: "brightness(80%)",
-        zIndex: -1,
-
-        width: "100%",
-        height: "100%",
-    },
-}));
-const ContainerBtn = styled("div")(({ theme }) => ({
-    position: "absolute",
-    zIndex: "3",
-    right: "1.5rem",
-    bottom: "2.5rem",
-    display: "flex",
-    alignItems: "end",
-
-    "& button": {
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        background: "transparent",
-
-        position: "relative",
-
-        cursor: "pointer",
-        border: "none",
-        width: "24rem",
-        height: "4rem",
-    },
-    "& button > svg": {
-        position: "absolute",
-        width: "100%",
-        height: "100%",
-        inset: 0,
-        objectFit: "contain",
-    },
-    "& button > span": {
-        fontSize: theme.typography.sizes.base,
-        color: theme.palette.gray[300],
-        fontWeight: "800",
-    },
-}));
-const ContainerContent = styled("div")(({ theme }) => ({
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "end",
-    gap: "5.5rem",
-
-    "&:first-child": {
-        fontSize: "4rem",
-        fontWeight: "800",
-        color: theme.palette.common.white,
-    },
-}));
-
+import { UseWidthScreen } from "../../../hooks";
 
 
 function Home() {
-    const navigate = useNavigate()
+    const { isPageHome } = UseWidthScreen();
+    const navigate = useNavigate();
+    const [location, setLocation] = useState({});
+    const [error, setError] = useState();
 
-    function handleClick(){
-        navigate("/signin")
+    function handleClick() {
+        navigate("/signin");
     }
+
+    function handleClicks() {
+        navigate("/sandbox");
+    }
+    function handleLocation() {
+        if (!navigator.geolocation) {
+            setError("Geolocalição não suportada");
+        }
+
+
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+
+                setLocation({
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude,
+                });
+                setError(null);
+                alert(
+                    `Tem cobertura, incrver-se ao serviço`
+                );
+                navigate("/subscribe");
+            },
+            (err) => {
+                setError("Errro a obter a localização:" + err.message);
+            }
+        );
+    }
+
     return (
         <React.Fragment>
-            <Wrapper>
+            <Styled.Ho_Wrapper>
                 <Styled.Shape>
                     <img
                         src={vectorImages.shapes.shap_1}
@@ -105,26 +55,29 @@ function Home() {
                         style={{ width: "100%", height: "100%" }}
                     />
                 </Styled.Shape>
-                <Container>
-                    <ContainerContent>
+                <Styled.Ho_Container>
+                    <Styled.Ho_ContainerContent>
                         <span>
                             Teste a disponibilidade
                             <br /> do nosso serviço
                             <br /> na sua região.
                         </span>
 
-                        <Box sx={{ display: "flex", gap: "1.5rem" }}>
+                        <Styled.Ho_Box>
                             <Button
                                 text="Na minha localização"
                                 variant="contained"
+                                onClick={handleLocation}
                             />
                             <Button
                                 text="Outro lugar"
                                 variant="outlined"
+                                isPageHome={isPageHome}
+                                onClick={handleClicks}
                             />
-                        </Box>
-                    </ContainerContent>
-                </Container>
+                        </Styled.Ho_Box>
+                    </Styled.Ho_ContainerContent>
+                </Styled.Ho_Container>
 
                 <Styled.Shap2>
                     <img
@@ -133,7 +86,7 @@ function Home() {
                         style={{ width: "100%", height: "100%" }}
                     />
                 </Styled.Shap2>
-                <ContainerBtn>
+                <Styled.Ho_ContainerBtn>
                     <button onClick={handleClick}>
                         <svg
                             viewBox="0 0 258 42"
@@ -148,8 +101,8 @@ function Home() {
                         </svg>
                         <span>Admin</span>
                     </button>
-                </ContainerBtn>
-            </Wrapper>
+                </Styled.Ho_ContainerBtn>
+            </Styled.Ho_Wrapper>
         </React.Fragment>
     );
 }

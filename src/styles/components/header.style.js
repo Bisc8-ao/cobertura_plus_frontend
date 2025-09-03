@@ -8,16 +8,18 @@ export const He_Wrapper = styled("header")({
     zIndex: "100",
 });
 
-export const He_Container = styled("div")({
-    padding: "3rem",
+export const He_Container = styled("div")(({ isPageHome }) => ({
+    padding: `${isPageHome ? "4rem 6rem" : "4rem"}`,
     "@media (min-width: 1512px)": {
-        padding: "4rem",
+        padding: `${isPageHome ? "4rem 6rem" : "4rem"}`,
     },
-
+    "@media(max-width:1024px)": {
+        padding: "2rem 4rem",
+    },
     "@media (max-width: 430px)": {
         padding: "2rem 1rem",
     },
-});
+}));
 
 export const He_Content = styled("div")({
     display: "flex",
@@ -34,14 +36,14 @@ export const Span = styled(Typography)(({theme}) =>({
 
 export const He_ImgContainer = styled("div")({
     "& img": {
-        width: "8rem",
+        width: "10rem",
         "@media (min-width: 1512px)": {
-            width: "100%",
+            width: "14rem",
         },
     },
 });
 
-export const RouterLink = styled(Link)(({ theme }) => ({
+export const RouterLink = styled(Link)(({ theme, isPageHome }) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -49,7 +51,9 @@ export const RouterLink = styled(Link)(({ theme }) => ({
 
     "& span": {
         fontSize: theme.typography.sizes.base,
-        color: theme.palette.gray[950],
+        color: isPageHome
+            ? theme.palette.common.white
+            : theme.palette.gray[950],
         fontWeight: "600",
     },
 
@@ -60,6 +64,14 @@ export const RouterLink = styled(Link)(({ theme }) => ({
     "@keyframes spin": {
         from: { transform: "rotate(0deg)" },
         to: { transform: "rotate(360deg)" },
+    },
+
+    "@media(max-width:1024px)": {
+        "& span": {
+
+            color: theme.palette.gray[950],
+           
+        },
     },
 
     "@media (max-width: 320px)": {

@@ -3,6 +3,7 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
+    FormHelperText,
     IconButton,
     InputAdornment,
     InputLabel,
@@ -15,28 +16,39 @@ import * as Styled from "../../../styles";
 import { Link } from "react-router-dom";
 import { Button } from "../../../components";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-
+import { useNavigate } from "react-router-dom";
 const Wrapper = styled("div")({
     width: "100%",
     height: "100%",
 });
 
+
+
 const schema = z.object({
     firstName: z
         .string()
+        .nonempty("O primeiro nome é obrigatório")
         .min(2, "O primeiro nome deve ter no mínimo 2 caracteres"),
     lastName: z
         .string()
+        .nonempty("O último nome é obrigatório")
         .min(2, "O último nome deve ter no mínimo 2 caracteres"),
-    email: z.string().email("Endereço de email inválido"),
+    email: z
+        .string()
+        .nonempty("O email é obrigatório")
+        .email("Endereço de email inválido")
+        .refine((val) => val.endsWith("@tvcabo.co.ao"), {
+            message: "O email deve terminar com @tvcabo.co.ao",
+        }),
     password: z
         .string()
+        .nonempty("A palavra passe é obrigatória")
         .min(6, "A palavra passe deve ter no mínimo 6 caracteres"),
 });
 
 function SignUp() {
     const [showPassword, setShowPassword] = useState(false);
-
+     const navigate= useNavigate()
     const {
         register,
         handleSubmit,
@@ -56,6 +68,8 @@ function SignUp() {
     };
 
     function onSubmit(data) {
+        alert("Registrado")
+        navigate("/dashboard");
         console.log(data);
     }
     return (
@@ -90,6 +104,11 @@ function SignUp() {
                                         label="Primeiro nome"
                                         type="text"
                                         {...register("firstName")}
+                                        helperText={
+                                            errors.firstName
+                                                ? errors.firstName.message
+                                                : ""
+                                        }
                                     />{" "}
                                     <Styled.Input
                                         error={!!errors.lastName}
@@ -97,6 +116,11 @@ function SignUp() {
                                         label="Último nome"
                                         type="text"
                                         {...register("lastName")}
+                                        helperText={
+                                            errors.lastName
+                                                ? errors.lastName.message
+                                                : ""
+                                        }
                                     />
                                 </Styled.NameContainer>
 
@@ -106,6 +130,11 @@ function SignUp() {
                                     label="Endereço de email"
                                     type="email"
                                     {...register("email")}
+                                    helperText={
+                                        errors.email
+                                            ? errors.email.message
+                                            : ""
+                                    }
                                 />
                                 <Styled.FormControlPassword
                                     variant="outlined"
@@ -115,6 +144,11 @@ function SignUp() {
                                         Palavra passe
                                     </InputLabel>
                                     <OutlinedInput
+                                        helperText={
+                                            errors.password
+                                                ? errors.password.message
+                                                : ""
+                                        }
                                         id="outlined-adornment-password"
                                         type={
                                             showPassword ? "text" : "password"
@@ -149,6 +183,11 @@ function SignUp() {
                                         }
                                         label="Palavra passe"
                                     />
+                                    {errors.password && (
+                                        <FormHelperText error>
+                                            {errors.password.message}
+                                        </FormHelperText>
+                                    )}
                                 </Styled.FormControlPassword>
 
                                 <Button
