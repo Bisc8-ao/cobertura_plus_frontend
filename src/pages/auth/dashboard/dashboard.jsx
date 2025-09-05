@@ -1,13 +1,16 @@
 import React from "react";
 import { Container, Typography } from "@mui/material";
+import {Link } from "react-router-dom";
 
 function Dashboard() {
+
     return (
         <React.Fragment>
-            <Container>
+            <Container >
                 <Typography variant="h1" component="h1">
-                    Dashboard
+                    Dashboard em desenvolvimento
                 </Typography>
+            <Link to="/signin">Voltar</Link>
             </Container>
         </React.Fragment>
     );

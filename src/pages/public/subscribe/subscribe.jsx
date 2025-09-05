@@ -1,0 +1,173 @@
+import React from "react";
+import { UseSteps } from "../../../hooks";
+import { Typography, StepLabel, Step, Box } from "@mui/material";
+import { images } from "../../../assets";
+import { styled } from "@mui/material";
+import * as Styled from "../../../styles";
+import { Button } from "../../../components";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+
+const Wrapper = styled("div")({
+    width: "100%",
+    height: "100%",
+});
+
+function Subscribe() {
+    const {
+        steps,
+        register,
+        handleSubmit,
+        onSubmit,
+        errors,
+        handleNext,
+        handleBack,
+        activeStep,
+    } = UseSteps();
+
+    return (
+        <React.Fragment>
+            <Wrapper>
+                <Styled.Container_Grid gridTemplateColumns="4.7fr 7.5fr">
+                    <Styled.GridImg
+                        img={images.characters.character_1}
+                        borderRadius="0 1.5rem 1.5rem 0"
+                    />
+                    <Styled.GridContent>
+                        <Styled.ContainerForm onSubmit={handleSubmit(onSubmit)}>
+                            <Styled.ContainerFormContent alignment="center">
+                                <Typography
+                                    variant="h4"
+                                    component="h2"
+                                    sx={{
+                                        fontSize: "1.9rem",
+                                        fontWeight: "800",
+                                        lineHeight: "2.8rem",
+                                    }}
+                                >
+                                    Inscrever-se ao serviço
+                                </Typography>
+                                <span>
+                                    Interessado na TVCABO? Deixe os seus dados.
+                                </span>
+
+                                <Styled.Stepper activeStep={activeStep}>
+                                    {steps.map((label, index) => {
+                                        const stepProps = {};
+                                        const labelProps = {};
+
+                                        return (
+                                            <Step key={index} {...stepProps}>
+                                                <StepLabel {...labelProps}>
+                                                    {label}
+                                                </StepLabel>
+                                            </Step>
+                                        );
+                                    })}
+                                </Styled.Stepper>
+                            </Styled.ContainerFormContent>
+                            {activeStep !== steps.length && (
+                                <React.Fragment>
+                                    {activeStep === 0 && (
+                                        <Styled.ContainerInputs>
+                                            <Styled.Input
+                                                error={!!errors.firstName}
+                                                id="outlined-basic"
+                                                label="Primeiro nome"
+                                                type="text"
+                                                {...register("firstName")}
+                                            />
+                                            <Styled.Input
+                                                error={!!errors.lastName}
+                                                id="outlined-basic"
+                                                label="Último nome"
+                                                type="text"
+                                                {...register("lastName")}
+                                            />
+                                            <Styled.Input
+                                                error={!!errors.birthDate}
+                                                id="outlined-basic"
+                                                label="Ano de nascimento"
+                                                type="text"
+                                                {...register("birthDate")}
+                                            />
+                                        </Styled.ContainerInputs>
+                                    )}
+                                    {activeStep === 1 && (
+                                        <Styled.ContainerInputs>
+                                            <Styled.Input
+                                                error={!!errors.nb}
+                                                id="outlined-basic"
+                                                label="N.B"
+                                                type="text"
+                                                {...register("nb")}
+                                            />
+                                            <Styled.Input
+                                                error={!!errors.email}
+                                                id="outlined-basic"
+                                                label="Endereço de email"
+                                                type="text"
+                                                {...register("email")}
+                                            />
+                                            <Styled.Input
+                                                error={!!errors.phone}
+                                                id="outlined-basic"
+                                                label="Tel"
+                                                type="text"
+                                                {...register("phone")}
+                                            />
+                                        </Styled.ContainerInputs>
+                                    )}
+                                    {activeStep === 2 && (
+                                        <Styled.ContainerInputs>
+                                            <Styled.TextArea
+                                                aria-label="minimum height"
+                                                minRows={6}
+                                                placeholder="Deixe aqui a sua mensagem..."
+                                                {...register("message")}
+                                            />
+                                        </Styled.ContainerInputs>
+                                    )}
+                                    {activeStep !== steps.length - 1 && (
+                                        <Box
+                                            sx={{
+                                                display: "flex",
+                                                flexDirection: "row",
+                                                justifyContent: "end",
+                                                gap: 2,
+                                            }}
+                                        >
+                                            <Button
+                                                color="inherit"
+                                                disabled={activeStep === 0}
+                                                onClick={handleBack}
+                                                variant="outlined"
+                                                icon={<ArrowBackIosIcon />}
+                                            />
+
+                                            <Button
+                                                onClick={handleNext}
+                                                variant="contained"
+                                                icon={<ArrowForwardIosIcon />}
+                                            />
+                                        </Box>
+                                    )}
+
+                                    {activeStep >= steps.length - 1 && (
+                                        <Button
+                                            variant="contained"
+                                            text="Finalizar"
+                                            type="submit"
+                                        />
+                                    )}
+                                </React.Fragment>
+                            )}
+                        </Styled.ContainerForm>
+                    </Styled.GridContent>
+                </Styled.Container_Grid>
+            </Wrapper>
+        </React.Fragment>
+    );
+}
+
+export { Subscribe };

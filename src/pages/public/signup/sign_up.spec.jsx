@@ -1,0 +1,75 @@
+import { render, screen, fireEvent } from "@testing-library/react";
+import { describe, it, expect } from "vitest";
+import { ThemeProvider } from "@mui/material/styles";
+import { MemoryRouter } from "react-router-dom";
+import { SignUp } from ".";
+import { Theme } from "../../../styles";
+
+function renderSignUp() {
+    return render(
+        <ThemeProvider theme={Theme}>
+            <MemoryRouter>
+                <SignUp />
+            </MemoryRouter>
+        </ThemeProvider>
+    );
+}
+
+describe("SignUp Page", () => {
+    it("should render heading", () => {
+        renderSignUp();
+       
+        const heading = screen.getByRole("heading", {
+            name: /crie a sua conta/i,
+        });
+        expect(heading).toBeInTheDocument();
+    });
+
+    it("should render login link", () => {
+        renderSignUp();
+        const link = screen.getByRole("link", { name: /iniciar sessão/i });
+        expect(link).toBeInTheDocument();
+    });
+
+    it("should render all input fields", () => {
+        renderSignUp();
+
+        expect(screen.getByLabelText(/primeiro nome/i)).toBeInTheDocument();
+        expect(screen.getByLabelText(/último nome/i)).toBeInTheDocument();
+        expect(screen.getByLabelText(/endereço de email/i)).toBeInTheDocument();
+        expect(screen.getByLabelText(/palavra passe/i)).toBeInTheDocument();
+    });
+
+    it("should render submit button", () => {
+        renderSignUp();
+        const button = screen.getByRole("button", { name: /criar conta/i });
+        expect(button).toBeInTheDocument();
+    });
+
+    it("should render terms of service and privacy policy links", () => {
+        renderSignUp();
+        expect(screen.getByText(/termos de serviço/i)).toBeInTheDocument();
+        expect(
+            screen.getByText(/política de privacidade/i)
+        ).toBeInTheDocument();
+    });
+
+    it("should toggle password visibility", () => {
+        renderSignUp();
+        const passwordInput = screen.getByLabelText(/palavra passe/i);
+        const toggleButton = screen.getByRole("button", {
+            name: /display the password/i,
+        });
+
+
+        expect(passwordInput).toHaveAttribute("type", "password");
+
+
+        fireEvent.click(toggleButton);
+        expect(passwordInput).toHaveAttribute("type", "text");
+
+
+        fireEvent.click(toggleButton);
+        expect(passwordInput).toHaveAttribute("type", "password");
+    });
+});
