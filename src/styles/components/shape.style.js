@@ -20,10 +20,10 @@ const Shap2 = styled("div")(({ theme }) => ({
     bottom: ".9rem",
     right: "1.2rem",
 
+
     zIndex: "2",
     "& img": {
         transform: "rotate(180deg)",
-
     },
 
     "@media (min-width: 1512px)": {
@@ -31,7 +31,11 @@ const Shap2 = styled("div")(({ theme }) => ({
         right: "2.5rem",
     },
     "@media (max-width: 1024px)": {
-        display: "none",
+       display:"none"
+    },
+    "@media (max-width: 430px)": {
+        bottom: "1rem",
+        right: "1rem",
     },
 }));
 
