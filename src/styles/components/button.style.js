@@ -1,7 +1,7 @@
 import { styled } from "@mui/material";
 import { Button } from "@mui/material";
 
-export const MainButton = styled(Button)(({ theme, variant, loading }) => ({
+export const MainButton = styled(Button)(({ theme, variant}) => ({
     display: "flex",
     gap: "1rem",
     fontSize: theme.typography.sizes.base,
@@ -25,6 +25,6 @@ export const MainButton = styled(Button)(({ theme, variant, loading }) => ({
         filter: "brightness(90%)",
     },
 
-    opacity: loading ? "0.7" : "1",
-    filter: loading ? "brightness(90%)" : "brightness(100%)",
+
+
 }));
