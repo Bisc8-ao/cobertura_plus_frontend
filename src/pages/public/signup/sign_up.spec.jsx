@@ -4,21 +4,25 @@ import { ThemeProvider } from "@mui/material/styles";
 import { MemoryRouter } from "react-router-dom";
 import { SignUp } from ".";
 import { Theme } from "../../../styles";
+import { UserProvider } from "../../../context";
 
 function renderSignUp() {
     return render(
+        <UserProvider>
+
         <ThemeProvider theme={Theme}>
             <MemoryRouter>
                 <SignUp />
             </MemoryRouter>
         </ThemeProvider>
+        </UserProvider>
     );
 }
 
 describe("SignUp Page", () => {
     it("should render heading", () => {
         renderSignUp();
-       
+
         const heading = screen.getByRole("heading", {
             name: /crie a sua conta/i,
         });

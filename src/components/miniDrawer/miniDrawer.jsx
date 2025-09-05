@@ -118,7 +118,7 @@ function MiniDrawer({ children }) {
     const navigate = useNavigate()
     const itemSidebar = [
         {
-            text: "All mail",
+            text: "App",
             icon: <InboxIcon />,
             to: "/dashboard",
         },
@@ -240,68 +240,72 @@ function MiniDrawer({ children }) {
                         <ListText
                             open={open}
                             primary={"Overview"}
-                            sx={{ textTransform: "uppercase" }}
+                            sx={{
+                                textTransform: "uppercase",
+                                fontSize: "1.2rem",
+                            }}
                         />
                     </ListItem>
                     {itemSidebar.map((item, index) => {
                         const isActive = item.to === isActiveLink;
 
-                       return index <= 3 && (
-                            <ListItem
-                                key={index}
-                                disablePadding
-                                sx={{
-                                    display: "block",
-                                    padding: "0 1rem",
-
-                                }}
-                            >
-                                <ListItemButton
-                                    onClick={() => handleClick(item.to)}
-                                    sx={[
-                                        {
-                                            background: isActive
-                                                ? "#1ca6e61e"
-                                                : "transparent",
-                                            padding: ".5rem 1rem",
-                                            margin: "1rem 0",
-                                            borderRadius: ".4rem",
-
-                                        },
-                                        open
-                                            ? {
-                                                  justifyContent: "initial",
-                                              }
-                                            : {
-                                                  justifyContent: "center",
-                                              },
-                                    ]}
+                        return (
+                            index <= 3 && (
+                                <ListItem
+                                    key={index}
+                                    disablePadding
+                                    sx={{
+                                        display: "block",
+                                        padding: "0 1rem",
+                                    }}
                                 >
-                                    <ListItemIcon
+                                    <ListItemButton
+                                        onClick={() => handleClick(item.to)}
                                         sx={[
                                             {
-                                                color: isActive && "#1CA5E6",
-                                                minWidth: 0,
-                                                justifyContent: "center",
+                                                background: isActive
+                                                    ? "#1ca6e61e"
+                                                    : "transparent",
+                                                padding: ".5rem 1rem",
+                                                margin: "1rem 0",
+                                                borderRadius: ".4rem",
                                             },
                                             open
                                                 ? {
-                                                      mr: 3,
+                                                      justifyContent: "initial",
                                                   }
                                                 : {
-                                                      mr: "auto",
+                                                      justifyContent: "center",
                                                   },
                                         ]}
                                     >
-                                        {item.icon}
-                                    </ListItemIcon>
-                                    <ListText
-                                        isActive={isActive}
-                                        open={open}
-                                        primary={item.text}
-                                    />
-                                </ListItemButton>
-                            </ListItem>
+                                        <ListItemIcon
+                                            sx={[
+                                                {
+                                                    color:
+                                                        isActive && "#1CA5E6",
+                                                    minWidth: 0,
+                                                    justifyContent: "center",
+                                                },
+                                                open
+                                                    ? {
+                                                          mr: 3,
+                                                      }
+                                                    : {
+                                                          mr: "auto",
+                                                      },
+                                            ]}
+                                        >
+                                            {item.icon}
+                                        </ListItemIcon>
+                                        <ListText
+                                            isActive={isActive}
+                                            open={open}
+                                            primary={item.text}
+                                        />
+                                    </ListItemButton>
+                                </ListItem>
+                            )
                         );
                     })}
                 </List>
@@ -311,70 +315,72 @@ function MiniDrawer({ children }) {
                         <ListText
                             open={open}
                             primary={"Gestão"}
-                            sx={{ textTransform: "uppercase" }}
+                            sx={{
+                                textTransform: "uppercase",
+                                fontSize: "1.2rem",
+                            }}
                         />
                     </ListItem>
                     {itemSidebar.map((item, index) => {
                         const isActive = item.to === isActiveLink;
-                         return (
-                             index > 3 && (
-                                 <ListItem
-                                     key={index}
-                                     disablePadding
-                                     sx={{
-                                         display: "block",
-                                         padding: "0 1rem",
-                                     }}
-                                 >
-                                     <ListItemButton
-                                         onClick={() => handleClick(item.to)}
-                                         sx={[
-                                             {
-                                                 background: isActive
-                                                     ? "#1ca6e61e"
-                                                     : "transparent",
-                                                 padding: ".5rem 1rem",
-                                                 margin: "1rem 0",
-                                                 borderRadius: ".4rem",
-                                             },
-                                             open
-                                                 ? {
-                                                       justifyContent:
-                                                           "initial",
-                                                   }
-                                                 : {
-                                                       justifyContent: "center",
-                                                   },
-                                         ]}
-                                     >
-                                         <ListItemIcon
-                                             sx={[
-                                                 {
-                                                     color:
-                                                         isActive && "#1CA5E6",
-                                                     minWidth: 0,
-                                                     justifyContent: "center",
-                                                 },
-                                                 open
-                                                     ? {
-                                                           mr: 3,
-                                                       }
-                                                     : {
-                                                           mr: "auto",
-                                                       },
-                                             ]}
-                                         >
-                                             {item.icon}
-                                         </ListItemIcon>
-                                         <ListText
-                                             isActive={isActive}
-                                             open={open}
-                                             primary={item.text}
-                                         />
-                                     </ListItemButton>
-                                 </ListItem>
-                             )
-                         );
+                        return (
+                            index > 3 && (
+                                <ListItem
+                                    key={index}
+                                    disablePadding
+                                    sx={{
+                                        display: "block",
+                                        padding: "0 1rem",
+                                    }}
+                                >
+                                    <ListItemButton
+                                        onClick={() => handleClick(item.to)}
+                                        sx={[
+                                            {
+                                                background: isActive
+                                                    ? "#1ca6e61e"
+                                                    : "transparent",
+                                                padding: ".5rem 1rem",
+                                                margin: "1rem 0",
+                                                borderRadius: ".4rem",
+                                            },
+                                            open
+                                                ? {
+                                                      justifyContent: "initial",
+                                                  }
+                                                : {
+                                                      justifyContent: "center",
+                                                  },
+                                        ]}
+                                    >
+                                        <ListItemIcon
+                                            sx={[
+                                                {
+                                                    color:
+                                                        isActive && "#1CA5E6",
+                                                    minWidth: 0,
+                                                    justifyContent: "center",
+                                                },
+                                                open
+                                                    ? {
+                                                          mr: 3,
+                                                      }
+                                                    : {
+                                                          mr: "auto",
+                                                      },
+                                            ]}
+                                        >
+                                            {item.icon}
+                                        </ListItemIcon>
+                                        <ListText
+                                            isActive={isActive}
+                                            open={open}
+                                            primary={item.text}
+                                        />
+                                    </ListItemButton>
+                                </ListItem>
+                            )
+                        );
                     })}
                 </List>
             </Drawer>

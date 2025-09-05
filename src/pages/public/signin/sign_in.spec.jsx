@@ -4,14 +4,18 @@ import { ThemeProvider } from "@mui/material/styles";
 import { MemoryRouter } from "react-router-dom";
 import { SignIn } from ".";
 import { Theme } from "../../../styles";
+import { UserProvider } from "../../../context"
 
 function renderSignIn() {
     return render(
-        <ThemeProvider theme={Theme}>
-            <MemoryRouter>
-                <SignIn />
-            </MemoryRouter>
-        </ThemeProvider>
+        <UserProvider>
+
+            <ThemeProvider theme={Theme}>
+                <MemoryRouter>
+                    <SignIn />
+                </MemoryRouter>
+            </ThemeProvider>
+        </UserProvider>
     );
 }
 
@@ -36,7 +40,7 @@ describe("SignIn Page", () => {
 
         expect(screen.getByLabelText(/Endereço de email/i)).toBeInTheDocument();
         expect(screen.getByLabelText(/Senha/i)).toBeInTheDocument();
-       
+
     });
 
     it("should render submit button", () => {
