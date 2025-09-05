@@ -1,14 +1,20 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Dashboard, UpdatePassword } from "../../pages";
-function Privateroutes() {
+import { Route } from "react-router-dom";
+import { Dashboard, UpdatePassword, Statistics, Map} from "../../pages";
+import { AppLayoutPrivate } from "../../layout";
+import {ProtectedRoute} from "../../guards"
+function PrivateRoutes() {
     return (
-        <BrowserRouter>
-            <Routes>
-                <Route path="/dashboard" element={<Dashboard />} />
+        <>
+            <Route element={<ProtectedRoute />}>
+                <Route element={<AppLayoutPrivate />}>
+                    <Route path="/dashboard" element={<Dashboard />} />
+                    <Route path="/statistics" element={<Statistics />} />
+                    <Route path="/map" element={<Map />} />
+                </Route>
                 <Route path="/updatePassword" element={<UpdatePassword />} />
-            </Routes>
-        </BrowserRouter>
+            </Route>
+        </>
     );
 }
 
-export { Privateroutes };
+export { PrivateRoutes };

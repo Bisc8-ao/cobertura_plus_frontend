@@ -13,8 +13,8 @@ function AppLayout() {
 
     return (
         <React.Fragment>
-            <Styled.App_wrapper className="wrapper">
-                <Styled.App_container className="container">
+            <Styled.App_wrapper >
+                <Styled.App_container >
                     {showHeader2 ? <Header2 /> : <Header />}
                     <Outlet />
                 </Styled.App_container>

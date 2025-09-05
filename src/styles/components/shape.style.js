@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { vectorImages } from "../../assets/svgs";
+
 const Shape = styled("div")(({ theme }) => ({
     position: "absolute",
     top: "1rem",
@@ -17,13 +17,13 @@ const Shape = styled("div")(({ theme }) => ({
 
 const Shap2 = styled("div")(({ theme }) => ({
     position: "absolute",
-    bottom: "1rem",
+    bottom: ".9rem",
     right: "1.2rem",
 
     zIndex: "2",
     "& img": {
         transform: "rotate(180deg)",
-        
+
     },
 
     "@media (min-width: 1512px)": {

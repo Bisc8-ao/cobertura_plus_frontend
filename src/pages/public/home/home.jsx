@@ -3,12 +3,12 @@ import React, { useState } from "react";
 import { Button } from "../../../components";
 import { vectorImages} from "../../../assets";
 import * as Styled from "../../../styles";
-import { useNavigate } from "react-router-dom";
-import { UseWidthScreen } from "../../../hooks";
+import { Link, useNavigate } from "react-router-dom";
+
 
 
 function Home() {
-    const { isPageHome } = UseWidthScreen();
+
     const navigate = useNavigate();
     const [location, setLocation] = useState({});
     const [error, setError] = useState();
@@ -17,9 +17,7 @@ function Home() {
         navigate("/signin");
     }
 
-    function handleClicks() {
-        navigate("/sandbox");
-    }
+
     function handleLocation() {
         if (!navigator.geolocation) {
             setError("Geolocalição não suportada");
@@ -35,7 +33,7 @@ function Home() {
                 });
                 setError(null);
                 alert(
-                    `Tem cobertura, incrver-se ao serviço`
+                    `Tem cobertura, inscrver-se ao serviço`
                 );
                 navigate("/subscribe");
             },
@@ -69,12 +67,8 @@ function Home() {
                                 variant="contained"
                                 onClick={handleLocation}
                             />
-                            <Button
-                                text="Outro lugar"
-                                variant="outlined"
-                                isPageHome={isPageHome}
-                                onClick={handleClicks}
-                            />
+                            <Link to="/sandbox">Outro localização</Link>
+
                         </Styled.Ho_Box>
                     </Styled.Ho_ContainerContent>
                 </Styled.Ho_Container>

@@ -40,6 +40,12 @@ export const He_ImgContainer = styled("div")({
         "@media (min-width: 1512px)": {
             width: "14rem",
         },
+        "@media (max-width:430px)": {
+            width: "7rem",
+        },
+        "@media (max-width:320px)": {
+            width: "6rem",
+        },
     },
 });
 
@@ -70,7 +76,7 @@ export const RouterLink = styled(Link)(({ theme, isPageHome }) => ({
         "& span": {
 
             color: theme.palette.gray[950],
-           
+
         },
     },
 

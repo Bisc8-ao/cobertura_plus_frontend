@@ -1,7 +1,6 @@
-
 import { Box as MuiBox, styled } from "@mui/material";
 
-import {  images } from "../../assets";
+import { images } from "../../assets";
 
 const Ho_Wrapper = styled("section")(({ theme }) => ({
     width: "100%",
@@ -149,11 +148,10 @@ const Ho_ContainerBtn = styled("div")(({ theme }) => ({
     },
 }));
 
-
 const Ho_ContainerContent = styled("div")(({ theme }) => ({
     display: "flex",
     flexDirection: "column",
-    gap: "5.5rem",
+    gap: "5.6rem",
 
     "&:first-of-type": {
         fontSize: "4rem",
@@ -197,16 +195,35 @@ const Ho_ContainerContent = styled("div")(({ theme }) => ({
     },
 }));
 
-const Ho_Box = styled(MuiBox)({
+const Ho_Box = styled(MuiBox)(({ theme }) => ({
     display: "flex",
     gap: "1.5rem",
     flexDirection: "row",
+    "& a": {
+        fontSize: "1.4rem",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        color: theme.palette.common.white,
+        border: `1px solid ${theme.palette.common.white}`,
+        padding: "1rem 2rem",
+        borderRadius: ".4rem",
+    },
+    "@media (max-width:820px)": {
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: "2rem",
 
-    "@media (max-width:390px)": {
-        flexDirection:"column"
-    }
-});
-
+        "& a": {
+            border: "none",
+            borderBottom: `1px solid ${theme.palette.common.white}`,
+            padding: ".5rem 0",
+            borderRadius: "0",
+            width: "75%",
+        },
+    },
+}));
 
 export {
     Ho_Wrapper,

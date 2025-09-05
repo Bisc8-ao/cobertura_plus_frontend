@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { z } from "zod";
+import {  z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -18,6 +18,7 @@ import { Button } from "../../../components";
 
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
+import { UseUserContext } from "../../../hooks";
 const Wrapper = styled("div")({
     width: "100%",
     height: "100%",
@@ -47,6 +48,7 @@ function SignIn() {
             resolver: zodResolver(schema),
         });
     const [showPassword, setShowPassword] = useState(false);
+    const { dispatch } = UseUserContext()
     const navigate = useNavigate()
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -61,8 +63,14 @@ function SignIn() {
 
     function onSubmit(data) {
 
+        dispatch({
+            type: "user_active", payload: {
+                email: data.email,
+                name: data.email,
+                photo: data.email
+            } });
           navigate("/dashboard");
-         console.log(data);
+
      }
 
     return (
