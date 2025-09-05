@@ -64,13 +64,13 @@ function SignIn() {
 
     function onSubmit(data) {
         setLoading(true)
-        /*dispatch({
+        dispatch({
             type: "user_active", payload: {
                 email: data.email,
                 name: data.email,
                 photo: data.email
             } });
-          navigate("/dashboard");*/
+          navigate("/dashboard");
 
      }
 
