@@ -1,6 +1,9 @@
 import React from "react";
 import * as Styled from "../../styles";
-function Button({ text, onClick, type, variant, disabled, icon}) {
+
+
+
+function Button({ text, onClick, type, variant, disabled, icon, loading}) {
     return (
         <React.Fragment>
             <Styled.MainButton
@@ -12,6 +15,7 @@ function Button({ text, onClick, type, variant, disabled, icon}) {
             >
                 {icon && icon}
                 <span>{text}</span>
+
             </Styled.MainButton>
         </React.Fragment>
     );

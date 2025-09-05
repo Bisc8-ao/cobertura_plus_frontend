@@ -48,6 +48,7 @@ function SignIn() {
             resolver: zodResolver(schema),
         });
     const [showPassword, setShowPassword] = useState(false);
+    const [loading, setLoading]= useState(false)
     const { dispatch } = UseUserContext()
     const navigate = useNavigate()
 
@@ -62,14 +63,14 @@ function SignIn() {
     };
 
     function onSubmit(data) {
-
-        dispatch({
+        setLoading(true)
+        /*dispatch({
             type: "user_active", payload: {
                 email: data.email,
                 name: data.email,
                 photo: data.email
             } });
-          navigate("/dashboard");
+          navigate("/dashboard");*/
 
      }
 
@@ -179,6 +180,7 @@ function SignIn() {
                                     variant="contained"
                                     text="Iniciar sessão"
                                     type="submit"
+                                    loading={loading}
                                 />
                             </Styled.ContainerInputs>
                         </Styled.ContainerForm>
