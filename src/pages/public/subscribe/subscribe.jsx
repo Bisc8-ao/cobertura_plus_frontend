@@ -87,8 +87,9 @@ function Subscribe() {
                                             <Styled.Input
                                                 error={!!errors.birthDate}
                                                 id="outlined-basic"
-                                                label="Ano de nascimento"
-                                                type="text"
+                                                label="Data de nascimento"
+                                                lang="pt-PT"
+                                                type="date"
                                                 {...register("birthDate")}
                                             />
                                         </Styled.ContainerInputs>
@@ -96,11 +97,11 @@ function Subscribe() {
                                     {activeStep === 1 && (
                                         <Styled.ContainerInputs>
                                             <Styled.Input
-                                                error={!!errors.nb}
+                                                error={!!errors.bi}
                                                 id="outlined-basic"
-                                                label="N.B"
+                                                label="B.I"
                                                 type="text"
-                                                {...register("nb")}
+                                                {...register("bi")}
                                             />
                                             <Styled.Input
                                                 error={!!errors.email}

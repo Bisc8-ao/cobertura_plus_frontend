@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -12,13 +12,14 @@ const schena = z.object({
         .min(2, { message: "O sobrenome deve ter no minimo 2 caracteres" }),
     birthDate: z
         .string()
-        .min(4, {
-            message: "O ano de nascimento deve ter no minimo 4 caracteres",
-        })
-        .max(4, {
-            message: "O ano de nascimento deve ter no maximo 4 caracteres",
-        }),
-    nb: z.string().min(5, { message: "O N.B deve ter no minimo 5 caracteres" }),
+        .min(1, "A data de nascimento é obrigatória")
+        .refine((val) => {
+            const date = new Date(val);
+            return !isNaN(date.getTime());
+        }, "Data inválida"),
+    bi: z.string().regex(/^00\d{7}[A-Z]{2}\d{3}$/, {
+        message: "Número de B.I inválido. Ex: 001234567LA001",
+    }),
     email: z.string().email({ message: "Email invalido" }),
     phone: z
         .string()
@@ -29,55 +30,57 @@ const schena = z.object({
 
 function UseSteps() {
     const {
-            register,
-            handleSubmit,
-            formState: { errors },
-        } = useForm({
-            resolver: zodResolver(schena),
-        });
-    const navigate= useNavigate()
+        register,
+        handleSubmit,
+        formState: { errors },
+        trigger,
+    } = useForm({
+        resolver: zodResolver(schena),
+        mode: "onChange",
+        reValidateMode: "onChange",
+    });
+    const navigate = useNavigate();
 
-        const steps = ["Apresentação", "Dados", "Mensagem"];
-        const [activeStep, setActiveStep] = useState(0);
+    const steps = ["Apresentação", "Dados", "Mensagem"];
+    const [activeStep, setActiveStep] = useState(0);
 
-        const handleNext = () => {
-            setActiveStep((prevActiveStep) => prevActiveStep + 1);
-        };
+    const handleNext = async () => {
+        let fieldsToValidate = [];
 
-        const handleBack = () => {
-            setActiveStep((prevActiveStep) => prevActiveStep - 1);
-        };
+        if (activeStep === 0) {
+            fieldsToValidate = ["firstName", "lastName", "birthDate"];
+        } else if (activeStep === 1) {
+            fieldsToValidate = ["bi", "email", "phone"];
+        } else if (activeStep === 2) {
+            fieldsToValidate = ["message"];
+        }
 
-        useEffect(() => {
-            switch (true) {
-                case !!(errors.firstName || errors.lastName || errors.birthDate):
-                    setActiveStep(0);
-                    break;
-                case !!(errors.nb || errors.email || errors.phone):
-                    setActiveStep(1);
-                    break;
-                case !!errors.message:
-                    setActiveStep(2);
-                    break;
-                default:
-                    break;
-            }
-        }, [
-            errors.firstName,
-            errors.lastName,
-            errors.birthDate,
-            errors.nb,
-            errors.email,
-            errors.phone,
-            errors.message,
-        ]);
+        const isValid = await trigger(fieldsToValidate);
+
+        if (isValid) {
+            setActiveStep((prev) => prev + 1);
+        }
+    };
+
+    const handleBack = () => {
+        setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    };
 
     function onSubmit(data) {
-            alert(`Verifica o seu email`);
+        alert(`Verifica o seu email`);
         console.log(data);
-        navigate("/")
-        }
-  return{register, handleSubmit, errors, steps, activeStep, handleNext, handleBack, onSubmit}
+        navigate("/");
+    }
+    return {
+        register,
+        handleSubmit,
+        errors,
+        steps,
+        activeStep,
+        handleNext,
+        handleBack,
+        onSubmit,
+    };
 }
 
-export {UseSteps}
+export { UseSteps };
