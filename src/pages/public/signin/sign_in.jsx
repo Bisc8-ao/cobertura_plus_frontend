@@ -128,16 +128,12 @@ function SignIn() {
                                     <Styled.FormControlPassword
                                         variant="outlined"
                                         error={!!errors.password}
+                                        
                                     >
                                         <InputLabel htmlFor="outlined-adornment-password">
                                             Senha
                                         </InputLabel>
                                         <OutlinedInput
-                                            helperText={
-                                                errors.password
-                                                    ? errors.password.message
-                                                    : ""
-                                            }
                                             {...register("password")}
                                             id="outlined-adornment-password"
                                             type={

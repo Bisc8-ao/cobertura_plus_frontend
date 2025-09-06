@@ -43,6 +43,8 @@ function Home() {
         );
     }
 
+    console.log(window.innerHeight)
+
     return (
         <React.Fragment>
             <Styled.Ho_Wrapper>

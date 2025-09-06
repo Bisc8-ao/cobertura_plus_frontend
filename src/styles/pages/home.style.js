@@ -87,65 +87,11 @@ const Ho_ContainerBtn = styled("div")(({ theme }) => ({
         right: "3rem",
     },
     "@media (max-width: 1024px)": {
-        right: "4rem",
-        bottom: "3.5rem",
+        display:"none"
+    },
 
-        "& button": {
-            width: "33rem",
-            height: "5rem",
-        },
-    },
-    "@media (max-width: 820px)": {
-        bottom: "3rem",
-        "& button": {
-            width: "28rem",
-            height: "5rem",
-        },
-    },
-    "@media (max-width: 768px)": {
-        "& button": {
-            width: "24rem",
-            height: "4rem",
-        },
-    },
-    "@media (max-width: 430px)": {
-        right: "1.5rem",
-        bottom: "1.8rem",
-        "& button": {
-            width: "22rem",
-            height: "4rem",
-        },
-    },
-    "@media (max-width: 390px)": {
-        "& button": {
-            width: "19rem",
-            height: "3.5rem",
-        },
-    },
-    "@media (max-width: 375px)": {
-        "& button": {
-            width: "15.5rem",
-            height: "3rem",
-        },
-    },
-    "@media (max-width: 320px)": {
-        "& button": {
-            width: "13rem",
-            height: "2.5rem",
-        },
-        "& button > span": {
-            fontSize: theme.typography.xs,
-        },
-    },
-    "@media (max-width: 320px) and (max-height: 480px)": {
-        "& button": {
-            width: "10.4rem",
-            height: "2.2rem",
-        },
-        "& button > span": {
-            fontSize: "1rem",
-        },
-    },
+
+    
 }));
 
 const Ho_ContainerContent = styled("div")(({ theme }) => ({

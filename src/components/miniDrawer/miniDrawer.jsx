@@ -1,22 +1,30 @@
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { styled } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import MuiDrawer from "@mui/material/Drawer";
-import MuiAppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import List from "@mui/material/List";
-import CssBaseline from "@mui/material/CssBaseline";
-import Typography from "@mui/material/Typography";
-import IconButton from "@mui/material/IconButton";
+import {
+    styled,
+    Box,
+    Drawer as MuiDrawer,
+    AppBar as MuiAppBar,
+    Toolbar,
+    List,
+    CssBaseline,
+    Typography,
+    IconButton,
+    ListItem,
+    ListItemButton,
+    ListItemIcon,
+    ListItemText,
+} from "@mui/material";
+import { AnchorTemporaryDrawer } from "../anchorTemporaryDrawer";
+
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
+import PersonIcon from "@mui/icons-material/Person";
+import SpeedIcon from "@mui/icons-material/Speed";
+import MapIcon from "@mui/icons-material/Map";
+import BarChartIcon from "@mui/icons-material/BarChart";
+
+
 import { vectorImages } from "../../assets";
 
 const drawerWidth = 240;
@@ -119,28 +127,28 @@ function MiniDrawer({ children }) {
     const itemSidebar = [
         {
             text: "App",
-            icon: <InboxIcon />,
+            icon: <SpeedIcon />,
             to: "/dashboard",
         },
         {
             text: "Estatísticas",
-            icon: <MailIcon />,
+            icon: <BarChartIcon />,
             to: "/statistics",
         },
         {
             text: "Mapas",
-            icon: <InboxIcon />,
+            icon: <MapIcon />,
             to: "/map",
         },
         {
             text: "Mapas",
-            icon: <InboxIcon />,
+            icon: <MapIcon />,
             to: "/map",
         },
         {
             text: "Utilizador",
-            icon: <InboxIcon />,
-            to: "/map",
+            icon: <PersonIcon />,
+            to: "/user",
         },
     ];
 
@@ -169,7 +177,7 @@ function MiniDrawer({ children }) {
                 sx={{
                     background: "transparent",
                     boxShadow: "none",
-                    zIndex: "1300",
+                    
                 }}
             >
                 <Toolbar>
@@ -183,7 +191,9 @@ function MiniDrawer({ children }) {
                                 marginRight: 9,
                                 marginLeft: 3,
 
-                                background: "#919eab36",
+                                background: "transparent",
+                                borderRadius: "50%",
+                                border: "1px solid #919eab36",
                             },
                             open && { display: "none" },
                         ]}
@@ -198,10 +208,11 @@ function MiniDrawer({ children }) {
                         sx={[
                             {
                                 marginRight: 9,
-                                marginLeft: -5,
+                                marginLeft: -5.3,
 
-                                background: "#919eab36",
-                                position: "absolute",
+                                background: "transparent",
+                                borderRadius: "50%",
+                                border: "1px solid #919eab36",
                             },
                             open == false && { display: "none" },
                         ]}
@@ -216,9 +227,7 @@ function MiniDrawer({ children }) {
                             alignItems: "center",
                         }}
                     >
-                        <Typography variant="h6" noWrap component="div">
-                            Mini variant drawer
-                        </Typography>
+                        <AnchorTemporaryDrawer/>
                     </div>
                 </Toolbar>
             </AppBar>

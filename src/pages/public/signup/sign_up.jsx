@@ -144,11 +144,7 @@ function SignUp() {
                                         Palavra passe
                                     </InputLabel>
                                     <OutlinedInput
-                                        helperText={
-                                            errors.password
-                                                ? errors.password.message
-                                                : ""
-                                        }
+                                       
                                         id="outlined-adornment-password"
                                         type={
                                             showPassword ? "text" : "password"

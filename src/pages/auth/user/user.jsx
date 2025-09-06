@@ -6,7 +6,7 @@ function User() {
         <React.Fragment>
             <Container>
                 <Typography variant="h1" component="h1">
-                    Statistics
+                  User
                 </Typography>
             </Container>
         </React.Fragment>
