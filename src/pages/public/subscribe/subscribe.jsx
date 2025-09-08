@@ -23,6 +23,7 @@ function Subscribe() {
         handleNext,
         handleBack,
         activeStep,
+        loading
     } = UseSteps();
 
     return (
@@ -89,6 +90,7 @@ function Subscribe() {
                                                 id="outlined-basic"
                                                 label="Data de nascimento"
                                                 lang="pt-PT"
+
                                                 type="date"
                                                 {...register("birthDate")}
                                             />
@@ -114,7 +116,7 @@ function Subscribe() {
                                                 error={!!errors.phone}
                                                 id="outlined-basic"
                                                 label="Tel"
-                                                type="text"
+                                                type="tel"
                                                 {...register("phone")}
                                             />
                                         </Styled.ContainerInputs>
@@ -159,6 +161,7 @@ function Subscribe() {
                                             variant="contained"
                                             text="Finalizar"
                                             type="submit"
+                                            loading={loading}
                                         />
                                     )}
                                 </React.Fragment>

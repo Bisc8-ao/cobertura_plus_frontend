@@ -8,6 +8,8 @@ import {
     VerifyAccount,
     Subscribe,
     Sandbox,
+    SubscriptionConfirmation,
+    TestCovarge,
 } from "../../pages";
 
 function PublicRoutes() {
@@ -20,6 +22,11 @@ function PublicRoutes() {
                 <Route path="/signup" element={<SignUp />} />
                 <Route path="/verifyaccount" element={<VerifyAccount />} />
                 <Route path="/subscribe" element={<Subscribe />} />
+                <Route path="/test-covarge" element={<TestCovarge />} />
+                <Route
+                    path="/subscription-confirmation"
+                    element={<SubscriptionConfirmation />}
+                />
                 <Route path="/sandbox" element={<Sandbox />} />
             </Route>
         </>

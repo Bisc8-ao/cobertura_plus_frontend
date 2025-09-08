@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {  z } from "zod";
+import { email, z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -24,7 +24,6 @@ const Wrapper = styled("div")({
     height: "100%",
 });
 
-
 const schema = z.object({
     email: z
         .string()
@@ -40,17 +39,18 @@ const schema = z.object({
 });
 
 function SignIn() {
-     const {
-            register,
-            handleSubmit,
-            formState: { errors },
-        } = useForm({
-            resolver: zodResolver(schema),
-        });
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm({
+        resolver: zodResolver(schema),
+    });
     const [showPassword, setShowPassword] = useState(false);
-    const [loading, setLoading]= useState(false)
-    const { dispatch } = UseUserContext()
-    const navigate = useNavigate()
+    const [loading, setLoading] = useState(false);
+    const [errorMessage, setErrorMessage] = useState();
+    const { dispatch } = UseUserContext();
+    const navigate = useNavigate();
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -62,17 +62,46 @@ function SignIn() {
         event.preventDefault();
     };
 
-    function onSubmit(data) {
-        setLoading(true)
-        dispatch({
+    async function onSubmit(data) {
+        setLoading(true);
+
+        try {
+            const payload = {
+                email: data.email,
+                password: data.password,
+            };
+
+            const res = await fetch("http://192.168.1.78:3000/auth/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(payload),
+            });
+
+            const datas = await res.json();
+
+            if (res.ok) {
+                setLoading(false);
+                console.log();
+            } else {
+                setErrorMessage(datas.message);
+                console.log("Login error:", res.message);
+                setLoading(false);
+            }
+        } catch (error) {
+            console.log(error);
+            setLoading(false);
+        }
+
+        /*dispatch({
             type: "user_active", payload: {
                 email: data.email,
                 name: data.email,
                 photo: data.email
-            } });
-          navigate("/dashboard");
-
-     }
+            } });*/
+        //navigate("/dashboard");
+    }
 
     return (
         <React.Fragment>
@@ -107,8 +136,14 @@ function SignIn() {
                                     severity="info"
                                     icon={<Styled.AdaptiveInfoIcon />}
                                 >
-                                    O seu email deve possuir{" "}
-                                    <strong>@tvcabo.co.ao</strong>
+                                    {errorMessage ? (
+                                        errorMessage
+                                    ) : (
+                                        <>
+                                            O seu email deve possuir
+                                            <strong>@tvcabo.co.ao</strong>
+                                        </>
+                                    )}
                                 </Styled.AdaptiveAlert>
                                 <Styled.Input
                                     error={!!errors.email}
@@ -128,7 +163,6 @@ function SignIn() {
                                     <Styled.FormControlPassword
                                         variant="outlined"
                                         error={!!errors.password}
-                                        
                                     >
                                         <InputLabel htmlFor="outlined-adornment-password">
                                             Senha
