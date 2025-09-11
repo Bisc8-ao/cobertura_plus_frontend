@@ -16,6 +16,8 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Search } from "../search";
 import { drawerWidth } from "./mix";
+import { UseUserContext } from "../../hooks";
+import { useNavigate } from "react-router-dom";
 
 const AppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== "open",
@@ -71,7 +73,9 @@ const Badge = styled(MuiBadge)({
     },
 });
 function AppBarDrawer({ handleDrawerOpen, handleDrawerClose, open }) {
+    const navigate = useNavigate();
     const [headerChangeBg, setHeaderChangeBg] = useState(false);
+    const {dispatch} = UseUserContext()
 
     useEffect(() => {
         const handleScroll = function () {
@@ -80,12 +84,25 @@ function AppBarDrawer({ handleDrawerOpen, handleDrawerClose, open }) {
             } else {
                 setHeaderChangeBg(false);
             }
-            
+
         };
         window.addEventListener("scroll", handleScroll);
 
         return () => removeEventListener("scroll", handleScroll);
     }, []);
+
+
+
+    function handleClickLogout() {
+
+        localStorage.removeItem("auth_token");
+        localStorage.removeItem("auth_token_exp");
+
+
+        dispatch({ type: "user_desactive" });
+
+        navigate("/signin", { replace: true });
+    }
     return (
         <React.Fragment>
             <AppBar
@@ -169,6 +186,7 @@ function AppBarDrawer({ handleDrawerOpen, handleDrawerClose, open }) {
                             anchor="right"
                             icon={<SettingsIcon fontSize="1rem" />}
                         />
+                        <button onClick={handleClickLogout}>Logout</button>
                     </div>
                 </Toolbar>
             </AppBar>

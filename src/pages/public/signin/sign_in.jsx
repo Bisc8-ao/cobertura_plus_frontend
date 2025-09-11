@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { email, z } from "zod";
+import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -39,12 +39,13 @@ const schema = z.object({
         .min(6, "A senha deve ter no mínimo 6 caracteres"),
 });
 
+const url_api = `${import.meta.env.VITE_API_URL}/auth/login`;
+
 function SignIn() {
     const {
         register,
         handleSubmit,
         formState: { errors },
-        setError,
     } = useForm({
         resolver: zodResolver(schema),
     });
@@ -65,6 +66,7 @@ function SignIn() {
     };
 
     async function onSubmit(value) {
+
         setLoading(true);
 
         try {
@@ -73,16 +75,13 @@ function SignIn() {
                 userPassword: value.password,
             };
 
-            const response = await fetch(
-                "http://192.168.1.78:3000/auth/login",
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(payload),
-                }
-            );
+            const response = await fetch(url_api, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(payload),
+            });
 
             const data = await response.json();
 
@@ -131,6 +130,8 @@ function SignIn() {
             setLoading(false);
         }
     }
+
+
 
     return (
         <React.Fragment>

@@ -1,5 +1,6 @@
 import React from "react";
 import { Typography, Box, styled } from "@mui/material";
+import { Card } from "../../../components";
 import { vectorImages } from "../../../assets";
 import { UseLangContext } from "../../../hooks";
 
@@ -15,45 +16,6 @@ const Container = styled("div")({
     gap: "2.4rem",
 });
 
-const Card = styled("div")({
-    background:
-        "linear-gradient(135deg, rgba(28, 165, 230, 0.08) 0%, rgba(28, 166, 230, 0.65) 100%)",
-    height: "18rem",
-    width: "25rem",
-    borderRadius: "1.6rem",
-    padding: "2rem",
-});
-
-const CardContent = styled("div")({
-    display: "flex",
-    flexDirection: "column",
-    justifyContent:"space-between",
-    height: "100%",
-    width: "100%",
-});
-
-const CardHeader = styled("div")(({ theme }) => ({
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-
-    "& > span:last-child": {
-        color: theme.palette.primary.main,
-        fontWeight: "700",
-        fontSize:"1.4rem"
-    },
-}));
-const CardFooter = styled("div")(({ theme }) => ({
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-
-    "&:last-child": {
-        color: theme.palette.primary.main,
-        fontWeight: "700",
-        fontSize: "1.4rem",
-    },
-}));
 function Dashboard() {
     const { translations } = UseLangContext();
     return (
@@ -71,35 +33,23 @@ function Dashboard() {
                 </Box>
 
                 <Container>
-                    <Box>
-                        <Card>
-                            <CardContent>
-                                <CardHeader>
-                                    <span>
-                                        <img
-                                            src={
-                                                vectorImages.icons.icglassusers
-                                            }
-                                            alt=""
-                                        />
-                                    </span>
-                                    <span>-0.1%</span>
-                                </CardHeader>
-                                <CardFooter>
-                                    <Box
-                                        sx={{
-                                            display: "flex",
-                                            flexDirection: "column",
-                                            gap: ".8rem",
-                                        }}
-                                    >
-                                        <span>Novos testes</span>
-                                        <span>1.35m</span>
-                                    </Box>
-                                    <span>2</span>
-                                </CardFooter>
-                            </CardContent>
-                        </Card>
+                    <Box
+                        sx={{
+                            display: "grid",
+                            gridTemplateColumns: "repeat(4, 1fr)",
+                            gap: 2,
+                            "@media (max-width:768px)": {
+                                gridTemplateColumns: "repeat(2, 1fr)",
+                            },
+                            "@media (max-width:430px)": {
+                                gridTemplateColumns: "repeat(1, 1fr)",
+                            },
+                        }}
+                    >
+                        <Card />
+                        <Card />
+                        <Card />
+                        <Card />
                     </Box>
                 </Container>
             </Wrapper>

@@ -49,7 +49,7 @@ const Drawer = styled(MuiDrawer)(({ anchor }) => ({
      const list = () => (
          <Box
              sx={{
-                 width: 270,
+                 width: 320,
              }}
              role="presentation"
              onClick={toggleDrawer( false)}

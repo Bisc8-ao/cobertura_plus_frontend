@@ -57,6 +57,8 @@ const schema = z
         message: "As senhas não coincidem",
     });
 
+const url_api = `${import.meta.env.VITE_API_URL}/auth/register`;
+
 function SignUp() {
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -91,16 +93,13 @@ function SignUp() {
                 userLastName: value.lastName,
             };
 
-            const response = await fetch(
-                "http://192.168.1.78:3000/auth/register",
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(payload),
-                }
-            );
+            const response = await fetch(url_api, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(payload),
+            });
 
             const data = await response.json();
             console.log(data);

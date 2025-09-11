@@ -7,3 +7,4 @@ export * from "./loader";
 export * from "./navLink"
 export * from "./menuLang"
 export * from "./search"
+export * from "./card"
