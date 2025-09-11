@@ -1,11 +1,22 @@
 {
-    "navlink":{
+    "navlink": {
         "app": "App",
-        "statistics":"Estatísticas",
+        "statistics": "Estatísticas",
         "map": "Mapa",
-        "user":"Utilizador"
+        "user": "Utilizador"
     },
-    "dashboard":{
+    "dashboard": {
         "oi": "Oi, Bem-vindo de volta"
+    },
+
+    "components": {
+        "DrawerNotification": {
+            "notif": "Notificações",
+            "btn": {
+                "all": "Todos",
+                "unr": "Não lida",
+                "arc": "Arquivadas"
+            }
+        }
     }
 }

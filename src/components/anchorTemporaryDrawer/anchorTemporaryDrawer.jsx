@@ -5,17 +5,12 @@ import {
     styled,
     Drawer as MuiDrawer,
     Button,
-    List,
-    Divider,
-    ListItem,
-    ListItemButton,
-    ListItemIcon,
-    ListItemText,
+
 } from "@mui/material";
 
+import { DrawerSettings } from "../drawerSettings";
 
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
+
 import { useState } from "react";
 
 
@@ -28,7 +23,7 @@ const Drawer = styled(MuiDrawer)(({ anchor }) => ({
         display: anchor === "left" && "flex",
     },
 }));
- function AnchorTemporaryDrawer({ anchor, icon }) {
+ function AnchorTemporaryDrawer({ anchor, icon, children,width }) {
      const [state, setState] = useState({
          left: false,
          right: false,
@@ -49,47 +44,13 @@ const Drawer = styled(MuiDrawer)(({ anchor }) => ({
      const list = () => (
          <Box
              sx={{
-                 width: 320,
+                 width: width,
              }}
              role="presentation"
-             onClick={toggleDrawer( false)}
-             onKeyDown={toggleDrawer( false)}
+             onClick={toggleDrawer(false)}
+             onKeyDown={toggleDrawer(false)}
          >
-             <List>
-                 {["Inbox", "Starred", "Send email", "Drafts"].map(
-                     (text, index) => (
-                         <ListItem key={text} disablePadding>
-                             <ListItemButton>
-                                 <ListItemIcon>
-                                     {index % 2 === 0 ? (
-                                         <InboxIcon />
-                                     ) : (
-                                         <MailIcon />
-                                     )}
-                                 </ListItemIcon>
-                                 <ListItemText primary={text} />
-                             </ListItemButton>
-                         </ListItem>
-                     )
-                 )}
-             </List>
-             <Divider />
-             <List>
-                 {["All mail", "Trash", "Spam"].map((text, index) => (
-                     <ListItem key={text} disablePadding>
-                         <ListItemButton>
-                             <ListItemIcon>
-                                 {index % 2 === 0 ? (
-                                     <InboxIcon />
-                                 ) : (
-                                     <MailIcon />
-                                 )}
-                             </ListItemIcon>
-                             <ListItemText primary={text} />
-                         </ListItemButton>
-                     </ListItem>
-                 ))}
-             </List>
+             {children}
          </Box>
      );
 

@@ -7,5 +7,15 @@
     },
     "dashboard":{
         "oi": "Hello, welcome back"
+    },
+    "components":{
+        "DrawerNotification":{
+          "notif":"Notifications",
+          "btn":{
+            "all":"all",
+            "unr":"Unread",
+            "arc":"Archived"
+          }
+        }
     }
 }
