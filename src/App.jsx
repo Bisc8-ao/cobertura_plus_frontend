@@ -3,17 +3,19 @@ import { ThemeProvider } from "@mui/material/styles";
 import { GlobalStyles } from "@mui/material";
 import { globalStyle, Theme } from "./styles";
 import { AppRoutes } from "./routes";
-import { UserProvider } from "./context";
+import { UserProvider, LangProvider } from "./context";
 
 function App() {
     return (
         <React.Fragment>
-            <UserProvider>
             <ThemeProvider theme={Theme}>
-                <GlobalStyles styles={globalStyle} />
-                <AppRoutes />
+                <UserProvider>
+                    <LangProvider>
+                        <GlobalStyles styles={globalStyle} />
+                        <AppRoutes />
+                    </LangProvider>
+                </UserProvider>
             </ThemeProvider>
-            </UserProvider>
         </React.Fragment>
     );
 }

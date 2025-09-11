@@ -1,0 +1,11 @@
+{
+    "navlink": {
+        "app": "App",
+        "statistics": "Statistics",
+        "map": "Map",
+        "user": "User"
+    },
+    "dashboard":{
+        "oi": "Hello, welcome back"
+    }
+}

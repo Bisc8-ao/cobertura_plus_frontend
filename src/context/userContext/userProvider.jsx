@@ -1,5 +1,5 @@
 import React, { useReducer } from "react";
-import { UserContext } from "./context";
+import { UserContext } from "./userContext";
 import { InitialStaste } from "../initialState/initialState";
 import { UserReducer } from "../reducer";
 

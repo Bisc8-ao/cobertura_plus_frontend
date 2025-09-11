@@ -1,0 +1,11 @@
+{
+    "navlink":{
+        "app": "App",
+        "statistics":"Estatísticas",
+        "map": "Mapa",
+        "user":"Utilizador"
+    },
+    "dashboard":{
+        "oi": "Oi, Bem-vindo de volta"
+    }
+}

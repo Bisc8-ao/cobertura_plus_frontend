@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { email, z } from "zod";
+import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -39,6 +39,8 @@ const schema = z.object({
         .min(6, "A senha deve ter no mínimo 6 caracteres"),
 });
 
+const url_api = `${import.meta.env.VITE_API_URL}/auth/login`;
+
 function SignIn() {
     const {
         register,
@@ -63,16 +65,17 @@ function SignIn() {
         event.preventDefault();
     };
 
-    async function onSubmit(data) {
+    async function onSubmit(value) {
+
         setLoading(true);
 
         try {
             const payload = {
-                userEmail: data.email,
-                userPassword: data.password,
+                userEmail: value.email,
+                userPassword: value.password,
             };
 
-            const res = await fetch("http://192.168.1.78:3000/auth/login", {
+            const response = await fetch(url_api, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -80,11 +83,11 @@ function SignIn() {
                 body: JSON.stringify(payload),
             });
 
-            const datas = await res.json();
+            const data = await response.json();
 
-            if (res.ok) {
+            if (response.ok) {
                 // expecting { accessToken: string, user: { id, userFirstName, userLastName, userEmail } }
-                const accessToken = datas?.accessToken || datas?.token;
+                const accessToken = data?.accessToken || data?.token;
                 if (accessToken) {
                     try {
                         const decoded = jwtDecode(accessToken);
@@ -99,36 +102,36 @@ function SignIn() {
                     }
                 }
 
-                const user = datas?.user || {};
-                const fullName = `${user.userFirstName ?? ""} ${user.userLastName ?? ""}`.trim();
+                const user = data?.user || {};
+                const fullName = `${user.userFirstName ?? ""} ${
+                    user.userLastName ?? ""
+                }`.trim();
                 dispatch({
                     type: "user_active",
                     payload: {
                         email: user.userEmail || data.email,
-                        name: fullName || user.name || user.username || data.email,
+                        name:
+                            fullName ||
+                            user.name ||
+                            user.username ||
+                            data.email,
                         photo: user.photo || null,
                     },
                 });
                 setLoading(false);
                 navigate("/dashboard", { replace: true });
             } else {
-                setErrorMessage(datas.message);
-                console.log("Login error:", res.message);
+                setErrorMessage(data.message);
+                console.log("Login error:", response);
                 setLoading(false);
             }
         } catch (error) {
             console.log(error);
             setLoading(false);
         }
-
-        /*dispatch({
-            type: "user_active", payload: {
-                email: data.email,
-                name: data.email,
-                photo: data.email
-            } });*/
-        //navigate("/dashboard");
     }
+
+
 
     return (
         <React.Fragment>
@@ -175,7 +178,7 @@ function SignIn() {
                                 <Styled.Input
                                     error={!!errors.email}
                                     {...register("email")}
-                                    id="outlined-basic"
+                                    id="outlined-basic-1"
                                     label="Endereço de email"
                                     type="email"
                                     helperText={
@@ -191,12 +194,12 @@ function SignIn() {
                                         variant="outlined"
                                         error={!!errors.password}
                                     >
-                                        <InputLabel htmlFor="outlined-adornment-password">
+                                        <InputLabel htmlFor="outlined-adornment-password-1">
                                             Senha
                                         </InputLabel>
                                         <OutlinedInput
                                             {...register("password")}
-                                            id="outlined-adornment-password"
+                                            id="outlined-adornment-password-1"
                                             type={
                                                 showPassword
                                                     ? "text"
