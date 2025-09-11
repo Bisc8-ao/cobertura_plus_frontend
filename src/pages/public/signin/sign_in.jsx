@@ -19,6 +19,7 @@ import { Button } from "../../../components";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { UseUserContext } from "../../../hooks";
+import { jwtDecode } from "jwt-decode";
 const Wrapper = styled("div")({
     width: "100%",
     height: "100%",
@@ -67,8 +68,8 @@ function SignIn() {
 
         try {
             const payload = {
-                email: data.email,
-                password: data.password,
+                userEmail: data.email,
+                userPassword: data.password,
             };
 
             const res = await fetch("http://192.168.1.78:3000/auth/login", {
@@ -82,8 +83,34 @@ function SignIn() {
             const datas = await res.json();
 
             if (res.ok) {
+                // expecting { accessToken: string, user: { id, userFirstName, userLastName, userEmail } }
+                const accessToken = datas?.accessToken || datas?.token;
+                if (accessToken) {
+                    try {
+                        const decoded = jwtDecode(accessToken);
+                        const exp = decoded?.exp ? decoded.exp * 1000 : null;
+                        localStorage.setItem("auth_token", accessToken);
+                        if (exp) {
+                            localStorage.setItem("auth_token_exp", String(exp));
+                        }
+                    } catch (_) {
+                        // if decode fails, still store token
+                        localStorage.setItem("auth_token", accessToken);
+                    }
+                }
+
+                const user = datas?.user || {};
+                const fullName = `${user.userFirstName ?? ""} ${user.userLastName ?? ""}`.trim();
+                dispatch({
+                    type: "user_active",
+                    payload: {
+                        email: user.userEmail || data.email,
+                        name: fullName || user.name || user.username || data.email,
+                        photo: user.photo || null,
+                    },
+                });
                 setLoading(false);
-                console.log();
+                navigate("/dashboard", { replace: true });
             } else {
                 setErrorMessage(datas.message);
                 console.log("Login error:", res.message);
