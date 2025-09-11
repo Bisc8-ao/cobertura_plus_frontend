@@ -23,8 +23,6 @@ const Wrapper = styled("div")({
     height: "100%",
 });
 
-
-
 const schema = z
     .object({
         firstName: z
@@ -107,19 +105,22 @@ function SignUp() {
             const data = await response.json();
             console.log(data);
             if (response.ok) {
-                if (data.user) {
-
-                    dispatch({
-                        type: "user_active",
-                        payload: {
-                            firstName: data.user.userFirstName,
-                            lastName:data.user.userLastName,
-                            email: data.user.userEmail,
-                            id: data.user.id,
-                        },
-                    });
-                    //navigate("/dashboard");
-                }
+                const user = data?.user || {};
+                const fullName = `${user.userFirstName ?? ""} ${
+                    user.userLastName ?? ""
+                }`.trim();
+                dispatch({
+                    type: "user_active",
+                    payload: {
+                        email: user.userEmail || data.email,
+                        name:
+                            fullName ||
+                            user.name ||
+                            user.username ||
+                            data.email,
+                        photo: user.photo || null,
+                    },
+                });
 
                 setLoading(false);
             } else {
@@ -133,7 +134,6 @@ function SignUp() {
     }
     return (
         <React.Fragment>
-
             <Wrapper>
                 <Styled.Container_Grid gridTemplateColumns="7.5fr 4.7fr">
                     <Styled.GridContent>

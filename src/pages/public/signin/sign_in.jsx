@@ -19,6 +19,7 @@ import { Button } from "../../../components";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { UseUserContext } from "../../../hooks";
+import { jwtDecode } from "jwt-decode";
 const Wrapper = styled("div")({
     width: "100%",
     height: "100%",
@@ -86,20 +87,40 @@ function SignIn() {
             const data = await response.json();
 
             if (response.ok) {
-                setLoading(false);
-                if (data.user) {
-                    dispatch({
-                        type: "user_active",
-                        payload: {
-                            firstName: data.user.userFirstName,
-                            lastName: data.user.userLastName,
-                            email: data.user.userEmail,
-                            id: data.user.id,
-                            token: data.accessToken,
-                        },
-                    });
-                    navigate("/dashboard");
+                // expecting { accessToken: string, user: { id, userFirstName, userLastName, userEmail } }
+                const accessToken = data?.accessToken || data?.token;
+                if (accessToken) {
+                    try {
+                        const decoded = jwtDecode(accessToken);
+                        const exp = decoded?.exp ? decoded.exp * 1000 : null;
+                        localStorage.setItem("auth_token", accessToken);
+                        if (exp) {
+                            localStorage.setItem("auth_token_exp", String(exp));
+                        }
+                    } catch (_) {
+                        // if decode fails, still store token
+                        localStorage.setItem("auth_token", accessToken);
+                    }
                 }
+
+                const user = data?.user || {};
+                const fullName = `${user.userFirstName ?? ""} ${
+                    user.userLastName ?? ""
+                }`.trim();
+                dispatch({
+                    type: "user_active",
+                    payload: {
+                        email: user.userEmail || data.email,
+                        name:
+                            fullName ||
+                            user.name ||
+                            user.username ||
+                            data.email,
+                        photo: user.photo || null,
+                    },
+                });
+                setLoading(false);
+                navigate("/dashboard", { replace: true });
             } else {
                 setErrorMessage(data.message);
                 console.log("Login error:", response);
