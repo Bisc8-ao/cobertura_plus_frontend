@@ -12,9 +12,9 @@ function Button({ text, onClick, type, variant, disabled, icon, loading}) {
                 variant={variant}
                 disabled={disabled}
                 loading={loading}
-                startIcon={icon}
             >
-                <span className="btn-text">{text}</span>
+                {icon}
+                {text && <span className="btn-text">{text}</span>}
             </Styled.MainButton>
         </React.Fragment>
     );

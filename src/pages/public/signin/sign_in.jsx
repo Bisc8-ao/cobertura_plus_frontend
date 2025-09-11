@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {  z } from "zod";
+import { email, z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -19,11 +19,11 @@ import { Button } from "../../../components";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { UseUserContext } from "../../../hooks";
+import { jwtDecode } from "jwt-decode";
 const Wrapper = styled("div")({
     width: "100%",
     height: "100%",
 });
-
 
 const schema = z.object({
     email: z
@@ -40,17 +40,18 @@ const schema = z.object({
 });
 
 function SignIn() {
-     const {
-            register,
-            handleSubmit,
-            formState: { errors },
-        } = useForm({
-            resolver: zodResolver(schema),
-        });
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm({
+        resolver: zodResolver(schema),
+    });
     const [showPassword, setShowPassword] = useState(false);
-    const [loading, setLoading]= useState(false)
-    const { dispatch } = UseUserContext()
-    const navigate = useNavigate()
+    const [loading, setLoading] = useState(false);
+    const [errorMessage, setErrorMessage] = useState();
+    const { dispatch } = UseUserContext();
+    const navigate = useNavigate();
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -62,17 +63,72 @@ function SignIn() {
         event.preventDefault();
     };
 
-    function onSubmit(data) {
-        setLoading(true)
-        dispatch({
+    async function onSubmit(data) {
+        setLoading(true);
+
+        try {
+            const payload = {
+                userEmail: data.email,
+                userPassword: data.password,
+            };
+
+            const res = await fetch("http://192.168.1.78:3000/auth/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(payload),
+            });
+
+            const datas = await res.json();
+
+            if (res.ok) {
+                // expecting { accessToken: string, user: { id, userFirstName, userLastName, userEmail } }
+                const accessToken = datas?.accessToken || datas?.token;
+                if (accessToken) {
+                    try {
+                        const decoded = jwtDecode(accessToken);
+                        const exp = decoded?.exp ? decoded.exp * 1000 : null;
+                        localStorage.setItem("auth_token", accessToken);
+                        if (exp) {
+                            localStorage.setItem("auth_token_exp", String(exp));
+                        }
+                    } catch (_) {
+                        // if decode fails, still store token
+                        localStorage.setItem("auth_token", accessToken);
+                    }
+                }
+
+                const user = datas?.user || {};
+                const fullName = `${user.userFirstName ?? ""} ${user.userLastName ?? ""}`.trim();
+                dispatch({
+                    type: "user_active",
+                    payload: {
+                        email: user.userEmail || data.email,
+                        name: fullName || user.name || user.username || data.email,
+                        photo: user.photo || null,
+                    },
+                });
+                setLoading(false);
+                navigate("/dashboard", { replace: true });
+            } else {
+                setErrorMessage(datas.message);
+                console.log("Login error:", res.message);
+                setLoading(false);
+            }
+        } catch (error) {
+            console.log(error);
+            setLoading(false);
+        }
+
+        /*dispatch({
             type: "user_active", payload: {
                 email: data.email,
                 name: data.email,
                 photo: data.email
-            } });
-          navigate("/dashboard");
-
-     }
+            } });*/
+        //navigate("/dashboard");
+    }
 
     return (
         <React.Fragment>
@@ -107,8 +163,14 @@ function SignIn() {
                                     severity="info"
                                     icon={<Styled.AdaptiveInfoIcon />}
                                 >
-                                    O seu email deve possuir{" "}
-                                    <strong>@tvcabo.co.ao</strong>
+                                    {errorMessage ? (
+                                        errorMessage
+                                    ) : (
+                                        <>
+                                            O seu email deve possuir
+                                            <strong>@tvcabo.co.ao</strong>
+                                        </>
+                                    )}
                                 </Styled.AdaptiveAlert>
                                 <Styled.Input
                                     error={!!errors.email}
@@ -128,7 +190,6 @@ function SignIn() {
                                     <Styled.FormControlPassword
                                         variant="outlined"
                                         error={!!errors.password}
-                                        
                                     >
                                         <InputLabel htmlFor="outlined-adornment-password">
                                             Senha

@@ -40,7 +40,7 @@ function UseSteps() {
         reValidateMode: "onChange",
     });
     const navigate = useNavigate();
-
+    const [loading, setLoading] = useState(false)
     const steps = ["Apresentação", "Dados", "Mensagem"];
     const [activeStep, setActiveStep] = useState(0);
 
@@ -67,9 +67,10 @@ function UseSteps() {
     };
 
     function onSubmit(data) {
-        alert(`Verifica o seu email`);
+
         console.log(data);
-        navigate("/");
+        setLoading(true)
+        navigate("/subscription-confirmation");
     }
     return {
         register,
@@ -80,6 +81,7 @@ function UseSteps() {
         handleNext,
         handleBack,
         onSubmit,
+        loading
     };
 }
 
