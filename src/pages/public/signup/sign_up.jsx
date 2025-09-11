@@ -39,9 +39,9 @@ const schema = z
             .string()
             .nonempty("O email é obrigatório")
             .email("Endereço de email inválido")
-            .refine((val) => val.endsWith("@tvcabo.co.ao"), {
+           /* .refine((val) => val.endsWith("@tvcabo.co.ao"), {
                 message: "O email deve terminar com @tvcabo.co.ao",
-            }),
+            })*/,
 
         password: z
             .string()

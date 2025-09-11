@@ -18,6 +18,8 @@ import { Search } from "../search";
 import { drawerWidth } from "./mix";
 import { UseUserContext } from "../../hooks";
 import { useNavigate } from "react-router-dom";
+import { DrawerSettings } from "../drawerSettings";
+import {DrawerNotification} from "../drawerNotification"
 
 const AppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== "open",
@@ -177,15 +179,21 @@ function AppBarDrawer({ handleDrawerOpen, handleDrawerClose, open }) {
                                     <NotificationsIcon fontSize="1rem" />
                                 </Badge>
                             }
-                        />
+                        >
+                            <DrawerNotification />
+                        </AnchorTemporaryDrawer>
                         <AnchorTemporaryDrawer
                             anchor="right"
                             icon={<PeopleAltIcon fontSize="1rem" />}
+                            width="320px"
                         />
                         <AnchorTemporaryDrawer
                             anchor="right"
                             icon={<SettingsIcon fontSize="1rem" />}
-                        />
+                            width="420px"
+                        >
+                            <DrawerSettings />
+                        </AnchorTemporaryDrawer>
                         <button onClick={handleClickLogout}>Logout</button>
                     </div>
                 </Toolbar>
