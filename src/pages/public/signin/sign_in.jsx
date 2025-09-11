@@ -43,6 +43,7 @@ function SignIn() {
         register,
         handleSubmit,
         formState: { errors },
+        setError,
     } = useForm({
         resolver: zodResolver(schema),
     });
@@ -62,45 +63,52 @@ function SignIn() {
         event.preventDefault();
     };
 
-    async function onSubmit(data) {
+    async function onSubmit(value) {
         setLoading(true);
 
         try {
             const payload = {
-                email: data.email,
-                password: data.password,
+                userEmail: value.email,
+                userPassword: value.password,
             };
 
-            const res = await fetch("http://192.168.1.78:3000/auth/login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(payload),
-            });
+            const response = await fetch(
+                "http://192.168.1.78:3000/auth/login",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(payload),
+                }
+            );
 
-            const datas = await res.json();
+            const data = await response.json();
 
-            if (res.ok) {
+            if (response.ok) {
                 setLoading(false);
-                console.log();
+                if (data.user) {
+                    dispatch({
+                        type: "user_active",
+                        payload: {
+                            firstName: data.user.userFirstName,
+                            lastName: data.user.userLastName,
+                            email: data.user.userEmail,
+                            id: data.user.id,
+                            token: data.accessToken,
+                        },
+                    });
+                    navigate("/dashboard");
+                }
             } else {
-                setErrorMessage(datas.message);
-                console.log("Login error:", res.message);
+                setErrorMessage(data.message);
+                console.log("Login error:", response);
                 setLoading(false);
             }
         } catch (error) {
             console.log(error);
             setLoading(false);
         }
-
-        /*dispatch({
-            type: "user_active", payload: {
-                email: data.email,
-                name: data.email,
-                photo: data.email
-            } });*/
-        //navigate("/dashboard");
     }
 
     return (
@@ -148,7 +156,7 @@ function SignIn() {
                                 <Styled.Input
                                     error={!!errors.email}
                                     {...register("email")}
-                                    id="outlined-basic"
+                                    id="outlined-basic-1"
                                     label="Endereço de email"
                                     type="email"
                                     helperText={
@@ -164,12 +172,12 @@ function SignIn() {
                                         variant="outlined"
                                         error={!!errors.password}
                                     >
-                                        <InputLabel htmlFor="outlined-adornment-password">
+                                        <InputLabel htmlFor="outlined-adornment-password-1">
                                             Senha
                                         </InputLabel>
                                         <OutlinedInput
                                             {...register("password")}
-                                            id="outlined-adornment-password"
+                                            id="outlined-adornment-password-1"
                                             type={
                                                 showPassword
                                                     ? "text"

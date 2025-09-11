@@ -1,0 +1,1 @@
+export {MenuLang} from "./menuLang"

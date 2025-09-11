@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { List, ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
-
+import {UseLangContext} from "../../hooks"
 import PersonIcon from "@mui/icons-material/Person";
 import SpeedIcon from "@mui/icons-material/Speed";
 import MapIcon from "@mui/icons-material/Map";
@@ -19,33 +19,35 @@ const ListText = styled(ListItemText)(({ theme, isActive, open }) => ({
         fontWeight: "800",
     },
 }));
-function NavLink() {
+function NavLink({ open }) {
     const [isActiveLink, setIsActiveLink] = useState();
     const location = useLocation();
     const navigate = useNavigate();
+    const {translations}= UseLangContext()
+
     const itemSidebar = [
         {
-            text: "App",
+            text: translations.navlink.app,
             icon: <SpeedIcon />,
             to: "/dashboard",
         },
         {
-            text: "Estatísticas",
+            text: translations.navlink.statistics,
             icon: <BarChartIcon />,
             to: "/statistics",
         },
         {
-            text: "Mapas",
+            text: translations.navlink.map,
             icon: <MapIcon />,
             to: "/map",
         },
         {
-            text: "Mapas",
+            text: translations.navlink.map,
             icon: <MapIcon />,
             to: "/map",
         },
         {
-            text: "Utilizador",
+            text: translations.navlink.user,
             icon: <PersonIcon />,
             to: "/user",
         },
@@ -197,7 +199,7 @@ function NavLink() {
                                     >
                                         {item.icon}
                                     </ListItemIcon>
-                                    <ListItemText
+                                    <ListText
                                         isActive={isActive}
                                         open={open}
                                         primary={item.text}

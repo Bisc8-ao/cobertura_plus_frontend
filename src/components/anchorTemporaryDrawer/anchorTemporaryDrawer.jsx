@@ -19,11 +19,15 @@ import MailIcon from "@mui/icons-material/Mail";
 import { useState } from "react";
 
 
-const Drawer = styled(MuiDrawer)({
+const Drawer = styled(MuiDrawer)(({ anchor }) => ({
+    display: anchor === "left" && "none",
     "& .MuiBackdrop-root": {
-        background:"transparent"
-    }
-})
+        background: anchor !== "left" && "transparent",
+    },
+    "@media (max-width: 1024px)": {
+        display: anchor === "left" && "flex",
+    },
+}));
  function AnchorTemporaryDrawer({ anchor, icon }) {
      const [state, setState] = useState({
          left: false,
@@ -31,7 +35,7 @@ const Drawer = styled(MuiDrawer)({
      });
 
      const toggleDrawer = (open) => (event) => {
-         console.log(open, anchor);
+
          if (
              event.type === "keydown" &&
              (event.key === "Tab" || event.key === "Shift")
@@ -91,21 +95,33 @@ const Drawer = styled(MuiDrawer)({
 
      return (
          <div>
-
-                 <React.Fragment key={anchor}>
-                     <Button onClick={toggleDrawer(true)}>
-                       {icon}
-                     </Button>
-                     <Drawer
-                         anchor={anchor}
-                         open={state[anchor]}
-                         onClose={toggleDrawer( false)}
-                         sx={{ zIndex: "1300" }}
-                     >
-                         {list()}
-                     </Drawer>
-                 </React.Fragment>
-
+             <React.Fragment key={anchor}>
+                 <Button
+                     onClick={toggleDrawer(true)}
+                     sx={{
+                         width: "1rem",
+                         minWidth: "3rem",
+                         height: "3rem",
+                         borderRadius: "50%",
+                         color: "#637381",
+                         fontSize: "2rem",
+                         display: anchor === "left" && "none",
+                         "@media (max-width: 1024px)": {
+                             display: anchor === "left" && "flex",
+                         },
+                     }}
+                 >
+                     {icon}
+                 </Button>
+                 <Drawer
+                     anchor={anchor}
+                     open={state[anchor]}
+                     onClose={toggleDrawer(false)}
+                     sx={{ zIndex: "1300" }}
+                 >
+                     {list()}
+                 </Drawer>
+             </React.Fragment>
          </div>
      );
  }

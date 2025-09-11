@@ -5,3 +5,5 @@ export * from "./miniDrawer";
 export * from "./anchorTemporaryDrawer";
 export * from "./loader";
 export * from "./navLink"
+export * from "./menuLang"
+export * from "./search"

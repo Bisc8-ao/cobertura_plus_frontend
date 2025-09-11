@@ -6,6 +6,11 @@ import email from "./icons/email_icon.svg";
 import vector from "./shapes/vector.png";
 import shap_1 from "./shapes/shape_1.svg";
 import send from "./icons/send.svg";
+import Pt_flag from "./flags/PT.svg";
+import GB_flag from "./flags/GB.svg";
+import waving_hand from "./emoji/waving-hand.svg";
+import icglassusers from "./icons/icglassusers.svg";
+
 const vectorImages = {
     logos: {
         brand: {
@@ -17,10 +22,18 @@ const vectorImages = {
         padlock,
         email,
         send,
+        icglassusers,
     },
     shapes: {
         shap_1,
         vector,
+    },
+    flags: {
+        Pt_flag,
+        GB_flag,
+    },
+    emoji: {
+        waving_hand,
     },
 };
 
