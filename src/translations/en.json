@@ -3,19 +3,32 @@
         "app": "App",
         "statistics": "Statistics",
         "map": "Map",
-        "user": "User"
+        "user": "User",
+        "category": {
+            "overview": "Overview",
+            "management": "Management"
+        }
     },
-    "dashboard":{
+    "dashboard": {
         "oi": "Hello, welcome back"
     },
-    "components":{
-        "DrawerNotification":{
-          "notif":"Notifications",
-          "btn":{
-            "all":"all",
-            "unr":"Unread",
-            "arc":"Archived"
-          }
+    "components": {
+        "DrawerNotification": {
+            "notif": "Notifications",
+            "btn": {
+                "all": "all",
+                "unr": "Unread",
+                "arc": "Archived"
+            }
+        }
+    },
+    "pages": {
+        "home": {
+            "mainText": "Test the availability<br />of our service<br /> in your region.",
+            "btn": {
+                "IML": "In my location",
+                "OTL": "Other location"
+            }
         }
     }
 }

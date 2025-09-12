@@ -61,7 +61,7 @@ const Drawer = styled(MuiDrawer)(({ anchor }) => ({
                      onClick={toggleDrawer(true)}
                      sx={{
                          width: "1rem",
-                         minWidth: "3rem",
+                         minWidth: "19rem",
                          height: "3rem",
                          borderRadius: "50%",
                          color: "#637381",

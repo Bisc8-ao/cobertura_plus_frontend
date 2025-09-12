@@ -3,7 +3,11 @@
         "app": "App",
         "statistics": "Estatísticas",
         "map": "Mapa",
-        "user": "Utilizador"
+        "user": "Utilizador",
+        "category": {
+            "overview": "Visão geral",
+            "management": "Gestão"
+        }
     },
     "dashboard": {
         "oi": "Oi, Bem-vindo de volta"
@@ -16,6 +20,15 @@
                 "all": "Todos",
                 "unr": "Não lida",
                 "arc": "Arquivadas"
+            }
+        }
+    },
+    "pages":{
+        "home":{
+            "mainText":"Teste a disponibilidade<br />do nosso serviço<br />na sua região.",
+            "btn":{
+                "IML":"Na minha localização",
+                "OTL":"Outra localização"
             }
         }
     }

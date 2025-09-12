@@ -4,6 +4,8 @@ import { vectorImages } from "../../assets";
 import SettingsIcon from "@mui/icons-material/Settings";
 import * as Styled from "../../styles";
 import { useLocation,Link } from "react-router-dom";
+import { AnchorTemporaryDrawer } from "../anchorTemporaryDrawer";
+import { DrawerSettings } from "../drawerSettings";
 
 function Header() {
     const { widthScreen, isPageHome } = UseWidthScreen();
@@ -15,7 +17,7 @@ function Header() {
         "/sandbox",
         "/subscription-confirmation",
     ].includes(location.pathname);
-      
+
 
     const logoSrc =
         widthScreen || isPageVerifyAccount
@@ -32,12 +34,25 @@ function Header() {
                                 <img src={logoSrc} alt="tvcabo" />
                             </Styled.He_ImgContainer>
                         </Link>
-                        <Styled.RouterLink isPageHome={isPageHome}>
-                            <span>
-                                <b>Precisa de</b> ajuda?
-                            </span>
-                            <SettingsIcon sx={{ color: "#637381" }} />
-                        </Styled.RouterLink>
+
+
+                            <AnchorTemporaryDrawer
+                                anchor="right"
+                                icon={
+                                    <Styled.RouterLink isPageHome={isPageHome}>
+                                        <span>
+                                            <b>Precisa de</b> ajuda?
+                                        </span>
+                                        <SettingsIcon
+                                            sx={{ color: "#637381" }}
+                                        />
+                                    </Styled.RouterLink>
+                                }
+                                width="420px"
+                            >
+                                <DrawerSettings />
+                            </AnchorTemporaryDrawer>
+
                     </Styled.He_Content>
                 </Styled.He_Container>
             </Styled.He_Wrapper>

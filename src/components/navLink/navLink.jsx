@@ -68,7 +68,7 @@ function NavLink({ open }) {
                 <ListItem>
                     <ListText
                         open={open}
-                        primary={"Overview"}
+                        primary={translations.navlink.category.overview}
                         sx={{
                             textTransform: "uppercase",
                             fontSize: "1.2rem",
@@ -142,7 +142,7 @@ function NavLink({ open }) {
                 <ListItem>
                     <ListText
                         open={open}
-                        primary={"Gestão"}
+                        primary={translations.navlink.category.management}
                         sx={{
                             textTransform: "uppercase",
                             fontSize: "1.2rem",

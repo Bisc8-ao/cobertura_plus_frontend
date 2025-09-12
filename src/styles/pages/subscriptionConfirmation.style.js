@@ -19,7 +19,7 @@ const Subs_Container = styled("div")(({ theme }) => ({
     display: "flex",
     flexDirection: "column",
     gap: "4rem",
-    width: "30%",
+    width: "40%",
     padding: "4rem",
     background: theme.palette.common.white,
     borderRadius: "1.5rem",

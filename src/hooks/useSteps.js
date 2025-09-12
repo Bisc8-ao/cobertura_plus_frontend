@@ -3,6 +3,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { UseLocation } from "./useLocation";
 const schena = z.object({
     firstName: z
         .string()
@@ -29,6 +30,7 @@ const schena = z.object({
 });
 
 function UseSteps() {
+    const { location } = UseLocation();
     const {
         register,
         handleSubmit,
@@ -66,11 +68,18 @@ function UseSteps() {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
 
-    function onSubmit(data) {
+    function onSubmit(value) {
 
-        console.log(data);
+
+
+        const payload = {
+            ...value,
+            ...location
+        }
+        console.log(payload);
+
         setLoading(true)
-        navigate("/subscription-confirmation");
+        //navigate("/subscription-confirmation");
     }
     return {
         register,
