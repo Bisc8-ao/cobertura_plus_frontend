@@ -1,5 +1,5 @@
 import React from "react";
-import { UseLocation, UseSteps } from "../../../hooks";
+import { UseLangContext, UseLocation, UseSteps } from "../../../hooks";
 import { Typography, StepLabel, Step, Box } from "@mui/material";
 import { images } from "../../../assets";
 import { styled } from "@mui/material";
@@ -15,7 +15,8 @@ const Wrapper = styled("div")({
 });
 
 function Subscribe() {
-     const { location } = UseLocation();
+    const { location } = UseLocation();
+    const { translations } = UseLangContext();
     const {
         steps,
         register,
@@ -25,12 +26,12 @@ function Subscribe() {
         handleNext,
         handleBack,
         activeStep,
-        loading
+        loading,
     } = UseSteps();
 
-     if (!location.lat && !location.lng) {
-            return <Navigate to="/" replace/>
-        }
+    if (!location.lat && !location.lng) {
+        return <Navigate to="/" replace />;
+    }
 
     return (
         <React.Fragment>
@@ -52,10 +53,10 @@ function Subscribe() {
                                         lineHeight: "2.8rem",
                                     }}
                                 >
-                                    Inscrever-se ao serviço
+                                    {translations.pages.subscribe.title}
                                 </Typography>
                                 <span>
-                                    Interessado na TVCABO? Deixe os seus dados.
+                                    {translations.pages.subscribe.description}
                                 </span>
 
                                 <Styled.Stepper activeStep={activeStep}>
@@ -80,23 +81,31 @@ function Subscribe() {
                                             <Styled.Input
                                                 error={!!errors.firstName}
                                                 id="outlined-basic"
-                                                label="Primeiro nome"
+                                                label={
+                                                    translations.pages.subscribe
+                                                        .inputText.fName
+                                                }
                                                 type="text"
                                                 {...register("firstName")}
                                             />
                                             <Styled.Input
                                                 error={!!errors.lastName}
                                                 id="outlined-basic"
-                                                label="Último nome"
+                                                label={
+                                                    translations.pages.subscribe
+                                                        .inputText.lName
+                                                }
                                                 type="text"
                                                 {...register("lastName")}
                                             />
                                             <Styled.Input
                                                 error={!!errors.birthDate}
                                                 id="outlined-basic"
-                                                label="Data de nascimento"
+                                                label={
+                                                    translations.pages.subscribe
+                                                        .inputText.dt
+                                                }
                                                 lang="pt-PT"
-
                                                 type="date"
                                                 {...register("birthDate")}
                                             />
@@ -107,21 +116,30 @@ function Subscribe() {
                                             <Styled.Input
                                                 error={!!errors.bi}
                                                 id="outlined-basic"
-                                                label="B.I"
+                                                label={
+                                                    translations.pages.subscribe
+                                                        .inputText.bi
+                                                }
                                                 type="text"
                                                 {...register("bi")}
                                             />
                                             <Styled.Input
                                                 error={!!errors.email}
                                                 id="outlined-basic"
-                                                label="Endereço de email"
+                                                label={
+                                                    translations.pages.subscribe
+                                                        .inputText.email
+                                                }
                                                 type="text"
                                                 {...register("email")}
                                             />
                                             <Styled.Input
                                                 error={!!errors.phone}
                                                 id="outlined-basic"
-                                                label="Tel"
+                                                label={
+                                                    translations.pages.subscribe
+                                                        .inputText.tel
+                                                }
                                                 type="tel"
                                                 {...register("phone")}
                                             />
@@ -132,7 +150,10 @@ function Subscribe() {
                                             <Styled.TextArea
                                                 aria-label="minimum height"
                                                 minRows={6}
-                                                placeholder="Deixe aqui a sua mensagem..."
+                                                placeholder={
+                                                    translations.pages.subscribe
+                                                        .inputText.message
+                                                }
                                                 {...register("message")}
                                             />
                                         </Styled.ContainerInputs>
@@ -165,7 +186,10 @@ function Subscribe() {
                                     {activeStep >= steps.length - 1 && (
                                         <Button
                                             variant="contained"
-                                            text="Finalizar"
+                                            text={
+                                                translations.pages.subscribe
+                                                    .btnText.end
+                                            }
                                             type="submit"
                                             loading={loading}
                                         />

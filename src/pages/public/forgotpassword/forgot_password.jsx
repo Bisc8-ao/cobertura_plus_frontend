@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { UseLangContext } from "../../../hooks";
 const Wrapper = styled("div")({
     width: "100%",
     height: "100%",
@@ -26,7 +27,8 @@ const schema = z.object({
         }),
 });
 function ForgotPassword() {
-    const navigate= useNavigate()
+    const navigate = useNavigate()
+    const { translations } = UseLangContext();
 
       const {
                 register,
@@ -60,12 +62,13 @@ function ForgotPassword() {
                                         lineHeight: "2.8rem",
                                     }}
                                 >
-                                    Esqueci a minha senha?
+                                    {translations.pages.forgotpassword.title}
                                 </Typography>
                                 <span>
-                                    Por favor, introduza o endereço de e-mail
-                                    associado à sua conta e enviaremos um link
-                                    para redefinir a sua palavra-passe.
+                                    {
+                                        translations.pages.forgotpassword
+                                            .description
+                                    }
                                 </span>
                             </Styled.ContainerFormContent>
 
@@ -77,13 +80,19 @@ function ForgotPassword() {
                                     error={!!errors.email}
                                     {...register("email")}
                                     id="outlined-basic"
-                                    label="Endereço de email"
+                                    label={
+                                        translations.pages.forgotpassword
+                                            .inputText.email
+                                    }
                                     type="email"
                                 />
 
                                 <Button
                                     variant="contained"
-                                    text="Repor a senha"
+                                    text={
+                                        translations.pages.forgotpassword
+                                            .btnText.reset
+                                    }
                                     type="submit"
                                 />
 
@@ -92,7 +101,10 @@ function ForgotPassword() {
                                         <span>
                                             <ArrowBackIosIcon />
                                         </span>{" "}
-                                        Voltar para início de sessão
+                                        {
+                                            translations.pages.forgotpassword
+                                                .link.back
+                                        }
                                     </Link>
                                 </div>
                             </Styled.ContainerInputs>

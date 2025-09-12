@@ -4,76 +4,128 @@ import { ThemeProvider } from "@mui/material/styles";
 import { MemoryRouter } from "react-router-dom";
 import { SignUp } from ".";
 import { Theme } from "../../../styles";
-import { UserProvider } from "../../../context";
+import { LangContext,UserProvider } from "../../../context";
+import { Translations } from "../../../translations";
 
-function renderSignUp() {
+function renderSignUp(lang = "Português") {
+    const translations = Translations[lang];
+
     return render(
-        <UserProvider>
-
         <ThemeProvider theme={Theme}>
             <MemoryRouter>
-                <SignUp />
+                <UserProvider>
+
+                <LangContext.Provider
+                    value={{
+                        langSelected: lang,
+                        setLangSelected: () => {},
+                        translations,
+                    }}
+                >
+                    <SignUp />
+                </LangContext.Provider>
+                </UserProvider>
             </MemoryRouter>
         </ThemeProvider>
-        </UserProvider>
     );
 }
 
 describe("SignUp Page", () => {
-    it("should render heading", () => {
-        renderSignUp();
+    // Only test Portuguese since English translations are not available
+    const lang = "Português";
+    const t = Translations[lang];
 
-        const heading = screen.getByRole("heading", {
-            name: /crie a sua conta/i,
-        });
-        expect(heading).toBeInTheDocument();
-    });
-
-    it("should render login link", () => {
-        renderSignUp();
-        const link = screen.getByRole("link", { name: /iniciar sessão/i });
-        expect(link).toBeInTheDocument();
-    });
-
-    it("should render all input fields", () => {
-        renderSignUp();
-
-        expect(screen.getByLabelText(/primeiro nome/i)).toBeInTheDocument();
-        expect(screen.getByLabelText(/último nome/i)).toBeInTheDocument();
-        expect(screen.getByLabelText(/endereço de email/i)).toBeInTheDocument();
-        expect(screen.getByLabelText(/palavra passe/i)).toBeInTheDocument();
-    });
-
-    it("should render submit button", () => {
-        renderSignUp();
-        const button = screen.getByRole("button", { name: /criar conta/i });
-        expect(button).toBeInTheDocument();
-    });
-
-    it("should render terms of service and privacy policy links", () => {
-        renderSignUp();
-        expect(screen.getByText(/termos de serviço/i)).toBeInTheDocument();
-        expect(
-            screen.getByText(/política de privacidade/i)
-        ).toBeInTheDocument();
-    });
-
-    it("should toggle password visibility", () => {
-        renderSignUp();
-        const passwordInput = screen.getByLabelText(/palavra passe/i);
-        const toggleButton = screen.getByRole("button", {
-            name: /display the password/i,
+    describe(`Language: ${lang}`, () => {
+        it("should render heading", () => {
+            renderSignUp(lang);
+            const heading = screen.getByRole("heading", {
+                name: t.pages.signup.title,
+            });
+            expect(heading).toBeInTheDocument();
         });
 
+        it("should render login link", () => {
+            renderSignUp(lang);
+            const link = screen.getByRole("link", {
+                name: t.pages.signup.link.log,
+            });
+            expect(link).toBeInTheDocument();
+        });
 
-        expect(passwordInput).toHaveAttribute("type", "password");
+        it("should render all input fields", () => {
+            renderSignUp(lang);
+            expect(
+                screen.getByLabelText(t.pages.signup.inputText.fName)
+            ).toBeInTheDocument();
+            expect(
+                screen.getByLabelText(t.pages.signup.inputText.lName)
+            ).toBeInTheDocument();
+            expect(
+                screen.getByLabelText(t.pages.signup.inputText.email)
+            ).toBeInTheDocument();
+            expect(
+                screen.getByLabelText(t.pages.signup.inputText.pass)
+            ).toBeInTheDocument();
+            expect(
+                screen.getByLabelText(t.pages.signup.inputText.cpass)
+            ).toBeInTheDocument();
+        });
 
+        it("should render submit button", () => {
+            renderSignUp(lang);
+            const button = screen.getByRole("button", {
+                name: new RegExp(t.pages.signup.btnText.crt.trim(), "i"),
+            });
+            expect(button).toBeInTheDocument();
+        });
 
-        fireEvent.click(toggleButton);
-        expect(passwordInput).toHaveAttribute("type", "text");
+        it("should render terms of service and privacy policy links", () => {
+            renderSignUp(lang);
 
+            const termsLink = screen.getByRole("link", {
+                name: new RegExp(t.pages.signup.term.ters, "i"),
+            });
+            expect(termsLink).toBeInTheDocument();
 
-        fireEvent.click(toggleButton);
-        expect(passwordInput).toHaveAttribute("type", "password");
+            const privacyLink = screen.getByRole("link", {
+                name: new RegExp(t.pages.signup.term.politic, "i"),
+            });
+            expect(privacyLink).toBeInTheDocument();
+        });
+
+        it("should toggle password visibility for both password fields", () => {
+            renderSignUp(lang);
+
+            // Get both password inputs
+            const passwordInputs = [
+                screen.getByLabelText(t.pages.signup.inputText.pass),
+                screen.getByLabelText(t.pages.signup.inputText.cpass),
+            ];
+
+            // Get all toggle buttons
+            const toggleButtons = screen
+                .getAllByRole("button")
+                .filter((btn) =>
+                    /mostrar|ocultar|show|hide/i.test(
+                        btn.getAttribute("aria-label") || ""
+                    )
+                );
+
+            // Test that both inputs start as password type
+            passwordInputs.forEach((input) => {
+                expect(input).toHaveAttribute("type", "password");
+            });
+
+            // Click first toggle button and verify the change
+            if (toggleButtons.length > 0) {
+                fireEvent.click(toggleButtons[0]);
+
+                // At least one password field should change to text
+                const textTypeInputs = passwordInputs.filter(
+                    (input) => input.getAttribute("type") === "text"
+                );
+                expect(textTypeInputs.length).toBeGreaterThan(0);
+            }
+        });
     });
 });

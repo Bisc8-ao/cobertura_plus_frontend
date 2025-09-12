@@ -9,6 +9,7 @@ import { vectorImages } from "../../../assets/svgs";
 import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { UseLangContext } from "../../../hooks";
 
 const Wrapper = styled("div")({
     width: "100%",
@@ -34,6 +35,7 @@ const schema = z.object({
 
 function VerifyAccount() {
     const navigate = useNavigate()
+   const { translations } = UseLangContext();
     const {
         register,
         control,
@@ -69,12 +71,10 @@ function VerifyAccount() {
                                 lineHeight: "2.8rem",
                             }}
                         >
-                            Verifique o seu email
+                            {translations.pages.verifyaccount.title}
                         </Typography>
                         <span>
-                            Enviámos um código de confirmação de 6 dígitos por
-                            e-mail. Por favor, introduza o código na caixa
-                            abaixo para verificar o seu e-mail.
+                            {translations.pages.verifyaccount.description}
                         </span>
                     </Styled.ContainerFormContent>
 
@@ -100,17 +100,27 @@ function VerifyAccount() {
                         />
                         <Button
                             variant="contained"
-                            text="Validar"
+                            text={
+                                translations.pages.verifyaccount.btnText
+                                    .validate
+                            }
                             type="submit"
                         />
                         <Styled.ContainerFormContent alignment="center">
                             <span>
-                                Não recebeu o código? <Link>Reenviar</Link>
+                                {translations.pages.verifyaccount.notReceived}{" "}
+                                <Link>
+                                    {
+                                        translations.pages.verifyaccount.link
+                                            .resend
+                                    }
+                                </Link>
                             </span>
                         </Styled.ContainerFormContent>
                         <div data-element="Link_back">
                             <Link to="/forgotpassword">
-                                <ArrowBackIosIcon /> Voltar
+                                <ArrowBackIosIcon />{" "}
+                                {translations.pages.verifyaccount.link.back}
                             </Link>
                         </div>
                     </Styled.ContainerInputs>

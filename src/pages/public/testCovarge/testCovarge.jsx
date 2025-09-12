@@ -4,11 +4,12 @@ import { Typography, Box } from "@mui/material";
 import { Button } from "../../../components";
 import { useNavigate, Navigate } from "react-router-dom";
 import { vectorImages } from "../../../assets/svgs";
-import { UseLocation } from "../../../hooks";
+import { UseLangContext, UseLocation } from "../../../hooks";
 
 function TestCovarge() {
     const navigate = useNavigate();
-    const {location } = UseLocation();
+    const { location } = UseLocation();
+     const { translations } = UseLangContext();
 
     function HandleNavigateSubscribe() {
         navigate("/subscribe");
@@ -37,11 +38,10 @@ function TestCovarge() {
                                     lineHeight: "2.8rem",
                                 }}
                             >
-                                Serviço disponível
+                                {translations.pages.testCovarge.title}
                             </Typography>
                             <span>
-                                Inscreva-se e acompanhe as próximas etapas para
-                                ter acesso ao nosso serviço de internet.
+                                {translations.pages.testCovarge.description}
                             </span>
                         </Styled.Subs_ContainerContent>
                         <Box
@@ -54,13 +54,17 @@ function TestCovarge() {
                         >
                             <Button
                                 variant="contained"
-                                text="Inscrever-se"
+                                text={
+                                    translations.pages.testCovarge.btnText.sub
+                                }
                                 type="submit"
                                 onClick={HandleNavigateSubscribe}
                             />
                             <Button
                                 variant="outiline"
-                                text="Retornar"
+                                text={
+                                    translations.pages.testCovarge.btnText.rtn
+                                }
                                 type="submit"
                                 onClick={HandleClickNavigate}
                             />
