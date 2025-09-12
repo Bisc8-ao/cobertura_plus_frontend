@@ -75,9 +75,7 @@ const Badge = styled(MuiBadge)({
     },
 });
 function AppBarDrawer({ handleDrawerOpen, handleDrawerClose, open }) {
-
     const [headerChangeBg, setHeaderChangeBg] = useState(false);
-
 
     useEffect(() => {
         const handleScroll = function () {
@@ -92,7 +90,6 @@ function AppBarDrawer({ handleDrawerOpen, handleDrawerClose, open }) {
         return () => removeEventListener("scroll", handleScroll);
     }, []);
 
-
     return (
         <React.Fragment>
             <AppBar
@@ -103,6 +100,8 @@ function AppBarDrawer({ handleDrawerOpen, handleDrawerClose, open }) {
                 <Toolbar>
                     <AnchorTemporaryDrawer
                         anchor="left"
+                        btnWidth="3rem"
+                        btnRadius="50%"
                         icon={<MenuIcon fontSize="1rem" />}
                     />
                     <IconButton
@@ -163,6 +162,8 @@ function AppBarDrawer({ handleDrawerOpen, handleDrawerClose, open }) {
                         <AnchorTemporaryDrawer
                             anchor="right"
                             width="420px"
+                            btnWidth="3rem"
+                            btnRadius="50%"
                             icon={
                                 <Badge badgeContent={4}>
                                     <NotificationsIcon fontSize="1rem" />
@@ -175,17 +176,20 @@ function AppBarDrawer({ handleDrawerOpen, handleDrawerClose, open }) {
                             anchor="right"
                             icon={<PeopleAltIcon fontSize="1rem" />}
                             width="310px"
+                            btnWidth="3rem"
+                            btnRadius="50%"
                         >
-                        <DrawerProfile/>
+                            <DrawerProfile />
                         </AnchorTemporaryDrawer>
                         <AnchorTemporaryDrawer
                             anchor="right"
                             icon={<SettingsIcon fontSize="1rem" />}
                             width="420px"
+                            btnWidth="3rem"
+                            btnRadius="50%"
                         >
                             <DrawerSettings />
                         </AnchorTemporaryDrawer>
-
                     </div>
                 </Toolbar>
             </AppBar>

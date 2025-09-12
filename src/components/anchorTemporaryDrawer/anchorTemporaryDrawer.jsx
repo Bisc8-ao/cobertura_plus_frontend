@@ -23,7 +23,7 @@ const Drawer = styled(MuiDrawer)(({ anchor }) => ({
         display: anchor === "left" && "flex",
     },
 }));
- function AnchorTemporaryDrawer({ anchor, icon, children,width }) {
+ function AnchorTemporaryDrawer({ anchor, icon, children,width,btnWidth, btnRadius }) {
      const [state, setState] = useState({
          left: false,
          right: false,
@@ -60,10 +60,10 @@ const Drawer = styled(MuiDrawer)(({ anchor }) => ({
                  <Button
                      onClick={toggleDrawer(true)}
                      sx={{
-                         width: "1rem",
-                         minWidth: "19rem",
+                         width: btnWidth,
+                         minWidth: btnWidth,
                          height: "3rem",
-                         borderRadius: "50%",
+                         borderRadius: btnRadius,
                          color: "#637381",
                          fontSize: "2rem",
                          display: anchor === "left" && "none",
