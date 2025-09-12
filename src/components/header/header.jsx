@@ -1,5 +1,5 @@
 import React from "react";
-import { UseWidthScreen } from "../../hooks";
+import { UseLangContext, UseWidthScreen } from "../../hooks";
 import { vectorImages } from "../../assets";
 import SettingsIcon from "@mui/icons-material/Settings";
 import * as Styled from "../../styles";
@@ -9,7 +9,9 @@ import { DrawerSettings } from "../drawerSettings";
 
 function Header() {
     const { widthScreen, isPageHome } = UseWidthScreen();
+    const { translations } = UseLangContext();
     const location = useLocation();
+
 
     const isPageVerifyAccount = [
         "/verifyaccount",
@@ -35,24 +37,24 @@ function Header() {
                             </Styled.He_ImgContainer>
                         </Link>
 
+                        <AnchorTemporaryDrawer
+                            anchor="right"
+                            icon={
+                                <Styled.RouterLink isPageHome={isPageHome}>
+                                    <span
+                                        dangerouslySetInnerHTML={{
+                                            __html: translations.components
+                                                .header.help,
+                                        }}
+                                    />
 
-                            <AnchorTemporaryDrawer
-                                anchor="right"
-                                icon={
-                                    <Styled.RouterLink isPageHome={isPageHome}>
-                                        <span>
-                                            <b>Precisa de</b> ajuda?
-                                        </span>
-                                        <SettingsIcon
-                                            sx={{ color: "#637381" }}
-                                        />
-                                    </Styled.RouterLink>
-                                }
-                                width="420px"
-                            >
-                                <DrawerSettings />
-                            </AnchorTemporaryDrawer>
-
+                                    <SettingsIcon sx={{ color: "#637381" }} />
+                                </Styled.RouterLink>
+                            }
+                            width="420px"
+                        >
+                            <DrawerSettings />
+                        </AnchorTemporaryDrawer>
                     </Styled.He_Content>
                 </Styled.He_Container>
             </Styled.He_Wrapper>

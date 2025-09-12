@@ -4,9 +4,11 @@ import { Typography } from "@mui/material";
 import { Button } from "../../../components";
 import { useNavigate } from "react-router-dom";
 import { vectorImages } from "../../../assets/svgs";
+import { UseLangContext } from "../../../hooks";
 
 function SubscriptionConfirmation() {
     const navigate = useNavigate();
+     const { translations } = UseLangContext();
 
     function handleClick() {
         navigate("/");
@@ -27,22 +29,25 @@ function SubscriptionConfirmation() {
                                 lineHeight: "2.8rem",
                             }}
                         >
-                            Confirme a sua caixa de e-mail
+                            {translations.pages.subscriptionConfirmation.title}
                         </Typography>
                         <span>
-                            Verifique a sua caixa de e-mail. Lá encontrará os
-                            próximos passos para concluir a subscrição do seu
-                            serviço de internet.
+                            {
+                                translations.pages.subscriptionConfirmation
+                                    .description
+                            }
                         </span>
                     </Styled.Subs_ContainerContent>
 
                     <Button
                         variant="contained"
-                        text="Voltar"
+                        text={
+                            translations.pages.subscriptionConfirmation
+                                .btnText.back
+                        }
                         type="submit"
                         onClick={handleClick}
                     />
-
                 </Styled.Subs_Container>
             </Styled.Subs_Wrapper>
         </React.Fragment>

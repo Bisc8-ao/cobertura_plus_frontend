@@ -27,7 +27,7 @@ function Dashboard() {
                         component="h1"
                         sx={{ fontSize: "2.4rem" }}
                     >
-                        {translations.dashboard.oi}
+                        {translations.pages.dashboard.oi}
                     </Typography>
                     <img src={vectorImages.emoji.waving_hand} width={25} />
                 </Box>

@@ -9,9 +9,7 @@
             "management": "Management"
         }
     },
-    "dashboard": {
-        "oi": "Hello, welcome back"
-    },
+
     "components": {
         "DrawerNotification": {
             "notif": "Notifications",
@@ -20,6 +18,13 @@
                 "unr": "Unread",
                 "arc": "Archived"
             }
+        },
+        "header": {
+            "help": "<b>Need</b> help?"
+        },
+        "passwordToggle": {
+            "show": "display the password",
+            "hide": "hide the password"
         }
     },
     "pages": {
@@ -29,6 +34,139 @@
                 "IML": "In my location",
                 "OTL": "Other location"
             }
-        }
+        },
+        "dashboard": {
+            "oi": "Hello, welcome back"
+        },
+        "testCovarge": {
+            "title": "Service available",
+            "description": "Sign up and follow the next steps to access our internet service.",
+            "btnText": {
+                "sub": "Subscribe",
+                "rtn": "Return"
+            }
+        },
+        "subscribe": {
+            "title": "Subscribe to the service",
+            "description": "Interested in TVCABO? Leave your details.",
+            "inputText": {
+                "fName": "First name",
+                "lName": "Last name",
+                "dt": "Date of birth",
+                "email": "Email address",
+                "tel": "Phone",
+                "bi": "B.I",
+                "message": "Leave your message here"
+            },
+            "steps": ["Presentation", "Data", "Message"],
+            "btnText": {
+                "end": "Finish"
+            }
+        },
+        "subscriptionConfirmation": {
+            "title": "Confirm your email inbox",
+            "description": "Check your email inbox. There you will find the next steps to complete your internet service subscription.",
+            "btnText": {
+                "back": "Back"
+            }
+        },
+        "signin": {
+            "title": "Sign in to your account",
+            "description": "Don't have an account? ",
+            "link": {
+                "crt": "Create account",
+                "rpw": "Recover password!"
+            },
+            "inputText": {
+                "email": "Email address",
+                "pass": "Password"
+            },
+            "alert": {
+                "title": "Your email must have"
+            },
+            "errors": {
+                "emailRequired": "Email is required",
+                "emailInvalid": "Invalid email address",
+                "passwordRequired": "Password is required",
+                "passwordMin": "Password must be at least 6 characters"
+            },
+            "btnText": {
+                "log": "Log in"
+            }
+        },
+        "forgotpassword": {
+            "title": "Forgot my password?",
+            "description": "Please enter the email address associated with your account and we will send you a link to reset your password.",
+            "link": {
+                "back": "Back to login"
+            },
+            "inputText": {
+                "email": "Email address"
+            },
+            "errors": {
+                "emailRequired": "Email is required",
+                "emailInvalid": "Invalid email address"
+            },
+            "btnText": {
+                "reset": "Reset password"
+            }
+        },
+        "signup": {
+            "title": "Create your account",
+            "description": "Already have an account?",
+            "link": {
+                "log": "Log in"
+            },
+            "inputText": {
+                "fName": "First name",
+                "lName": "Last name",
+                "email": "Email address",
+                "pass": "Password",
+                "cpass": "Confirm password"
+            },
+            "errors": {
+                "firstNameRequired": "First name is required",
+                "firstNameMin": "First name must be at least 2 characters",
+                "lastNameRequired": "Last name is required",
+                "lastNameMin": "Last name must be at least 2 characters",
+                "emailRequired": "Email is required",
+                "emailInvalid": "Invalid email address",
+                "passwordRequired": "Password is required",
+                "passwordMin": "Password must be at least 6 characters",
+                "confirmPasswordRequired": "Password confirmation is required",
+                "passwordsMismatch": "Passwords do not match"
+            },
+            "btnText": {
+                "crt": "Create account"
+            },
+            "term": {
+                "title": " I agree with the",
+                "ters": "Terms of Service",
+                "politic": "Privacy Policy",
+                "artig": "and the"
+            }
+        },
+        "verifyaccount": {
+        "title": "Verify your email",
+        "description": "We have sent a 6-digit confirmation code by email. Please enter the code in the box below to verify your email.",
+        "inputText": {
+            "email": "Email address",
+            "otp": "6-digit code"
+        },
+        "errors": {
+            "emailInvalid": "Invalid email",
+            "emailDomain": "The email must end with @tvcabo.co.ao",
+            "otpLength": "The code must be 6 digits"
+        },
+        "btnText": {
+            "validate": "Validate"
+        },
+        "link": {
+            "resend": "Resend",
+            "back": "Back"
+        },
+        "notReceived": "Didn't receive the code?"
+    }
+
     }
 }

@@ -9,9 +9,6 @@
             "management": "Gestão"
         }
     },
-    "dashboard": {
-        "oi": "Oi, Bem-vindo de volta"
-    },
 
     "components": {
         "DrawerNotification": {
@@ -21,15 +18,156 @@
                 "unr": "Não lida",
                 "arc": "Arquivadas"
             }
+        },
+        "header": {
+            "help": "<b>Precisa de</b> ajuda?"
+        },
+        "passwordToggle": {
+            "show": "mostrar senha",
+            "hide": "ocultar senha"
         }
     },
-    "pages":{
-        "home":{
-            "mainText":"Teste a disponibilidade<br />do nosso serviço<br />na sua região.",
-            "btn":{
-                "IML":"Na minha localização",
-                "OTL":"Outra localização"
+    "pages": {
+        "home": {
+            "mainText": "Teste a disponibilidade<br />do nosso serviço<br />na sua região.",
+            "btn": {
+                "IML": "Na minha localização",
+                "OTL": "Outra localização"
             }
-        }
+        },
+        "dashboard": {
+            "oi": "Oi, Bem-vindo de volta"
+        },
+        "testCovarge": {
+            "title": "Serviço disponível",
+            "description": "Inscreva-se e acompanhe as próximas etapas para ter acesso ao nosso serviço de internet.",
+            "btnText": {
+                "sub": "Inscrever-se",
+                "rtn": "Retornar"
+            }
+        },
+        "subscribe": {
+            "title": "Inscrever-se ao serviço",
+            "description": " Interessado na TVCABO? Deixe os seus dados.",
+            "inputText": {
+                "fName": "Primeiro nome",
+                "lName": "Último nome",
+                "dt": "Data de nascimento",
+                "email": "Endereço de email",
+                "tel": "Telefone",
+                "bi": "B.I",
+                "message": "Deixe aqui a sua mensagem..."
+            },
+            "steps": ["Apresentação", "Dados", "Mensagem"],
+            "btnText": {
+                "end": "Finalizar"
+            }
+        },
+        "subscriptionConfirmation": {
+            "title": "Confirme a sua caixa de e-mail",
+            "description": "Verifique a sua caixa de e-mail. Lá encontrará os próximos passos para concluir a subscrição do seu serviço de internet.",
+            "btnText": {
+                "back": "Voltar"
+            }
+        },
+        "signin": {
+            "title": "Inicie sessão na sua conta",
+            "description": "Não tens uma conta? ",
+            "link": {
+                "crt": " Criar conta",
+                "rpw": "Recuperar senha!"
+            },
+            "inputText": {
+                "email": "Endereço de email",
+                "pass": "Senha"
+            },
+            "alert": {
+                "title": "O seu email deve possuir"
+            },
+            "errors": {
+                "emailRequired": "O email é obrigatório",
+                "emailInvalid": "Endereço de email inválido",
+                "passwordRequired": "A senha é obrigatória",
+                "passwordMin": "A senha deve ter no mínimo 6 caracteres"
+            },
+            "btnText": {
+                "log": "Iniciar sessão"
+            }
+        },
+        "forgotpassword": {
+            "title": "Esqueci a minha senha?",
+            "description": "Por favor, introduza o endereço de e-mail associado à sua conta e enviaremos um link para redefinir a sua palavra-passe. ",
+            "link": {
+                "back": "Voltar para início de sessão"
+            },
+            "inputText": {
+                "email": "Endereço de email"
+            },
+
+            "errors": {
+                "emailRequired": "O email é obrigatório",
+                "emailInvalid": "Endereço de email inválido"
+            },
+            "btnText": {
+                "reset": "Repor a senha"
+            }
+        },
+        "signup": {
+            "title": "Crie a sua conta",
+            "description": "Já tem uma conta?",
+            "link": {
+                "log": "Iniciar sessão"
+            },
+            "inputText": {
+                "fName": "Primeiro nome",
+                "lName": "Último nome",
+                "email": "Endereço de email",
+                "pass": "Palavra passe",
+                "cpass": "Confirme a palavra pase"
+            },
+            "errors": {
+                "firstNameRequired": "O primeiro nome é obrigatório",
+                "firstNameMin": "O primeiro nome deve ter no mínimo 2 caracteres",
+                "lastNameRequired": "O último nome é obrigatório",
+                "lastNameMin": "O último nome deve ter no mínimo 2 caracteres",
+                "emailRequired": "O email é obrigatório",
+                "emailInvalid": "Endereço de email inválido",
+                "passwordRequired": "A palavra passe é obrigatória",
+                "passwordMin": "A palavra passe deve ter no mínimo 6 caracteres",
+                "confirmPasswordRequired": "A confirmação da senha é obrigatória",
+                "passwordsMismatch": "As senhas não coincidem"
+            },
+            "btnText": {
+                "crt": "Criar conta"
+            },
+            "term": {
+                "title": " Concordo com os",
+                "ters": "Termos de Serviço",
+                "politic": "Politica de Privacidade",
+                "artig": "e a"
+            }
+        },
+        "verifyaccount": {
+    
+        "title": "Verifique o seu email",
+        "description": "Enviámos um código de confirmação de 6 dígitos por e-mail. Por favor, introduza o código na caixa abaixo para verificar o seu e-mail.",
+        "inputText": {
+            "email": "Endereço de email",
+            "otp": "Código de 6 dígitos"
+        },
+        "errors": {
+            "emailInvalid": "E-mail inválido",
+            "emailDomain": "O email deve terminar com @tvcabo.co.ao",
+            "otpLength": "O código deve ter 6 dígitos"
+        },
+        "btnText": {
+            "validate": "Validar"
+        },
+        "link": {
+            "resend": "Reenviar",
+            "back": "Voltar"
+        },
+        "notReceived": "Não recebeu o código?"
+    }
     }
 }

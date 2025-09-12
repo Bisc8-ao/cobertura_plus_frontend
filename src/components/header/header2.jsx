@@ -1,23 +1,42 @@
 import React from "react";
-import { UseWidthScreen } from "../../hooks";
+import { UseLangContext, UseWidthScreen } from "../../hooks";
 import { vectorImages } from "../../assets";
 import SettingsIcon from "@mui/icons-material/Settings";
 import * as Styled from "../../styles";
 import { Link } from "react-router-dom";
+import { AnchorTemporaryDrawer } from "../anchorTemporaryDrawer";
+import { DrawerSettings } from "../drawerSettings";
 
 function Header2() {
-    const {widthScreen} = UseWidthScreen()
+    const { widthScreen } = UseWidthScreen()
+     const { translations } = UseLangContext();
     return (
         <React.Fragment>
             <Styled.He_Wrapper>
                 <Styled.He_Container>
                     <Styled.He_Content>
                         <div>
-                            <Styled.RouterLink>
-                                <SettingsIcon sx={{ color: "#637381" }} />
-                                <span> <b>Precisa de</b> ajuda?</span>
+                            <AnchorTemporaryDrawer
+                                anchor="right"
+                                icon={
+                                    <Styled.RouterLink>
+                                        <span
+                                            dangerouslySetInnerHTML={{
+                                                __html: translations.components
+                                                    .header.help,
+                                            }}
+                                        />
 
-                            </Styled.RouterLink>
+
+                                        <SettingsIcon
+                                            sx={{ color: "#637381" }}
+                                        />
+                                    </Styled.RouterLink>
+                                }
+                                width="420px"
+                            >
+                                <DrawerSettings />
+                            </AnchorTemporaryDrawer>
                         </div>
 
                         <Link to="/">
@@ -25,8 +44,10 @@ function Header2() {
                                 <img
                                     src={
                                         widthScreen
-                                            ? vectorImages.logos.brand.brand_logo_2
-                                            : vectorImages.logos.brand.brand_logo_1
+                                            ? vectorImages.logos.brand
+                                                  .brand_logo_2
+                                            : vectorImages.logos.brand
+                                                  .brand_logo_1
                                     }
                                     alt="tvcabo"
                                 />

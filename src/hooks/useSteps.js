@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { UseLocation } from "./useLocation";
+import { UseLangContext } from "./useLangContext";
 const schena = z.object({
     firstName: z
         .string()
@@ -42,8 +43,9 @@ function UseSteps() {
         reValidateMode: "onChange",
     });
     const navigate = useNavigate();
+    const { translations } = UseLangContext();
     const [loading, setLoading] = useState(false)
-    const steps = ["Apresentação", "Dados", "Mensagem"];
+    const steps = [...translations.pages.subscribe.steps];
     const [activeStep, setActiveStep] = useState(0);
 
     const handleNext = async () => {
@@ -79,7 +81,7 @@ function UseSteps() {
         console.log(payload);
 
         setLoading(true)
-        //navigate("/subscription-confirmation");
+        navigate("/subscription-confirmation");
     }
     return {
         register,
