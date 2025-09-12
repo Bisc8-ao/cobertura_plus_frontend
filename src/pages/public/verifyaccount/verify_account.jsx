@@ -82,7 +82,9 @@ function VerifyAccount() {
                         <Styled.Input
                             error={!!errors.email}
                             id="outlined-basic"
-                            label="Endereço de email"
+                            label={
+                                translations.pages.verifyaccount.inputText.email
+                            }
                             type="email"
                             {...register("email")}
                         />
@@ -95,6 +97,10 @@ function VerifyAccount() {
                                     {...field}
                                     error={!!fieldState.error}
                                     gap="1.2rem"
+                                    aria-label={
+                                        translations.pages.verifyaccount
+                                            .inputText.otp
+                                    }
                                 />
                             )}
                         />
