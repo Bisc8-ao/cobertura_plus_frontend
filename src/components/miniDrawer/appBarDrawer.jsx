@@ -16,10 +16,10 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Search } from "../search";
 import { drawerWidth } from "./mix";
-import { UseUserContext } from "../../hooks";
-import { useNavigate } from "react-router-dom";
+
 import { DrawerSettings } from "../drawerSettings";
-import {DrawerNotification} from "../drawerNotification"
+import { DrawerNotification } from "../drawerNotification";
+import { DrawerProfile } from "../drawerProfile";
 
 const AppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== "open",
@@ -75,9 +75,7 @@ const Badge = styled(MuiBadge)({
     },
 });
 function AppBarDrawer({ handleDrawerOpen, handleDrawerClose, open }) {
-    const navigate = useNavigate();
     const [headerChangeBg, setHeaderChangeBg] = useState(false);
-    const {dispatch} = UseUserContext()
 
     useEffect(() => {
         const handleScroll = function () {
@@ -86,25 +84,12 @@ function AppBarDrawer({ handleDrawerOpen, handleDrawerClose, open }) {
             } else {
                 setHeaderChangeBg(false);
             }
-
         };
         window.addEventListener("scroll", handleScroll);
 
         return () => removeEventListener("scroll", handleScroll);
     }, []);
 
-
-
-    function handleClickLogout() {
-
-        localStorage.removeItem("auth_token");
-        localStorage.removeItem("auth_token_exp");
-
-
-        dispatch({ type: "user_desactive" });
-
-        navigate("/signin", { replace: true });
-    }
     return (
         <React.Fragment>
             <AppBar
@@ -115,6 +100,8 @@ function AppBarDrawer({ handleDrawerOpen, handleDrawerClose, open }) {
                 <Toolbar>
                     <AnchorTemporaryDrawer
                         anchor="left"
+                        btnWidth="3rem"
+                        btnRadius="50%"
                         icon={<MenuIcon fontSize="1rem" />}
                     />
                     <IconButton
@@ -174,6 +161,9 @@ function AppBarDrawer({ handleDrawerOpen, handleDrawerClose, open }) {
                         <MenuLang />
                         <AnchorTemporaryDrawer
                             anchor="right"
+                            width="420px"
+                            btnWidth="3rem"
+                            btnRadius="50%"
                             icon={
                                 <Badge badgeContent={4}>
                                     <NotificationsIcon fontSize="1rem" />
@@ -185,16 +175,21 @@ function AppBarDrawer({ handleDrawerOpen, handleDrawerClose, open }) {
                         <AnchorTemporaryDrawer
                             anchor="right"
                             icon={<PeopleAltIcon fontSize="1rem" />}
-                            width="320px"
-                        />
+                            width="310px"
+                            btnWidth="3rem"
+                            btnRadius="50%"
+                        >
+                            <DrawerProfile />
+                        </AnchorTemporaryDrawer>
                         <AnchorTemporaryDrawer
                             anchor="right"
                             icon={<SettingsIcon fontSize="1rem" />}
                             width="420px"
+                            btnWidth="3rem"
+                            btnRadius="50%"
                         >
                             <DrawerSettings />
                         </AnchorTemporaryDrawer>
-                        <button onClick={handleClickLogout}>Logout</button>
                     </div>
                 </Toolbar>
             </AppBar>

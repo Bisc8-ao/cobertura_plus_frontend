@@ -1,42 +1,31 @@
-import React, { useState } from "react";
+import React from "react";
 
 import { Button, Loader } from "../../../components";
 import { vectorImages, lotties } from "../../../assets";
 import * as Styled from "../../../styles";
 import { Link, useNavigate } from "react-router-dom";
+import { UseLangContext, UseLocation } from "../../../hooks";
 
 function Home() {
     const navigate = useNavigate();
-    const [location, setLocation] = useState({});
-    const [error, setError] = useState();
-    const [isLoading, setIsLoading] = useState(false);
+    const { handleLocation, isLoading, setIsLoading } = UseLocation();
+    const { translations } = UseLangContext();
 
     function handleClick() {
         navigate("/signin");
     }
 
-    function handleLocation() {
-        if (!navigator.geolocation) {
-            setError("Geolocalição não suportada");
-        }
-        setIsLoading(true);
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-                setLocation({
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude,
-                });
-                setError(null);
+    function handleClickLocation() {
+        handleLocation(() => {
 
-                setTimeout(() => {
-                    navigate("/test-covarge");
-                }, 5000);
-            },
-            (err) => {
-                setError("Errro a obter a localização:" + err.message);
-            }
-        );
+            setTimeout(() => {
+                navigate("/test-covarge");
+                setIsLoading(false);
+            }, 5000);
+        });
     }
+
+    console.log(isLoading);
 
     return (
         <React.Fragment>
@@ -53,19 +42,21 @@ function Home() {
                     </Styled.Shape>
                     <Styled.Ho_Container>
                         <Styled.Ho_ContainerContent>
-                            <span>
-                                Teste a disponibilidade
-                                <br /> do nosso serviço
-                                <br /> na sua região.
-                            </span>
+                            <span
+                                dangerouslySetInnerHTML={{
+                                    __html: translations.pages.home.mainText,
+                                }}
+                            />
 
                             <Styled.Ho_Box>
                                 <Button
-                                    text="Na minha localização"
+                                    text={translations.pages.home.btn.IML}
                                     variant="contained"
-                                    onClick={handleLocation}
+                                    onClick={handleClickLocation}
                                 />
-                                <Link to="/sandbox">Outra localização</Link>
+                                <Link to="/sandbox">
+                                    {translations.pages.home.btn.OTL}
+                                </Link>
                             </Styled.Ho_Box>
                         </Styled.Ho_ContainerContent>
                     </Styled.Ho_Container>

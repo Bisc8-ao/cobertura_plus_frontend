@@ -1,5 +1,5 @@
 import React from "react";
-import { UseSteps } from "../../../hooks";
+import { UseLocation, UseSteps } from "../../../hooks";
 import { Typography, StepLabel, Step, Box } from "@mui/material";
 import { images } from "../../../assets";
 import { styled } from "@mui/material";
@@ -7,6 +7,7 @@ import * as Styled from "../../../styles";
 import { Button } from "../../../components";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import { Navigate } from "react-router-dom";
 
 const Wrapper = styled("div")({
     width: "100%",
@@ -14,6 +15,7 @@ const Wrapper = styled("div")({
 });
 
 function Subscribe() {
+     const { location } = UseLocation();
     const {
         steps,
         register,
@@ -25,6 +27,10 @@ function Subscribe() {
         activeStep,
         loading
     } = UseSteps();
+
+     if (!location.lat && !location.lng) {
+            return <Navigate to="/" replace/>
+        }
 
     return (
         <React.Fragment>
