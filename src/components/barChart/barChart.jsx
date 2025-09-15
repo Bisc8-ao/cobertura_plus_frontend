@@ -1,0 +1,129 @@
+import React from "react";
+import Chart from "react-apexcharts";
+
+function BarChart() {
+    const options = {
+        chart: {
+            id: "basic-bar",
+            toolbar: {
+                show: false,
+            },
+            background: "#ffffffff",
+        },
+        title: {
+            text: "Website visits",
+            align: "left",
+            style: {
+                fontSize: "18px",
+                fontWeight: "bold",
+                color: "#333",
+            },
+        },
+        subtitle: {
+            text: "(+43%) than last year",
+            align: "left",
+            style: {
+                fontSize: "12px",
+                color: "#666",
+            },
+        },
+        xaxis: {
+            categories: [
+                "Jan",
+                "Feb",
+                "Mar",
+                "Apr",
+                "May",
+                "Jun",
+                "Jul",
+                "Aug",
+                "Sep",
+            ],
+            labels: {
+                style: {
+                    colors: "#666",
+                    fontSize: "12px",
+                },
+            },
+            axisBorder: {
+                show: false,
+            },
+            axisTicks: {
+                show: false,
+            },
+        },
+        yaxis: {
+            labels: {
+                style: {
+                    colors: "#666",
+                    fontSize: "12px",
+                },
+            },
+            axisBorder: {
+                show: false,
+            },
+        },
+        grid: {
+            borderColor: "#e0e0e0",
+            strokeDashArray: 3,
+            xaxis: {
+                lines: {
+                    show: false,
+                },
+            },
+        },
+        tooltip: {
+            theme: "light",
+        },
+        legend: {
+            position: "top",
+            horizontalAlign: "right",
+
+            offsetY: -16,
+            markers: {
+                width: 10,
+                height: 10,
+                radius: 5,
+                shape: "circle",
+                offsetX: -1,
+
+            },
+        },
+        colors: ["#20B2AA", "#FFD700"],
+        plotOptions: {
+            bar: {
+                borderRadius: 4,
+                borderRadiusApplication: "end",
+                columnWidth: "35%",
+            },
+        },
+        dataLabels: {
+            enabled: false,
+        },
+    };
+
+    const series = [
+        {
+            name: "Team A",
+            data: [42, 32, 20, 36, 65, 67, 36, 23, 55],
+        },
+        {
+            name: "Team B",
+            data: [50, 68, 47, 67, 38, 36, 22, 68, 23],
+        },
+    ];
+
+    return (
+        <React.Fragment>
+            <Chart
+                options={options}
+                series={series}
+                type="bar"
+                width="100%"
+                height="350"
+            />
+        </React.Fragment>
+    );
+}
+
+export { BarChart };

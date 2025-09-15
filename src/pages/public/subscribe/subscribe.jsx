@@ -29,9 +29,9 @@ function Subscribe() {
         loading,
     } = UseSteps();
 
-    if (!location.lat && !location.lng) {
-        return <Navigate to="/" replace />;
-    }
+   if (Object.keys(location).length === 0) {
+          return <Navigate to="/" replace />;
+      }
 
     return (
         <React.Fragment>

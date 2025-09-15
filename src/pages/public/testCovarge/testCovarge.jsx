@@ -18,11 +18,11 @@ function TestCovarge() {
          navigate("/");
      }
 
-    console.log(location)
 
-    if (!location.lat && !location.lng) {
-        return <Navigate to="/" replace/>
-    }
+     if (Object.keys(location).length === 0) {
+         return <Navigate to="/" replace />;
+        }
+        console.log(location)
         return (
             <React.Fragment>
                 <Styled.Subs_Wrapper>

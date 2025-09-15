@@ -1,0 +1,1 @@
+export {ChartPie} from "./charPie"

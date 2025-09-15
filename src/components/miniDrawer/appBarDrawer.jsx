@@ -17,13 +17,14 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { Search } from "../search";
 import { drawerWidth } from "./mix";
 
+import { NavLink } from "../navLink";
 import { DrawerSettings } from "../drawerSettings";
 import { DrawerNotification } from "../drawerNotification";
 import { DrawerProfile } from "../drawerProfile";
 
 const AppBar = styled(MuiAppBar, {
-    shouldForwardProp: (prop) => prop !== "open",
-})(({ theme, headerChangeBg }) => ({
+    shouldForwardProp: (prop) => prop !== "open" && prop !== "headerChangeBg",
+})(({ theme, headerChangeBg, open }) => ({
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(["width", "margin"], {
         easing: theme.transitions.easing.sharp,
@@ -41,9 +42,7 @@ const AppBar = styled(MuiAppBar, {
         opacity: headerChangeBg ? "1" : "0",
         transition:
             "opacity 200ms cubic-bezier(0.4, 0, 0.2, 1), visibility 200ms cubic-bezier(0.4, 0, 0.2, 1)",
-
         position: "absolute",
-
         width: "100%",
         height: "100%",
         zIndex: "-1",
@@ -51,29 +50,25 @@ const AppBar = styled(MuiAppBar, {
     "@media (max-width:1024px)": {
         width: "100%",
     },
-    variants: [
-        {
-            props: ({ open }) => open,
-            style: {
-                marginLeft: drawerWidth,
-                width: `calc(100% - ${drawerWidth}px)`,
-                transition: theme.transitions.create(["width", "margin"], {
-                    easing: theme.transitions.easing.sharp,
-                    duration: theme.transitions.duration.enteringScreen,
-                }),
-            },
-        },
-    ],
+    ...(open && {
+        marginLeft: drawerWidth,
+        width: `calc(100% - ${drawerWidth}px)`,
+        transition: theme.transitions.create(["width", "margin"], {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.enteringScreen,
+        }),
+    }),
 }));
 
-const Badge = styled(MuiBadge)({
+
+const Badge = styled(MuiBadge)(({ theme }) => ({
     "& span": {
-        background: "#c20303cb",
+        background: theme.palette.primary.main,
         color: "#fff",
         fontWeight: "800",
         fontSize: "1.2rem",
     },
-});
+}));
 function AppBarDrawer({ handleDrawerOpen, handleDrawerClose, open }) {
     const [headerChangeBg, setHeaderChangeBg] = useState(false);
 
@@ -102,8 +97,11 @@ function AppBarDrawer({ handleDrawerOpen, handleDrawerClose, open }) {
                         anchor="left"
                         btnWidth="3rem"
                         btnRadius="50%"
+                        width="310px"
                         icon={<MenuIcon fontSize="1rem" />}
-                    />
+                    >
+                        <NavLink />
+                    </AnchorTemporaryDrawer>
                     <IconButton
                         color="inherit"
                         aria-label="open drawer"

@@ -18,6 +18,7 @@ function Header() {
         "/",
         "/sandbox",
         "/subscription-confirmation",
+        "/test-covarge",
     ].includes(location.pathname);
 
 

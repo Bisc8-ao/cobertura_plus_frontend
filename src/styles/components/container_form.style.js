@@ -13,7 +13,7 @@ const ContainerForm = styled("form")(
         borderRadius: borderRadius,
 
         "@media (min-width: 1512px)": {
-            width: width ? "22%" :"50%",
+            width: width ? "22%" :"40%",
         },
         "@media (max-width: 1024px)": {
             width: width ? "40%" : "70%",
