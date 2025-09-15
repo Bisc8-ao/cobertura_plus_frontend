@@ -1,8 +1,6 @@
 import * as React from "react";
 import { Box, styled, Drawer as MuiDrawer, Button } from "@mui/material";
 
-import { DrawerSettings } from "../drawerSettings";
-
 import { useState } from "react";
 
 const Drawer = styled(MuiDrawer)(({ anchor }) => ({

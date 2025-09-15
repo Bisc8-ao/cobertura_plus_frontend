@@ -6,7 +6,31 @@ function LocationProvider({ children }) {
     const [error, setError] = useState();
     const [isLoading, setIsLoading] = useState(false);
     const [getIpUser, setGetIpUser] = useState(false);
+    const url_api = `${import.meta.env.VITE_API_URL}/`;
 
+    async function sendPayloadToBackend(payload) {
+
+        console.log(payload)
+          /*try {
+              const response = await fetch(url_api, {
+                  method: "POST",
+                  headers: {
+                      "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify(payload),
+              });
+
+              if (!response.ok) {
+                  throw new Error("Falha ao enviar payload para o backend");
+              }
+
+              const data = await response.json();
+              console.log("Resposta do backend:", data);
+          } catch (err) {
+              console.error("Erro ao enviar payload:", err.message);
+              setError(err.message);
+          }*/
+      }
     function handleLocation(callback) {
         if (!navigator.geolocation) {
             setError("Geolocalização não suportada");
@@ -32,7 +56,7 @@ function LocationProvider({ children }) {
                         lng: position.coords.longitude,
                         ip: getIpUser,
                     };
-                    console.log("payload:",payload);
+                   sendPayloadToBackend(payload);
                     setError(null);
                     callback?.();
                 }
