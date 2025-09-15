@@ -59,6 +59,16 @@
                 "message": "Leave your message here"
             },
             "steps": ["Presentation", "Data", "Message"],
+            "errors": {
+                "firstNameMin": "The first name must be at least 2 characters",
+                "lastNameMin": "The last name must be at least 2 characters",
+                "birthDateRequired": "Date of birth is required",
+                "birthDateInvalid": "Invalid date",
+                "biInvalid": "Invalid ID number. Example: 001234567LA001",
+                "emailInvalid": "Invalid email address",
+                "phoneMin": "The phone number must be at least 9 digits",
+                "phoneMax": "The phone number must be at most 12 digits"
+            },
             "btnText": {
                 "end": "Finish"
             }
@@ -147,26 +157,52 @@
             }
         },
         "verifyaccount": {
-        "title": "Verify your email",
-        "description": "We have sent a 6-digit confirmation code by email. Please enter the code in the box below to verify your email.",
-        "inputText": {
-            "email": "Email address",
-            "otp": "6-digit code"
+            "title": "Verify your email",
+            "description": "We have sent a 6-digit confirmation code by email. Please enter the code in the box below to verify your email.",
+            "inputText": {
+                "email": "Email address",
+                "otp": "6-digit code"
+            },
+            "errors": {
+                "emailInvalid": "Invalid email",
+                "emailDomain": "The email must end with @tvcabo.co.ao",
+                "otpLength": "The code must be 6 digits"
+            },
+            "btnText": {
+                "validate": "Validate"
+            },
+            "link": {
+                "resend": "Resend",
+                "back": "Back"
+            },
+            "notReceived": "Didn't receive the code?"
         },
-        "errors": {
-            "emailInvalid": "Invalid email",
-            "emailDomain": "The email must end with @tvcabo.co.ao",
-            "otpLength": "The code must be 6 digits"
-        },
-        "btnText": {
-            "validate": "Validate"
-        },
-        "link": {
-            "resend": "Resend",
-            "back": "Back"
-        },
-        "notReceived": "Didn't receive the code?"
-    }
-
+        "updatepassword": {
+            "title": "Request sent successfully!",
+            "description": "We have sent a confirmation email with a 6-digit code to your email address. Please enter the code in the box below to verify your email.",
+            "inputText": {
+                "email": "Email address",
+                "otp": "6-digit code",
+                "pass": "Password",
+                "cpass": "Confirm password"
+            },
+            "errors": {
+                "emailRequired": "Email is required",
+                "emailInvalid": "Invalid email address",
+                "emailDomain": "The email must end with @tvcabo.co.ao",
+                "otpLength": "The code must be 6 digits",
+                "passwordRequired": "Password is required",
+                "passwordMin": "Password must be at least 6 characters",
+                "passwordsMismatch": "Passwords do not match"
+            },
+            "btnText": {
+                "update": "Update password"
+            },
+            "link": {
+                "resend": "Resend",
+                "back": "Back"
+            },
+            "notReceived": "Didn't receive the code?"
+        }
     }
 }

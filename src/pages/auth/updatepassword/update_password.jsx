@@ -18,10 +18,11 @@ import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { UseLangContext } from "../../../hooks";
 
 const Wrapper = styled("div")({
     width: "100%",
-    height: "100%",
+    height: "100vh",
 });
 const schema = z.object({
     email: z
@@ -41,6 +42,7 @@ const schema = z.object({
 function UpdatePassword() {
     const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
+    const { translations } = UseLangContext();
 
     const {
         register,
@@ -85,13 +87,13 @@ function UpdatePassword() {
                                         lineHeight: "2.8rem",
                                     }}
                                 >
-                                    Pedido enviado com sucesso!
+                                    {translations.pages.updatepassword.title}
                                 </Typography>
                                 <span>
-                                    Enviámos um e-mail de confirmação com 6
-                                    dígitos para o teu endereço de e-mail. Por
-                                    favor, introduz o código na caixa abaixo
-                                    para verificar o teu e-mail.
+                                    {
+                                        translations.pages.updatepassword
+                                            .description
+                                    }
                                 </span>
                             </Styled.ContainerFormContent>
 
@@ -103,7 +105,10 @@ function UpdatePassword() {
                                     error={!!errors.email}
                                     {...register("email")}
                                     id="outlined-basic"
-                                    label="Endereço de email"
+                                    label={
+                                        translations.pages.updatepassword
+                                            .inputText.email
+                                    }
                                     type="email"
                                 />
                                 <Controller
@@ -123,7 +128,10 @@ function UpdatePassword() {
                                     error={!!errors.password}
                                 >
                                     <InputLabel htmlFor="outlined-adornment-password">
-                                        Palavra passe
+                                        {
+                                            translations.pages.updatepassword
+                                                .inputText.pass
+                                        }
                                     </InputLabel>
                                     <OutlinedInput
                                         helperText={
@@ -163,7 +171,10 @@ function UpdatePassword() {
                                                 </IconButton>
                                             </InputAdornment>
                                         }
-                                        label="Senha"
+                                        label={
+                                            translations.pages.updatepassword
+                                                .inputText.pass
+                                        }
                                     />
                                 </Styled.FormControlPassword>
 
@@ -172,7 +183,10 @@ function UpdatePassword() {
                                     error={!!errors.password}
                                 >
                                     <InputLabel htmlFor="outlined-adornment-password">
-                                       Confirmar a palavra passe
+                                        {
+                                            translations.pages.updatepassword
+                                                .inputText.cpass
+                                        }
                                     </InputLabel>
                                     <OutlinedInput
                                         helperText={
@@ -212,19 +226,33 @@ function UpdatePassword() {
                                                 </IconButton>
                                             </InputAdornment>
                                         }
-                                        label="Senha"
+                                        label={
+                                            translations.pages.updatepassword
+                                                .inputText.cpass
+                                        }
                                     />
                                 </Styled.FormControlPassword>
 
                                 <Button
                                     variant="contained"
-                                    text="Alterar a senha"
+                                    text={
+                                        translations.pages.updatepassword
+                                            .btnText.update
+                                    }
                                     type="submit"
                                 />
                                 <Styled.ContainerFormContent alignment="center">
                                     <span>
-                                        Não recebeu o código?{" "}
-                                        <Link>Reenviar</Link>
+                                        {
+                                            translations.pages.updatepassword
+                                                .notReceived
+                                        }{" "}
+                                        <Link>
+                                            {
+                                                translations.pages
+                                                    .updatepassword.link.resend
+                                            }
+                                        </Link>
                                     </span>
                                 </Styled.ContainerFormContent>
 
@@ -233,7 +261,10 @@ function UpdatePassword() {
                                         <span>
                                             <ArrowBackIosIcon />
                                         </span>{" "}
-                                        Voltar
+                                        {
+                                            translations.pages.updatepassword
+                                                .link.back
+                                        }
                                     </Link>
                                 </div>
                             </Styled.ContainerInputs>

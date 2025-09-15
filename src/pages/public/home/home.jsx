@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { Button, Loader } from "../../../components";
 import { vectorImages, lotties } from "../../../assets";
@@ -6,31 +6,43 @@ import * as Styled from "../../../styles";
 import { Link, useNavigate } from "react-router-dom";
 import { UseLangContext, UseLocation } from "../../../hooks";
 
+
 function Home() {
     const navigate = useNavigate();
-    const { handleLocation, isLoading, setIsLoading } = UseLocation();
+    const [shouldNavigate, setShouldNavigate] = useState(false);
+    const { handleLocation, isLoading, setIsLoading, location } = UseLocation();
+   const url_api = `${import.meta.env.VITE_API_URL}/`;
     const { translations } = UseLangContext();
 
     function handleClick() {
         navigate("/signin");
     }
 
-    function handleClickLocation() {
-        handleLocation(() => {
+  function handleClickLocation() {
+      handleLocation(() => setShouldNavigate(true));
 
-            setTimeout(() => {
-                navigate("/test-covarge");
-                setIsLoading(false);
-            }, 5000);
-        });
-    }
 
-    console.log(isLoading);
+  }
+
+
+  useEffect(() => {
+      if (shouldNavigate && Object.keys(location).length !== 0) {
+          const timer = setTimeout(() => {
+              navigate("/test-covarge");
+              setIsLoading(false);
+              setShouldNavigate(false);
+          }, 3000);
+
+          return () => clearTimeout(timer);
+      }
+  }, [shouldNavigate, location, navigate, setIsLoading]);
+
+
 
     return (
         <React.Fragment>
             {isLoading ? (
-                <Loader Animation={lotties.CheckAnimation} />
+                <Loader Animation={lotties.FindAnimation} />
             ) : (
                 <Styled.Ho_Wrapper>
                     <Styled.Shape>

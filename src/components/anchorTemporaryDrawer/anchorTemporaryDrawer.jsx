@@ -1,18 +1,9 @@
-
 import * as React from "react";
-import {
-    Box,
-    styled,
-    Drawer as MuiDrawer,
-    Button,
-
-} from "@mui/material";
+import { Box, styled, Drawer as MuiDrawer, Button } from "@mui/material";
 
 import { DrawerSettings } from "../drawerSettings";
 
-
 import { useState } from "react";
-
 
 const Drawer = styled(MuiDrawer)(({ anchor }) => ({
     display: anchor === "left" && "none",
@@ -23,68 +14,76 @@ const Drawer = styled(MuiDrawer)(({ anchor }) => ({
         display: anchor === "left" && "flex",
     },
 }));
- function AnchorTemporaryDrawer({ anchor, icon, children,width,btnWidth, btnRadius }) {
-     const [state, setState] = useState({
-         left: false,
-         right: false,
-     });
+function AnchorTemporaryDrawer({
+    anchor,
+    icon,
+    children,
+    width,
+    btnWidth,
+    btnRadius,
+}) {
+    const [state, setState] = useState({
+        left: false,
+        right: false,
+    });
 
-     const toggleDrawer = (open) => (event) => {
+    const toggleDrawer = (open) => (event) => {
+        if (
+            event.type === "keydown" &&
+            (event.key === "Tab" || event.key === "Shift")
+        ) {
+            return;
+        }
 
-         if (
-             event.type === "keydown" &&
-             (event.key === "Tab" || event.key === "Shift")
-         ) {
-             return;
-         }
+        setState({ ...state, [anchor]: open });
+    };
 
-         setState({ ...state, [anchor]: open });
-     };
+    const list = () => (
+        <Box
+            sx={{
+                width: width,
+            }}
+            role="presentation"
+            onClick={toggleDrawer(false)}
+            onKeyDown={toggleDrawer(false)}
+        >
+            {children}
+        </Box>
+    );
 
-     const list = () => (
-         <Box
-             sx={{
-                 width: width,
-             }}
-             role="presentation"
-             onClick={toggleDrawer(false)}
-             onKeyDown={toggleDrawer(false)}
-         >
-             {children}
-         </Box>
-     );
+    return (
+        <div>
+            <React.Fragment key={anchor}>
+                <Button
+                    onClick={toggleDrawer(true)}
+                    sx={{
+                        width: btnWidth,
+                        minWidth: btnWidth,
+                        height: "3rem",
+                        borderRadius: btnRadius,
+                        color: "#637381",
+                        fontSize: "2rem",
 
-     return (
-         <div>
-             <React.Fragment key={anchor}>
-                 <Button
-                     onClick={toggleDrawer(true)}
-                     sx={{
-                         width: btnWidth,
-                         minWidth: btnWidth,
-                         height: "3rem",
-                         borderRadius: btnRadius,
-                         color: "#637381",
-                         fontSize: "2rem",
-                         display: anchor === "left" && "none",
-                         "@media (max-width: 1024px)": {
-                             display: anchor === "left" && "flex",
-                         },
-                     }}
-                 >
-                     {icon}
-                 </Button>
-                 <Drawer
-                     anchor={anchor}
-                     open={state[anchor]}
-                     onClose={toggleDrawer(false)}
-                     sx={{ zIndex: "1300" }}
-                 >
-                     {list()}
-                 </Drawer>
-             </React.Fragment>
-         </div>
-     );
- }
+                        textTransform: "none",
+                        display: anchor === "left" && "none",
+                        "@media (max-width: 1024px)": {
+                            display: anchor === "left" && "flex",
+                        },
+                    }}
+                >
+                    {icon}
+                </Button>
+                <Drawer
+                    anchor={anchor}
+                    open={state[anchor]}
+                    onClose={toggleDrawer(false)}
+                    sx={{ zIndex: "1300" }}
+                >
+                    {list()}
+                </Drawer>
+            </React.Fragment>
+        </div>
+    );
+}
 
 export { AnchorTemporaryDrawer };

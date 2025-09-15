@@ -80,7 +80,7 @@ function MiniDrawer({ children }) {
                     sx={{
                         display: "flex",
                         justifyContent: "flex-start",
-                        paddingLeft: "2rem",
+                        paddingLeft: "3rem",
                     }}
                 >
                     {open === true && (

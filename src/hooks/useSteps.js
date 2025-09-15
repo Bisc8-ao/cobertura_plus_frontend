@@ -5,33 +5,39 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { UseLocation } from "./useLocation";
 import { UseLangContext } from "./useLangContext";
-const schena = z.object({
-    firstName: z
-        .string()
-        .min(2, { message: "O nome deve ter no minimo 2 caracteres" }),
-    lastName: z
-        .string()
-        .min(2, { message: "O sobrenome deve ter no minimo 2 caracteres" }),
-    birthDate: z
-        .string()
-        .min(1, "A data de nascimento é obrigatória")
-        .refine((val) => {
-            const date = new Date(val);
-            return !isNaN(date.getTime());
-        }, "Data inválida"),
-    bi: z.string().regex(/^00\d{7}[A-Z]{2}\d{3}$/, {
-        message: "Número de B.I inválido. Ex: 001234567LA001",
-    }),
-    email: z.string().email({ message: "Email invalido" }),
-    phone: z
-        .string()
-        .min(9, { message: "O telefone deve ter no minimo 9 caracteres" })
-        .max(12, { message: "O telefone deve ter no maximo 12 caracteres" }),
-    message: z.string().optional(),
-});
 
 function UseSteps() {
+    const {translations} = UseLangContext()
     const { location } = UseLocation();
+    const schena = z.object({
+        firstName: z.string().min(2, {
+            message: translations.pages.subscribe.errors.firstNameMin,
+        }),
+        lastName: z.string().min(2, {
+            message: translations.pages.subscribe.errors.lastNameMin,
+        }),
+        birthDate: z
+            .string()
+            .min(1, translations.pages.subscribe.errors.birthDateRequired)
+            .refine((val) => {
+                const date = new Date(val);
+                return !isNaN(date.getTime());
+            }, translations.pages.subscribe.errors.birthDateInvalid),
+        bi: z.string().regex(/^00\d{7}[A-Z]{2}\d{3}$/, {
+            message: translations.pages.subscribe.errors.biInvalid,
+        }),
+        email: z.string().email({
+            message: translations.pages.subscribe.errors.emailInvalid,
+        }),
+        phone: z
+            .string()
+            .min(9, { message: translations.pages.subscribe.errors.phoneMin })
+            .max(12, {
+                message: translations.pages.subscribe.errors.phoneMax,
+            }),
+        message: z.string().optional(),
+    });
+
     const {
         register,
         handleSubmit,
@@ -43,7 +49,7 @@ function UseSteps() {
         reValidateMode: "onChange",
     });
     const navigate = useNavigate();
-    const { translations } = UseLangContext();
+
     const [loading, setLoading] = useState(false)
     const steps = [...translations.pages.subscribe.steps];
     const [activeStep, setActiveStep] = useState(0);
@@ -83,6 +89,8 @@ function UseSteps() {
         setLoading(true)
         navigate("/subscription-confirmation");
     }
+
+    
     return {
         register,
         handleSubmit,

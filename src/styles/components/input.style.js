@@ -1,4 +1,4 @@
-import { styled } from "@mui/material";
+import { styled, THEME_ID } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import { FormControl } from "@mui/material";
 
@@ -39,6 +39,7 @@ export const Input = styled(TextField)(({ theme }) => ({
             borderRadius: ".4rem",
             border: `.1rem solid ${theme.palette.gray["900_25"]}`,
             borderWidth: ".1rem",
+            padding: "1rem",
         },
         "&.Mui-focused fieldset": {
             borderColor: theme.palette.gray["900_25"],
@@ -50,6 +51,12 @@ export const Input = styled(TextField)(({ theme }) => ({
         "&.Mui-error.Mui-focused fieldset": {
             borderColor: theme.palette.red[500],
         },
+    },
+    "& .MuiFormHelperText-root": {
+        fontSize: theme.typography.sizes.xs,
+        marginLeft: "0",
+
+
     },
 }));
 
@@ -109,5 +116,9 @@ export const FormControlPassword = styled(FormControl)(({ theme }) => ({
         "&.Mui-error.Mui-focused fieldset": {
             borderColor: theme.palette.red[500],
         },
+    },
+    "& .MuiFormHelperText-root": {
+        fontSize: theme.typography.sizes.xs,
+        marginLeft: "0",
     },
 }));

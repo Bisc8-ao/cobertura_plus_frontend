@@ -8,7 +8,9 @@ export const He_Wrapper = styled("header")({
     zIndex: "100",
 });
 
-export const He_Container = styled("div")(({ isPageHome }) => ({
+export const He_Container = styled("div", {
+    shouldForwardProp: (prop) => prop !== "isPageHome",
+})(({ isPageHome }) => ({
     padding: `${isPageHome ? "4rem 6rem" : "4rem"}`,
     "@media (min-width: 1512px)": {
         padding: `${isPageHome ? "4rem 6rem" : "4rem"}`,
@@ -49,7 +51,9 @@ export const He_ImgContainer = styled("div")({
     },
 });
 
-export const RouterLink = styled(Link)(({ theme, isPageHome }) => ({
+export const RouterLink = styled(Link, {
+    shouldForwardProp: (prop) => prop !== "isPageHome",
+})(({ theme, isPageHome }) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -74,9 +78,7 @@ export const RouterLink = styled(Link)(({ theme, isPageHome }) => ({
 
     "@media(max-width:1024px)": {
         "& span": {
-
             color: theme.palette.gray[950],
-
         },
     },
 

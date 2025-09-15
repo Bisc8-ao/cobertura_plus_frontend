@@ -59,6 +59,16 @@
                 "message": "Deixe aqui a sua mensagem..."
             },
             "steps": ["Apresentação", "Dados", "Mensagem"],
+            "errors": {
+                "firstNameMin": "O nome deve ter no mínimo 2 caracteres",
+                "lastNameMin": "O sobrenome deve ter no mínimo 2 caracteres",
+                "birthDateRequired": "A data de nascimento é obrigatória",
+                "birthDateInvalid": "Data inválida",
+                "biInvalid": "Número de B.I inválido. Ex: 001234567LA001",
+                "emailInvalid": "Email inválido",
+                "phoneMin": "O telefone deve ter no mínimo 9 caracteres",
+                "phoneMax": "O telefone deve ter no máximo 12 caracteres"
+            },
             "btnText": {
                 "end": "Finalizar"
             }
@@ -148,26 +158,52 @@
             }
         },
         "verifyaccount": {
-    
-        "title": "Verifique o seu email",
-        "description": "Enviámos um código de confirmação de 6 dígitos por e-mail. Por favor, introduza o código na caixa abaixo para verificar o seu e-mail.",
-        "inputText": {
-            "email": "Endereço de email",
-            "otp": "Código de 6 dígitos"
+            "title": "Verifique o seu email",
+            "description": "Enviámos um código de confirmação de 6 dígitos por e-mail. Por favor, introduza o código na caixa abaixo para verificar o seu e-mail.",
+            "inputText": {
+                "email": "Endereço de email",
+                "otp": "Código de 6 dígitos"
+            },
+            "errors": {
+                "emailInvalid": "E-mail inválido",
+                "emailDomain": "O email deve terminar com @tvcabo.co.ao",
+                "otpLength": "O código deve ter 6 dígitos"
+            },
+            "btnText": {
+                "validate": "Validar"
+            },
+            "link": {
+                "resend": "Reenviar",
+                "back": "Voltar"
+            },
+            "notReceived": "Não recebeu o código?"
         },
-        "errors": {
-            "emailInvalid": "E-mail inválido",
-            "emailDomain": "O email deve terminar com @tvcabo.co.ao",
-            "otpLength": "O código deve ter 6 dígitos"
-        },
-        "btnText": {
-            "validate": "Validar"
-        },
-        "link": {
-            "resend": "Reenviar",
-            "back": "Voltar"
-        },
-        "notReceived": "Não recebeu o código?"
-    }
+        "updatepassword": {
+            "title": "Pedido enviado com sucesso!",
+            "description": "Enviámos um e-mail de confirmação com 6 dígitos para o teu endereço de e-mail. Por favor, introduz o código na caixa abaixo para verificar o teu e-mail.",
+            "inputText": {
+                "email": "Endereço de email",
+                "otp": "Código de 6 dígitos",
+                "pass": "Palavra passe",
+                "cpass": "Confirmar a palavra passe"
+            },
+            "errors": {
+                "emailRequired": "O email é obrigatório",
+                "emailInvalid": "Endereço de email inválido",
+                "emailDomain": "O email deve terminar com @tvcabo.co.ao",
+                "otpLength": "O código deve ter 6 dígitos",
+                "passwordRequired": "A senha é obrigatória",
+                "passwordMin": "A senha deve ter no mínimo 6 caracteres",
+                "passwordsMismatch": "As senhas não coincidem"
+            },
+            "btnText": {
+                "update": "Alterar a senha"
+            },
+            "link": {
+                "resend": "Reenviar",
+                "back": "Voltar"
+            },
+            "notReceived": "Não recebeu o código?"
+        }
     }
 }

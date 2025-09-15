@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { UseUserContext } from "./useUserContext";
 import { useNavigate } from "react-router-dom";
 import { UseLangContext } from "./useLangContext";
@@ -14,50 +14,50 @@ function UseSignUp() {
     const { dispatch } = UseUserContext();
     const { translations } = UseLangContext();
 
-     const schema = z
-         .object({
-             firstName: z
-                 .string()
-                 .nonempty(translations.pages.signup.errors.firstNameRequired)
-                 .min(2, translations.pages.signup.errors.firstNameMin),
+    const schema = z
+        .object({
+            firstName: z
+                .string()
+                .nonempty(translations.pages.signup.errors.firstNameRequired)
+                .min(2, translations.pages.signup.errors.firstNameMin),
 
-             lastName: z
-                 .string()
-                 .nonempty(translations.pages.signup.errors.lastNameRequired)
-                 .min(2, translations.pages.signup.errors.lastNameMin),
+            lastName: z
+                .string()
+                .nonempty(translations.pages.signup.errors.lastNameRequired)
+                .min(2, translations.pages.signup.errors.lastNameMin),
 
-             email: z
-                 .string()
-                 .nonempty(translations.pages.signup.errors.emailRequired)
-                 .email(translations.pages.signup.errors.emailInvalid),
-             /* .refine((val) => val.endsWith("@tvcabo.co.ao"), {
+            email: z
+                .string()
+                .nonempty(translations.pages.signup.errors.emailRequired)
+                .email(translations.pages.signup.errors.emailInvalid),
+            /* .refine((val) => val.endsWith("@tvcabo.co.ao"), {
                     message: "O email deve terminar com @tvcabo.co.ao",
                 })*/ password: z
-                 .string()
-                 .nonempty(translations.pages.signup.errors.passwordRequired)
-                 .min(6, translations.pages.signup.errors.passwordMin),
+                .string()
+                .nonempty(translations.pages.signup.errors.passwordRequired)
+                .min(6, translations.pages.signup.errors.passwordMin),
 
-             confirmPassword: z
-                 .string()
-                 .nonempty(
-                     translations.pages.signup.errors.confirmPasswordRequired
-                 ),
-         })
-         .refine((data) => data.password === data.confirmPassword, {
-             path: ["confirmPassword"],
-             message: translations.pages.signup.errors.passwordsMismatch,
-         });
+            confirmPassword: z
+                .string()
+                .nonempty(
+                    translations.pages.signup.errors.confirmPasswordRequired
+                ),
+        })
+        .refine((data) => data.password === data.confirmPassword, {
+            path: ["confirmPassword"],
+            message: translations.pages.signup.errors.passwordsMismatch,
+        });
 
     const navigate = useNavigate();
 
     const {
         register,
         handleSubmit,
+
         formState: { errors },
     } = useForm({
         resolver: zodResolver(schema),
     });
-
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -117,6 +117,7 @@ function UseSignUp() {
             setLoading(false);
         }
     }
+
     return {
         onSubmit,
         register,
