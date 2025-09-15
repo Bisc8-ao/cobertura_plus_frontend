@@ -20,6 +20,8 @@ function Home() {
 
   function handleClickLocation() {
       handleLocation(() => setShouldNavigate(true));
+
+
   }
 
 
@@ -29,7 +31,7 @@ function Home() {
               navigate("/test-covarge");
               setIsLoading(false);
               setShouldNavigate(false);
-          }, 5000);
+          }, 3000);
 
           return () => clearTimeout(timer);
       }
@@ -40,7 +42,7 @@ function Home() {
     return (
         <React.Fragment>
             {isLoading ? (
-                <Loader Animation={lotties.CheckAnimation} />
+                <Loader Animation={lotties.FindAnimation} />
             ) : (
                 <Styled.Ho_Wrapper>
                     <Styled.Shape>

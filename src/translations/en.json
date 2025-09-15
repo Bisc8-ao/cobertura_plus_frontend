@@ -59,6 +59,16 @@
                 "message": "Leave your message here"
             },
             "steps": ["Presentation", "Data", "Message"],
+            "errors": {
+                "firstNameMin": "The first name must be at least 2 characters",
+                "lastNameMin": "The last name must be at least 2 characters",
+                "birthDateRequired": "Date of birth is required",
+                "birthDateInvalid": "Invalid date",
+                "biInvalid": "Invalid ID number. Example: 001234567LA001",
+                "emailInvalid": "Invalid email address",
+                "phoneMin": "The phone number must be at least 9 digits",
+                "phoneMax": "The phone number must be at most 12 digits"
+            },
             "btnText": {
                 "end": "Finish"
             }

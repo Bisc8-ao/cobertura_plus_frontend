@@ -86,10 +86,22 @@ function Subscribe() {
                                                         .inputText.fName
                                                 }
                                                 type="text"
+                                                helperText={
+                                                    errors.firstName
+                                                        ? errors.firstName
+                                                              .message
+                                                        : ""
+                                                }
                                                 {...register("firstName")}
                                             />
                                             <Styled.Input
                                                 error={!!errors.lastName}
+                                                helperText={
+                                                    errors.lastName
+                                                        ? errors.lastName
+                                                              .message
+                                                        : ""
+                                                }
                                                 id="outlined-basic"
                                                 label={
                                                     translations.pages.subscribe
@@ -99,6 +111,12 @@ function Subscribe() {
                                                 {...register("lastName")}
                                             />
                                             <Styled.Input
+                                                helperText={
+                                                    errors.birthDate
+                                                        ? errors.birthDate
+                                                              .message
+                                                        : ""
+                                                }
                                                 error={!!errors.birthDate}
                                                 id="outlined-basic"
                                                 label={
@@ -125,6 +143,11 @@ function Subscribe() {
                                             />
                                             <Styled.Input
                                                 error={!!errors.email}
+                                                helperText={
+                                                    errors.email
+                                                        ? errors.email.message
+                                                        : ""
+                                                }
                                                 id="outlined-basic"
                                                 label={
                                                     translations.pages.subscribe
@@ -135,6 +158,11 @@ function Subscribe() {
                                             />
                                             <Styled.Input
                                                 error={!!errors.phone}
+                                                helperText={
+                                                    errors.phone
+                                                        ? errors.phone.message
+                                                        : ""
+                                                }
                                                 id="outlined-basic"
                                                 label={
                                                     translations.pages.subscribe

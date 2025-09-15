@@ -27,7 +27,12 @@ function LocationProvider({ children }) {
                         lng: position.coords.longitude,
                         ip: getIpUser,
                     });
-
+                    const payload = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude,
+                        ip: getIpUser,
+                    };
+                    console.log("payload:",payload);
                     setError(null);
                     callback?.();
                 }

@@ -1,6 +1,7 @@
 import React from "react";
 
 import {
+    FormHelperText,
     IconButton,
     InputAdornment,
     InputLabel,
@@ -77,7 +78,10 @@ function SignIn() {
                                         errorMessage
                                     ) : (
                                         <>
-                                            {translations.pages.signin.alert.title}{" "}
+                                            {
+                                                translations.pages.signin.alert
+                                                    .title
+                                            }{" "}
                                             <strong>@tvcabo.co.ao</strong>
                                         </>
                                     )}
@@ -147,6 +151,11 @@ function SignIn() {
                                             }
                                             label="Senha"
                                         />
+                                        {errors.password && (
+                                            <FormHelperText error>
+                                                {errors.password.message}
+                                            </FormHelperText>
+                                        )}
                                     </Styled.FormControlPassword>
                                 </Styled.ForgotPassword>
                                 <Button

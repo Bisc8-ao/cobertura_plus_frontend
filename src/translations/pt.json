@@ -59,6 +59,16 @@
                 "message": "Deixe aqui a sua mensagem..."
             },
             "steps": ["Apresentação", "Dados", "Mensagem"],
+            "errors": {
+                "firstNameMin": "O nome deve ter no mínimo 2 caracteres",
+                "lastNameMin": "O sobrenome deve ter no mínimo 2 caracteres",
+                "birthDateRequired": "A data de nascimento é obrigatória",
+                "birthDateInvalid": "Data inválida",
+                "biInvalid": "Número de B.I inválido. Ex: 001234567LA001",
+                "emailInvalid": "Email inválido",
+                "phoneMin": "O telefone deve ter no mínimo 9 caracteres",
+                "phoneMax": "O telefone deve ter no máximo 12 caracteres"
+            },
             "btnText": {
                 "end": "Finalizar"
             }
