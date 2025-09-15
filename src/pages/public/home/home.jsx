@@ -6,38 +6,33 @@ import * as Styled from "../../../styles";
 import { Link, useNavigate } from "react-router-dom";
 import { UseLangContext, UseLocation } from "../../../hooks";
 
-
 function Home() {
     const navigate = useNavigate();
     const [shouldNavigate, setShouldNavigate] = useState(false);
+
     const { handleLocation, isLoading, setIsLoading, location } = UseLocation();
-   const url_api = `${import.meta.env.VITE_API_URL}/`;
+
     const { translations } = UseLangContext();
 
     function handleClick() {
         navigate("/signin");
     }
 
-  function handleClickLocation() {
-      handleLocation(() => setShouldNavigate(true));
+    function handleClickLocation() {
+        handleLocation(() => setShouldNavigate(true));
+    }
 
+    useEffect(() => {
+        if (shouldNavigate && Object.keys(location).length !== 0) {
+            const timer = setTimeout(() => {
+                navigate("/test-covarge");
+                setIsLoading(false);
+                setShouldNavigate(false);
+            }, 5000);
 
-  }
-
-
-  useEffect(() => {
-      if (shouldNavigate && Object.keys(location).length !== 0) {
-          const timer = setTimeout(() => {
-              navigate("/test-covarge");
-              setIsLoading(false);
-              setShouldNavigate(false);
-          }, 3000);
-
-          return () => clearTimeout(timer);
-      }
-  }, [shouldNavigate, location, navigate, setIsLoading]);
-
-
+            return () => clearTimeout(timer);
+        }
+    }, [shouldNavigate, location, navigate, setIsLoading]);
 
     return (
         <React.Fragment>

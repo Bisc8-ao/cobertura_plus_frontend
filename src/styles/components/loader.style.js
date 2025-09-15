@@ -5,7 +5,7 @@ const ContainerLotties = styled("div")({
     alignItems: "center",
     justifyContent:"center",
     position: "absolute",
-    zIndex: "100",
+    zIndex: "10",
     width: "100%",
     height: "100%",
 });
