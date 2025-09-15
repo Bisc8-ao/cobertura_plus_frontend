@@ -9,9 +9,8 @@ function LocationProvider({ children }) {
     const url_api = `${import.meta.env.VITE_API_URL}/`;
 
     async function sendPayloadToBackend(payload) {
-
-        console.log(payload)
-          /*try {
+        console.log(payload);
+        /*try {
               const response = await fetch(url_api, {
                   method: "POST",
                   headers: {
@@ -25,12 +24,13 @@ function LocationProvider({ children }) {
               }
 
               const data = await response.json();
+               setLocation(data)
               console.log("Resposta do backend:", data);
           } catch (err) {
               console.error("Erro ao enviar payload:", err.message);
               setError(err.message);
           }*/
-      }
+    }
     function handleLocation(callback) {
         if (!navigator.geolocation) {
             setError("Geolocalização não suportada");
