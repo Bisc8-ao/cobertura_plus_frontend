@@ -12,8 +12,8 @@ const ContainerForm = styled("form")(
         background: theme.palette.common.white,
         borderRadius: borderRadius,
 
-        "@media (min-width: 1512px)": {
-            width: width ? "22%" :"40%",
+        "@media (min-width: 1920px)": {
+            width: width ? "22%" : "40%",
         },
         "@media (max-width: 1024px)": {
             width: width ? "40%" : "70%",

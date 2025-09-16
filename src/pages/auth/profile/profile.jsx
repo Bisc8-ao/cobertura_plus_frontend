@@ -30,7 +30,7 @@ const ContainerContent = styled("div")(() => ({
 
 const ContainerForm = styled("div")({
     display: "grid",
-    alignItems:"start",
+    alignItems: "start",
     gridTemplateColumns: "repeat(6, 1fr)",
     gap: "4rem",
     "@media (max-width:768px)": {
@@ -211,7 +211,7 @@ const Input = styled(TextField)(({ theme }) => ({
     },
 }));
 
-function User() {
+function Profile() {
     const { translations } = UseLangContext();
     const InputFile = useRef(null);
     const [getImage, setImage] = useState(null);
@@ -236,7 +236,7 @@ function User() {
                         component="h6"
                         sx={{ fontWeight: "600" }}
                     >
-                        Profile
+                        {translations.pages.profile.title}
                     </Typography>
                     <form>
                         <ContainerForm>
@@ -275,7 +275,12 @@ function User() {
                                                     <ContainerSContentvg>
                                                         <AddAPhotoIcon />
                                                         <span>
-                                                            Upload imagem
+                                                            {
+                                                                translations
+                                                                    .pages
+                                                                    .profile
+                                                                    .uploadText
+                                                            }
                                                         </span>
                                                     </ContainerSContentvg>
                                                 )}
@@ -291,14 +296,62 @@ function User() {
                             <Card gridColumn="span 4">
                                 <CardContent padding="4rem">
                                     <CardInputs>
-                                        <Input label="First name" type="text" />
-                                        <Input label="Last Name" type="text" />
-                                        <Input label="Email" type="email" />
-                                        <Input label="Phone" type="tel" />
-                                        <Input label="Pais" type="text" />
-                                        <Input label="Cidade" type="text" />
-                                        <Input label="Endereço" type="text" />
-                                        <Input label="Papel" type="text" />
+                                        <Input
+                                            label={
+                                                translations.pages.profile
+                                                    .inputs.firstName
+                                            }
+                                            type="text"
+                                        />
+                                        <Input
+                                            label={
+                                                translations.pages.profile
+                                                    .inputs.lastName
+                                            }
+                                            type="text"
+                                        />
+                                        <Input
+                                            label={
+                                                translations.pages.profile
+                                                    .inputs.email
+                                            }
+                                            type="email"
+                                        />
+                                        <Input
+                                            label={
+                                                translations.pages.profile
+                                                    .inputs.phone
+                                            }
+                                            type="tel"
+                                        />
+                                        <Input
+                                            label={
+                                                translations.pages.profile
+                                                    .inputs.country
+                                            }
+                                            type="text"
+                                        />
+                                        <Input
+                                            label={
+                                                translations.pages.profile
+                                                    .inputs.city
+                                            }
+                                            type="text"
+                                        />
+                                        <Input
+                                            label={
+                                                translations.pages.profile
+                                                    .inputs.address
+                                            }
+                                            type="text"
+                                        />
+                                        <Input
+                                            label={
+                                                translations.pages.profile
+                                                    .inputs.role
+                                            }
+                                            type="text"
+                                        />
                                     </CardInputs>
                                 </CardContent>
                                 <Box
@@ -311,7 +364,10 @@ function User() {
                                     }}
                                 >
                                     <Button
-                                        text="Atualizar os dados"
+                                        text={
+                                            translations.pages.profile.buttons
+                                                .updateData
+                                        }
                                         variant="contained"
                                         type="submit"
                                     />
@@ -325,7 +381,10 @@ function User() {
                                         }}
                                         onClick={handleUpdate}
                                     >
-                                        Atualizar senha
+                                        {
+                                            translations.pages.profile.buttons
+                                                .updatePassword
+                                        }
                                     </MuiButton>
                                 </Box>
                             </Card>
@@ -337,4 +396,4 @@ function User() {
     );
 }
 
-export { User };
+export { Profile };
