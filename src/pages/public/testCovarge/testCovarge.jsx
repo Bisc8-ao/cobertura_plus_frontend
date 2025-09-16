@@ -22,7 +22,7 @@ function TestCovarge() {
      if (Object.keys(location).length === 0) {
          return <Navigate to="/" replace />;
         }
-        console.log(location)
+
         return (
             <React.Fragment>
                 <Styled.Subs_Wrapper>
@@ -38,7 +38,9 @@ function TestCovarge() {
                                     lineHeight: "2.8rem",
                                 }}
                             >
-                                {translations.pages.testCovarge.title}
+                                {location.corvaged
+                                    ? translations.pages.testCovarge.title
+                                    : translations.pages.testCovarge.title2}
                             </Typography>
                             <span>
                                 {translations.pages.testCovarge.description}

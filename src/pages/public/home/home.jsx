@@ -8,9 +8,12 @@ import { UseLangContext, UseLocation } from "../../../hooks";
 
 function Home() {
     const navigate = useNavigate();
-    const [shouldNavigate, setShouldNavigate] = useState(false);
 
-    const { handleLocation, isLoading, setIsLoading, location } = UseLocation();
+
+    const [showAvalibe, setShowAvalibe] = useState(false);
+    const [showVerific, setShowVerific] = useState(false);
+
+    const { handleLocation, location } = UseLocation();
 
     const { translations } = UseLangContext();
 
@@ -18,26 +21,50 @@ function Home() {
         navigate("/signin");
     }
 
+
     function handleClickLocation() {
-        handleLocation(() => setShouldNavigate(true));
+        handleLocation(() => {
+        setShowAvalibe(true);
+
+        });
     }
 
     useEffect(() => {
-        if (shouldNavigate && Object.keys(location).length !== 0) {
-            const timer = setTimeout(() => {
-                navigate("/test-covarge");
-                setIsLoading(false);
-                setShouldNavigate(false);
-            }, 5000);
+        if (showAvalibe) {
+            const timeOut = setTimeout(() => {
+                setShowAvalibe(false);
+                setShowVerific(true);
 
-            return () => clearTimeout(timer);
+            }, 3000);
+            return () => clearTimeout(timeOut);
         }
-    }, [shouldNavigate, location, navigate, setIsLoading]);
+    }, [showAvalibe]);
+
+
+    useEffect(() => {
+        if (showVerific) {
+            const timeOut = setTimeout(() => {
+                setShowVerific(false);
+
+                navigate("/test-covarge");
+            }, 2000);
+            return () => clearTimeout(timeOut);
+        }
+    }, [showVerific, navigate]);
+
 
     return (
         <React.Fragment>
-            {isLoading ? (
+            {showAvalibe ? (
                 <Loader Animation={lotties.FindAnimation} />
+            ) : showVerific ? (
+                <Loader
+                    Animation={
+                        location.corvaged
+                            ? lotties.CheckAnimation
+                            : lotties.Erroranimation
+                    }
+                />
             ) : (
                 <Styled.Ho_Wrapper>
                     <Styled.Shape>

@@ -40,6 +40,7 @@
         },
         "testCovarge": {
             "title": "Serviço disponível",
+            "title2": "Serviço indisponível",
             "description": "Inscreva-se e acompanhe as próximas etapas para ter acesso ao nosso serviço de internet.",
             "btnText": {
                 "sub": "Inscrever-se",
@@ -48,6 +49,7 @@
         },
         "subscribe": {
             "title": "Inscrever-se ao serviço",
+
             "description": " Interessado na TVCABO? Deixe os seus dados.",
             "inputText": {
                 "fName": "Primeiro nome",
@@ -204,6 +206,27 @@
                 "back": "Voltar"
             },
             "notReceived": "Não recebeu o código?"
+        },
+        "profile": {
+
+                "title": "Perfil",
+                "uploadText": "Atualizar imagem",
+                "inputs": {
+                    "firstName": "Primeiro nome",
+                    "lastName": "Último nome",
+                    "email": "E-mail",
+                    "phone": "Telefone",
+                    "country": "País",
+                    "city": "Cidade",
+                    "address": "Endereço",
+                    "role": "Papel"
+                },
+                "buttons": {
+                    "updateData": "Atualizar os dados",
+                    "updatePassword": "Atualizar senha"
+
+            }
+
         }
     }
 }

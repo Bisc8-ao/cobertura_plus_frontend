@@ -40,6 +40,7 @@
         },
         "testCovarge": {
             "title": "Service available",
+            "title2": "Service unavailable",
             "description": "Sign up and follow the next steps to access our internet service.",
             "btnText": {
                 "sub": "Subscribe",
@@ -203,6 +204,24 @@
                 "back": "Back"
             },
             "notReceived": "Didn't receive the code?"
+        },
+        "profile": {
+            "title": "Profile",
+            "uploadText": "Upload image",
+            "inputs": {
+                "firstName": "First name",
+                "lastName": "Last name",
+                "email": "Email",
+                "phone": "Phone",
+                "country": "Country",
+                "city": "City",
+                "address": "Address",
+                "role": "Role"
+            },
+            "buttons": {
+                "updateData": "Update data",
+                "updatePassword": "Update password"
+            }
         }
     }
 }

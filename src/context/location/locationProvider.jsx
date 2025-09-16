@@ -7,7 +7,7 @@ function LocationProvider({ children }) {
     const [isLoading, setIsLoading] = useState(false);
     const [getIpUser, setGetIpUser] = useState(false);
     const url_api = `${import.meta.env.VITE_API_URL}/`;
-
+     const [getValueRandom, setGetValueRandom] = useState(null);
     async function sendPayloadToBackend(payload) {
         console.log(payload);
         /*try {
@@ -31,7 +31,22 @@ function LocationProvider({ children }) {
               setError(err.message);
           }*/
     }
+
+     const getRondom = () => {
+         const result = Math.floor(Math.random() * 2) + 1;
+
+         console.log(result);
+
+         if (result <=1) {
+             setGetValueRandom(false);
+         } else {
+             setGetValueRandom(true);
+         }
+     };
+
+
     function handleLocation(callback) {
+        getRondom();
         if (!navigator.geolocation) {
             setError("Geolocalização não suportada");
             return;
@@ -41,6 +56,7 @@ function LocationProvider({ children }) {
 
         navigator.geolocation.getCurrentPosition(
             (position) => {
+                console.log(getValueRandom);
                 if (
                     position.coords.latitude &&
                     position.coords.longitude &&
@@ -50,6 +66,7 @@ function LocationProvider({ children }) {
                         lat: position.coords.latitude,
                         lng: position.coords.longitude,
                         ip: getIpUser,
+                        corvaged:getValueRandom,
                     });
                     const payload = {
                         lat: position.coords.latitude,
@@ -97,7 +114,7 @@ function LocationProvider({ children }) {
 
     return (
         <LocationContext.Provider
-            value={{ location, error, isLoading, handleLocation, setIsLoading }}
+            value={{ location,setLocation, error, isLoading, handleLocation, setIsLoading }}
         >
             {children}
         </LocationContext.Provider>
