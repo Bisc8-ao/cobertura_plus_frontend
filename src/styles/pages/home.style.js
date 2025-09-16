@@ -52,7 +52,7 @@ const Ho_Container = styled("div")(({ theme }) => ({
 const Ho_ContainerBtn = styled("div")(({ theme }) => ({
     position: "absolute",
     zIndex: "3",
-    right: "1.5rem",
+    right: "3rem",
     bottom: "2.5rem",
     display: "flex",
     alignItems: "end",
@@ -83,9 +83,7 @@ const Ho_ContainerBtn = styled("div")(({ theme }) => ({
         fontWeight: "800",
     },
 
-    "@media (min-width: 1512px)": {
-        right: "3rem",
-    },
+   
     "@media (max-width: 1024px)": {
         display:"none"
     },
@@ -100,12 +98,12 @@ const Ho_ContainerContent = styled("div")(({ theme }) => ({
     gap: "5.6rem",
 
     "&:first-of-type": {
-        fontSize: "4rem",
+        fontSize: "5rem",
         fontWeight: "800",
         color: theme.palette.common.white,
     },
 
-    "@media (min-width: 1512px)": {
+    "@media (min-width: 1920px)": {
         "&:first-of-type": {
             fontSize: "6rem",
         },
