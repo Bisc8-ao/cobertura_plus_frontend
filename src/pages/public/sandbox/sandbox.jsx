@@ -50,6 +50,7 @@ const Container = styled("div")({
     position: "absolute",
     gap: "1rem",
     width: "50%",
+   
 
     "@media (max-width: 820px)": {
         flexDirection: "column",
@@ -62,6 +63,7 @@ const Container = styled("div")({
 });
 
 const FormControl = styled(MuiFormControl)(({ theme }) => ({
+
     "@media (max-width: 820px)": {
         width: "100%",
     },
@@ -118,16 +120,7 @@ const FormControl = styled(MuiFormControl)(({ theme }) => ({
         },
     },
 }));
-const ContainerLoader = styled("div")(() => ({
-    position: "absolute",
-    top: "0",
-    display: "flex",
-    alignItems: "center",
-    justifyContent:"center",
-    width: "100%",
-    height: "100&",
-    background:"#e41b1b3a"
-}))
+
 
 function Sandbox() {
     const [markerPos, setMarkerPos] = useState(null);
@@ -155,9 +148,11 @@ function Sandbox() {
         <React.Fragment>
             <Wrapper>
                 {showAvalibe && (
-
-                        <Loader Animation={lotties.MarkAnimation} width ="20%" bg={true}/>
-
+                    <Loader
+                        Animation={lotties.MarkAnimation}
+                        width="20%"
+                        bg={true}
+                    />
                 )}
                 <APIProvider apiKey={API_KEY}>
                     <GoogleMap
@@ -169,7 +164,6 @@ function Sandbox() {
                         disableDefaultUI
                         onClick={(e) => handleMapClick(e)}
                     >
-                        {" "}
                         {markerPos && <Marker position={markerPos} />}
                     </GoogleMap>
                 </APIProvider>

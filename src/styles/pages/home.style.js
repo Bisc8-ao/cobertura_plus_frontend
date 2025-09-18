@@ -83,7 +83,7 @@ const Ho_ContainerBtn = styled("div")(({ theme }) => ({
         fontWeight: "800",
     },
 
-   
+
     "@media (max-width: 1024px)": {
         display:"none"
     },
@@ -164,9 +164,10 @@ const Ho_Box = styled(MuiBox)(({ theme }) => ({
             borderBottom: `1px solid ${theme.palette.common.white}`,
             padding: ".5rem 0",
             borderRadius: "0",
-            width: "75%",
+            width: "85%",
         },
     },
+
 }));
 
 

@@ -1,30 +1,47 @@
 import React, { useState, useEffect } from "react";
 import { APIProvider, Map as GooleMap, useMap } from "@vis.gl/react-google-maps";
 
-const geodata = {
-    type: "FeatureCollection",
-    features: [
-        {
-            type: "Feature",
-            properties: { zona: "Kilamba", tecnologia: "FTTH" },
-            geometry: {
-                type: "Polygon",
-                coordinates: [
-                    [
-                        [13.2344, -8.839],
-                        [13.235, -8.84],
-                        [13.236, -8.839],
-                        [13.2344, -8.839],
-                    ],
-                ],
-            },
-        },
-    ],
-};
+
 
 function MapWithGeoJson() {
     const map = useMap();
     const [info, setInfo] = useState(null);
+    const[getData, setGetData] = useState({})
+
+
+
+    useEffect(() => {
+        const url_api = `${import.meta.env.VITE_API_URL}/coverage/areas`;
+        const HandleFecthData = async () => {
+            const response = await fetch(url_api);
+            const data = await response.json()
+            setGetData(data)
+        }
+
+        HandleFecthData()
+
+    
+    },[])
+    const geodata = {
+        type: "FeatureCollection",
+        features: [
+            {
+                type: "Feature",
+                properties: { zona: "Kilamba", tecnologia: "FTTH" },
+                geometry: {
+                    type: "Polygon",
+                    coordinates: [
+                        [
+                            [13.2344, -8.839],
+                            [13.235, -8.84],
+                            [13.236, -8.839],
+                            [13.2344, -8.839],
+                        ],
+                    ],
+                },
+            },
+        ],
+    };
 
     useEffect(() => {
         if (!map) return;
@@ -69,11 +86,12 @@ function Map() {
     return (
         <APIProvider apiKey={API_KEY}>
             <GooleMap
-                style={{ width: "100%", height: "80vh" }}
+                style={{ width: "100%", height: "90vh", borderRadius:"2rem", overflow:"hidden"}}
                 defaultCenter={{ lat: -8.839, lng: 13.2344 }}
                 defaultZoom={12}
                 gestureHandling="greedy"
                 disableDefaultUI={false}
+                minZoom={3}
             >
                 <MapWithGeoJson />
             </GooleMap>
