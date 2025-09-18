@@ -1,14 +1,32 @@
 import React from "react";
-import { Box, styled, Typography, IconButton } from "@mui/material";
+import { Box, styled, Typography, IconButton, Button as MuiButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import Avatar from "@mui/material/Avatar";
 import { useNavigate } from "react-router-dom";
 import { UseUserContext } from "../../hooks";
 
 const Wrapper = styled("div")({
-    height: "100%",
+    height: "90svh",
     padding: "2rem",
+    position: "relative",
+
 });
+
+const Button = styled(MuiButton)(() => ({
+    width: "100%",
+    padding: "1.2rem",
+    fontSize: "1.2rem",
+    fontWeight: "700",
+    border: "1px solid #e23b3b48",
+    background: "transparent",
+    boxShadow: "none",
+    textTransform: "none",
+    "&:hover": {
+        background: "#e23b3b48",
+        color: "#fff",
+        boxShadow: "none",
+    },
+}));
 function DrawerProfile() {
     const navigate = useNavigate();
 
@@ -41,9 +59,11 @@ function DrawerProfile() {
                         alignItems: "center",
                         justifyContent: "center",
                         width: "100%",
+                        height:"100%",
                         flexDirection: "column",
                         padding: "4rem 0",
-                        gap: "2.6rem",
+
+                        gap: "3.6rem",
                     }}
                 >
                     <Avatar
@@ -72,8 +92,8 @@ function DrawerProfile() {
                             yuran@bisc8.co
                         </Typography>
                     </Box>
+                <Button variant="contained" onClick={handleClickLogout}>Logout</Button>
                 </Box>
-                <button onClick={handleClickLogout}>Logout</button>
             </Wrapper>
         </React.Fragment>
     );

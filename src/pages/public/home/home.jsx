@@ -52,7 +52,7 @@ function Home() {
         }
     }, [showVerific, navigate]);
 
-
+   
     return (
         <React.Fragment>
             {showAvalibe ? (

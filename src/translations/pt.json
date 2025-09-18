@@ -1,6 +1,6 @@
 {
     "navlink": {
-        "app": "App",
+        "app": "Painel",
         "statistics": "Estatísticas",
         "map": "Mapa",
         "user": "Utilizador",
@@ -100,7 +100,7 @@
                 "emailRequired": "O email é obrigatório",
                 "emailInvalid": "Endereço de email inválido",
                 "passwordRequired": "A senha é obrigatória",
-                "passwordMin": "A senha deve ter no mínimo 6 caracteres"
+                "passwordMin": "A senha deve ter no mínimo 8 caracteres"
             },
             "btnText": {
                 "log": "Iniciar sessão"
@@ -145,7 +145,7 @@
                 "emailRequired": "O email é obrigatório",
                 "emailInvalid": "Endereço de email inválido",
                 "passwordRequired": "A palavra passe é obrigatória",
-                "passwordMin": "A palavra passe deve ter no mínimo 6 caracteres",
+                "passwordMin": "A palavra passe deve ter no mínimo 8 caracteres",
                 "confirmPasswordRequired": "A confirmação da senha é obrigatória",
                 "passwordsMismatch": "As senhas não coincidem"
             },

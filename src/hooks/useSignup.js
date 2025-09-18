@@ -35,7 +35,7 @@ function UseSignUp() {
                 })*/ password: z
                 .string()
                 .nonempty(translations.pages.signup.errors.passwordRequired)
-                .min(6, translations.pages.signup.errors.passwordMin),
+                .min(8, translations.pages.signup.errors.passwordMin),
 
             confirmPassword: z
                 .string()

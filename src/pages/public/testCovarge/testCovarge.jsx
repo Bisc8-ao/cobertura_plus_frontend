@@ -9,7 +9,7 @@ import { UseLangContext, UseLocation } from "../../../hooks";
 function TestCovarge() {
     const navigate = useNavigate();
     const { location } = UseLocation();
-     const { translations } = UseLangContext();
+    const { translations } = UseLangContext();
 
     function HandleNavigateSubscribe() {
         navigate("/subscribe");

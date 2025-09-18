@@ -89,7 +89,7 @@ function MiniDrawer({ children }) {
                 </DrawerHeader>
                 <NavLink open={open} />
             </Drawer>
-            <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+            <Box component="main" sx={{ flexGrow: 1, p: 2 }}>
                 <DrawerHeader />
                 {children}
             </Box>
