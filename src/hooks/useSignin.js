@@ -21,7 +21,7 @@ function UseSignin() {
         password: z
             .string()
             .nonempty(translations.pages.signin.errors.passwordRequired)
-            .min(6, translations.pages.signin.errors.passwordMin),
+            .min(8, translations.pages.signin.errors.passwordMin),
     });
 
 

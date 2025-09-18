@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     APIProvider,
     Map as GoogleMap,
@@ -11,9 +11,10 @@ import {
     InputAdornment,
     IconButton,
 } from "@mui/material";
-import { Button } from "../../../components";
+import { Button, Loader } from "../../../components";
 
 import LocationSearchingIcon from "@mui/icons-material/LocationSearching";
+import { lotties } from "../../../assets";
 
 const Wrapper = styled("div")({
     width: "100%",
@@ -117,19 +118,47 @@ const FormControl = styled(MuiFormControl)(({ theme }) => ({
         },
     },
 }));
+const ContainerLoader = styled("div")(() => ({
+    position: "absolute",
+    top: "0",
+    display: "flex",
+    alignItems: "center",
+    justifyContent:"center",
+    width: "100%",
+    height: "100&",
+    background:"#e41b1b3a"
+}))
 
 function Sandbox() {
     const [markerPos, setMarkerPos] = useState(null);
     const API_KEY = import.meta.env.VITE_API_KEY_GOOGLE;
+    const [showAvalibe, setShowAvalibe] = useState(false);
+    const [showVerific, setShowVerific] = useState(false);
+
     const handleMapClick = (event) => {
         const lat = event.detail.latLng.lat;
         const lng = event.detail.latLng.lng;
         console.log("Local clicado:", lat, lng);
         setMarkerPos({ lat, lng });
+        setShowAvalibe(true);
     };
+    useEffect(() => {
+        if (showAvalibe) {
+            const timeOut = setTimeout(() => {
+                setShowAvalibe(false);
+                ///setShowVerific(true);
+            }, 3000);
+            return () => clearTimeout(timeOut);
+        }
+    }, [showAvalibe]);
     return (
         <React.Fragment>
             <Wrapper>
+                {showAvalibe && (
+
+                        <Loader Animation={lotties.MarkAnimation} width ="20%" bg={true}/>
+
+                )}
                 <APIProvider apiKey={API_KEY}>
                     <GoogleMap
                         style={{ width: "100%", height: "100vh" }}
