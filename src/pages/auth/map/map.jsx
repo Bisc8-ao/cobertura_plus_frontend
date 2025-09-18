@@ -19,8 +19,6 @@ function MapWithGeoJson() {
         }
 
         HandleFecthData()
-
-    
     },[])
     const geodata = {
         type: "FeatureCollection",
