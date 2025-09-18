@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { UseLangContext } from "./useLangContext";
 
 function UseSignUp() {
-    const url_api = `${import.meta.env.VITE_API_URL}/auth/register`;
+    const url_api = `${import.meta.env.VITE_API_URL}/auth/sign-up`;
 
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);

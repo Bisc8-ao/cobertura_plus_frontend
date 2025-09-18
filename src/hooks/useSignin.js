@@ -25,7 +25,7 @@ function UseSignin() {
     });
 
 
-    const url_api = `${import.meta.env.VITE_API_URL}/auth/login`;
+    const url_api = `${import.meta.env.VITE_API_URL}/auth/sign-in`;
 
     const {
             register,
