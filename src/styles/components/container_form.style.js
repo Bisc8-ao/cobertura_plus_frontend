@@ -7,7 +7,7 @@ const ContainerForm = styled("form")(
         display: "flex",
         flexDirection: "column",
         gap: "4rem",
-        width: width || "50%",
+        width: width || "45%",
         padding: padding || "0",
         background: theme.palette.common.white,
         borderRadius: borderRadius,

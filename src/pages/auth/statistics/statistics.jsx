@@ -26,6 +26,9 @@ const MuiCard = styled(Muicard, {
     position: "relative",
     boxShadow:
         "0 0 2px 0 rgba(145 158 171 / 20%),0 12px 24px -4px rgba(145 158 171 / 12%)",
+    "@media (max-width:820px)": {
+        gridColumn: "span 1",
+    },
 }));
 
 
@@ -88,6 +91,9 @@ function Statistics() {
                           gridTemplateColumns: "repeat(6, 1fr)",
                           alignItems: "start",
                           gap: 4,
+                          "@media (max-width:820px)": {
+                              gridTemplateColumns: "repeat(1, 1fr)",
+                          },
                       }}
                   >
                       <MuiCard gridColumn="span 2">

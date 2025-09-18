@@ -40,6 +40,9 @@ function AnchorTemporaryDrawer({
         <Box
             sx={{
                 width: width,
+                "@media (max-width:430px)": {
+                    width: "280px"
+                }
             }}
             role="presentation"
             onClick={toggleDrawer(false)}

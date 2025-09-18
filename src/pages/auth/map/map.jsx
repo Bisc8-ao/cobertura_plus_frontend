@@ -1,18 +1,85 @@
-import { Container, Typography } from "@mui/material";
-import React from "react";
-import { UseLangContext } from "../../../hooks";
+import React, { useState, useEffect } from "react";
+import { APIProvider, Map as GooleMap, useMap } from "@vis.gl/react-google-maps";
+
+const geodata = {
+    type: "FeatureCollection",
+    features: [
+        {
+            type: "Feature",
+            properties: { zona: "Kilamba", tecnologia: "FTTH" },
+            geometry: {
+                type: "Polygon",
+                coordinates: [
+                    [
+                        [13.2344, -8.839],
+                        [13.235, -8.84],
+                        [13.236, -8.839],
+                        [13.2344, -8.839],
+                    ],
+                ],
+            },
+        },
+    ],
+};
+
+function MapWithGeoJson() {
+    const map = useMap();
+    const [info, setInfo] = useState(null);
+
+    useEffect(() => {
+        if (!map) return;
+
+        // Adiciona o GeoJSON
+        map.data.addGeoJson(geodata);
+
+        // Estilo dos polígonos
+        map.data.setStyle({
+            fillColor: "#FF0000",
+            fillOpacity: 0.3,
+            strokeColor: "#FF0000",
+            strokeWeight: 2,
+        });
+
+        // Clique no polígono
+        map.data.addListener("click", (e) => {
+            const zona = e.feature.getProperty("zona");
+            const tecnologia = e.feature.getProperty("tecnologia");
+
+            setInfo({
+                content: `<div><b>Zona:</b> ${zona}<br/><b>Tecnologia:</b> ${tecnologia}</div>`,
+                position: e.latLng,
+            });
+        });
+
+        // Ajustar bounds
+        const bounds = new window.google.maps.LatLngBounds();
+        geodata.features.forEach((f) => {
+            f.geometry.coordinates[0].forEach(([lng, lat]) => {
+                bounds.extend(new window.google.maps.LatLng(lat, lng));
+            });
+        });
+        map.fitBounds(bounds);
+    }, [map]);
+
+    return null;
+}
 
 function Map() {
-     const {translations}= UseLangContext()
+     const API_KEY = import.meta.env.VITE_API_KEY_GOOGLE;
     return (
-        <React.Fragment>
-            <Container>
-                <Typography variant="h1" component="h1">
-                    {translations.navlink.map}
-                </Typography>
-            </Container>
-        </React.Fragment>
+        <APIProvider apiKey={API_KEY}>
+            <GooleMap
+                style={{ width: "100%", height: "80vh" }}
+                defaultCenter={{ lat: -8.839, lng: 13.2344 }}
+                defaultZoom={12}
+                gestureHandling="greedy"
+                disableDefaultUI={false}
+            >
+                <MapWithGeoJson />
+            </GooleMap>
+        </APIProvider>
     );
 }
 
-export { Map };
+
+export {Map}

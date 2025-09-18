@@ -1,14 +1,24 @@
-import React from "react";
-
-import { styled, FormControl as MuiFormControl, OutlinedInput, InputAdornment, IconButton } from "@mui/material";
+import React, { useState } from "react";
+import {
+    APIProvider,
+    Map as GoogleMap,
+    Marker,
+} from "@vis.gl/react-google-maps";
+import {
+    styled,
+    FormControl as MuiFormControl,
+    OutlinedInput,
+    InputAdornment,
+    IconButton,
+} from "@mui/material";
 import { Button } from "../../../components";
-import { images } from "../../../assets";
+
 import LocationSearchingIcon from "@mui/icons-material/LocationSearching";
 
 const Wrapper = styled("div")({
     width: "100%",
     height: "100%",
-
+    position: "relative",
     display: "flex",
     justifyContent: "center",
     alignItems: "end",
@@ -16,13 +26,13 @@ const Wrapper = styled("div")({
     backgroundPosition: "100%",
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
-    position: "relative",
+
     "&::after": {
         content: '""',
         position: "absolute",
         top: "0",
         left: "0",
-        background: `linear-gradient(0deg, rgba(14, 14, 14, 0.03), rgba(14, 14, 14, 0.02)),url(${images.backgrounds.map})`,
+        background: `linear-gradient(0deg, rgba(14, 14, 14, 0.03), rgba(14, 14, 14, 0.02))`,
         filter: "blur(2px)",
         backgroundPosition: "100%",
         backgroundSize: "cover",
@@ -36,6 +46,7 @@ const Container = styled("div")({
     padding: "8rem 0",
     display: "flex",
     justifyContent: "center",
+    position: "absolute",
     gap: "1rem",
     width: "50%",
 
@@ -45,14 +56,13 @@ const Container = styled("div")({
     },
 
     "@media (max-width: 430px)": {
-
         padding: "4rem 0",
     },
 });
 
 const FormControl = styled(MuiFormControl)(({ theme }) => ({
-     "@media (max-width: 820px)": {
-        width:"100%"
+    "@media (max-width: 820px)": {
+        width: "100%",
     },
     "& label": {
         fontSize: theme.typography.sizes.base,
@@ -107,10 +117,33 @@ const FormControl = styled(MuiFormControl)(({ theme }) => ({
         },
     },
 }));
+
 function Sandbox() {
+    const [markerPos, setMarkerPos] = useState(null);
+    const API_KEY = import.meta.env.VITE_API_KEY_GOOGLE;
+    const handleMapClick = (event) => {
+        const lat = event.detail.latLng.lat;
+        const lng = event.detail.latLng.lng;
+        console.log("Local clicado:", lat, lng);
+        setMarkerPos({ lat, lng });
+    };
     return (
         <React.Fragment>
             <Wrapper>
+                <APIProvider apiKey={API_KEY}>
+                    <GoogleMap
+                        style={{ width: "100%", height: "100vh" }}
+                        defaultCenter={{ lat: -8.839, lng: 13.2344 }}
+                        defaultZoom={12}
+                        gestureHandling="greedy"
+                        minZoom={4.5}
+                        disableDefaultUI
+                        onClick={(e) => handleMapClick(e)}
+                    >
+                        {" "}
+                        {markerPos && <Marker position={markerPos} />}
+                    </GoogleMap>
+                </APIProvider>
                 <Container>
                     <FormControl variant="outlined" sx={{ width: "60%" }}>
                         <OutlinedInput
@@ -121,12 +154,12 @@ function Sandbox() {
                             }}
                             placeholder="Digite sua localização"
                             endAdornment={
-                                                                        <InputAdornment position="end">
-                                                                            <IconButton>
-                                                                                <LocationSearchingIcon/>
-                                                                            </IconButton>
-                                                                        </InputAdornment>
-                                                                    }
+                                <InputAdornment position="end">
+                                    <IconButton>
+                                        <LocationSearchingIcon />
+                                    </IconButton>
+                                </InputAdornment>
+                            }
                         />
                     </FormControl>
                     <Button text={"Testar cobertura"} variant="contained" />

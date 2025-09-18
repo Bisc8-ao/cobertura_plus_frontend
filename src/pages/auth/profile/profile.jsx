@@ -33,12 +33,10 @@ const ContainerForm = styled("div")({
     alignItems: "start",
     gridTemplateColumns: "repeat(6, 1fr)",
     gap: "4rem",
-    "@media (max-width:768px)": {
-        gridTemplateColumns: "repeat(2, 1fr)",
-    },
-    "@media (max-width:430px)": {
+    "@media (max-width:820px)": {
         gridTemplateColumns: "repeat(1, 1fr)",
     },
+
 });
 
 const Card = styled(MuiCard)(({ gridColumn }) => ({
@@ -47,9 +45,16 @@ const Card = styled(MuiCard)(({ gridColumn }) => ({
     position: "relative",
     boxShadow:
         "0 0 2px 0 rgba(145 158 171 / 20%),0 12px 24px -4px rgba(145 158 171 / 12%)",
+    "@media (max-width:820px)": {
+        gridColumn: "span 1",
+    },
+
 }));
 const CardContent = styled(MuiCardContent)(({ padding }) => ({
     padding: padding,
+    "@media (max-width:430px)": {
+        padding: padding === "4rem" && "2rem 1.5rem"
+    }
 }));
 
 const ContainerPhoto = styled("div")(() => ({
@@ -153,6 +158,9 @@ const CardInputs = styled("div")(() => ({
     columnGap: "1.6rem",
     rowGap: "2.4rem",
     width: "100%",
+    "@media (max-width:430px)": {
+        gridTemplateColumns: "repeat(1, 1fr)",
+    },
 }));
 
 const Input = styled(TextField)(({ theme }) => ({
@@ -358,9 +366,17 @@ function Profile() {
                                     sx={{
                                         display: "flex",
                                         justifyContent: "end",
+                                        flexDirection: "row",
                                         alignItems: "center",
                                         padding: "0 4rem 3rem 4em",
                                         gap: "2rem",
+                                        "@media (max-width:430px)": {
+                                            flexDirection: "column",
+                                            justifyContent: "start",
+                                            alignItems: "start",
+                                            width:"100%",
+                                            padding: "0 1rem 3rem 1rem",
+                                        },
                                     }}
                                 >
                                     <Button
@@ -378,6 +394,9 @@ function Profile() {
                                             fontSize: "1.4rem",
                                             padding: "1rem",
                                             textTransform: "none",
+                                            "@media (max-width:430px)": {
+                                                width:"100%"
+                                            },
                                         }}
                                         onClick={handleUpdate}
                                     >

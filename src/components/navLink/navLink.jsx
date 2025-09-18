@@ -26,7 +26,7 @@ const ListText = styled(ListItemText, {
         color: isActive ? theme.palette.primary.main : theme.palette.gray[400],
         fontSize,
         fontWeight: 800,
-       
+
     },
 
     "@media (max-width:1024px)": {
@@ -66,7 +66,7 @@ function NavLink({ open }) {
                 {
                     text: translations.navlink.user,
                     icon: <PersonIcon />,
-                    to: "/user",
+                    to: "/profile",
                 },
             ],
         },

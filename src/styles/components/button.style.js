@@ -37,4 +37,7 @@ export const MainButton = styled(Button)(({ theme, variant }) => ({
     "&.MuiButton-loading .btn-text": {
         opacity: 0,
     },
+    "@media (max-width:430px)": {
+        width: "100%",
+    },
 }));
