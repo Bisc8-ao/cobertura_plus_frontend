@@ -8,26 +8,10 @@ function LocationProvider({ children }) {
     const [error, setError] = useState();
     const [isLoading, setIsLoading] = useState(false);
 
-    const [getValueRandom, setGetValueRandom] = useState(null);
     const { checkCoverage } = UseCheckCoverage();
     const { getIpUser } = UseUserIp();
 
-
-
-    const getRondom = () => {
-        const result = Math.floor(Math.random() * 2) + 1;
-
-
-
-        if (result <= 1) {
-            setGetValueRandom(false);
-        } else {
-            setGetValueRandom(true);
-        }
-    };
-
     function handleLocation(callback) {
-        getRondom();
         if (!navigator.geolocation) {
             setError("Geolocalização não suportada");
             return;
@@ -36,30 +20,36 @@ function LocationProvider({ children }) {
         setIsLoading(true);
 
         navigator.geolocation.getCurrentPosition(
-            (position) => {
+            async (position) => {
                 if (
                     position.coords.latitude &&
                     position.coords.longitude &&
                     getIpUser
                 ) {
-
                     const payload = {
                         userIp: getIpUser,
                         userLat: position.coords.latitude,
                         userLon: position.coords.longitude,
                     };
 
-                    console.log(payload)
-                    const result = checkCoverage(payload);
-                    setLocation({
-                        lat: result.userLat,
-                        lng: result.userLon,
-                        ip: result.userIp,
-                        corvaged: getValueRandom,
-                    });
-
-                    setError(null);
-                    callback?.();
+                    try {
+                        const result = await checkCoverage(payload);
+                        setLocation({
+                            lat: payload.userLat,
+                            lng: payload.userLon,
+                            ip: payload.userIp,
+                            corvaged: result.available,
+                        });
+                        setError(null);
+                    } catch (err) {
+                        setError(err.message);
+                    } finally {
+                        setIsLoading(false);
+                        callback?.();
+                    }
+                } else {
+                    setError("Não foi possível obter todos os dados necessários (IP, Localização).");
+                    setIsLoading(false);
                 }
             },
             (err) => {
@@ -69,8 +59,6 @@ function LocationProvider({ children }) {
             { enableHighAccuracy: true, maximumAge: 0, timeout: 10000 }
         );
     }
-
-
 
     return (
         <LocationContext.Provider

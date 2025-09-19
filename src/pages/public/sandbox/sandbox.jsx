@@ -282,8 +282,6 @@ function Sandbox() {
             return;
         }
 
-
-
         if (!navigator.geolocation) return;
 
         const watcher = navigator.geolocation.watchPosition(
