@@ -6,16 +6,19 @@ import {
     InfoWindow,
     useMap,
 } from "@vis.gl/react-google-maps";
+import { renderToStaticMarkup } from "react-dom/server";
+import { vectorImages } from "../../../assets";
 import {
     styled,
     FormControl as MuiFormControl,
-    OutlinedInput,
+    OutlinedInput as MuiOutlinedInput,
     InputAdornment,
     IconButton,
 } from "@mui/material";
 import { Button, Loader } from "../../../components";
 import LocationSearchingIcon from "@mui/icons-material/LocationSearching";
 import { lotties } from "../../../assets";
+import { UseCheckCoverage, UseTimeoutEffect, UseUserIp } from "../../../hooks";
 
 const Wrapper = styled("div")({
     width: "100%",
@@ -27,15 +30,23 @@ const Wrapper = styled("div")({
     zIndex: 1,
 });
 
-const Container = styled("div")({
-    padding: "8rem 0",
+const ContainerForm = styled("form")({
     display: "flex",
     justifyContent: "center",
+
     position: "absolute",
+    bottom: "2rem",
     gap: "1rem",
-    width: "50%",
+    width: "40%",
+    padding: "2rem 0",
+    background: "rgba(255, 255, 255, 1)",
+    borderRadius: ".8rem",
+    overflow: "hidden",
+    zIndex: "1",
+
     "@media (max-width: 820px)": {
         flexDirection: "column",
+        padding: "2rem",
         width: "85%",
     },
 });
@@ -48,6 +59,24 @@ const FormControl = styled(MuiFormControl)(({ theme }) => ({
         fontSize: theme.typography.sizes.base,
         background: "#fff",
         color: theme.palette.gray[800],
+    },
+}));
+
+const OutlinedInput = styled(MuiOutlinedInput)(({ theme }) => ({
+    "& .MuiOutlinedInput-notchedOutline": {
+        borderColor: theme.palette.gray[200],
+        borderWidth: "2px",
+        width: "100%",
+    },
+    "&:hover .MuiOutlinedInput-notchedOutline": {
+        borderColor: "#000",
+    },
+    "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+        borderColor: "#000",
+    },
+    "& .MuiInputBase-input": {
+        fontSize: "1.4rem",
+        width: "100%",
     },
 }));
 
@@ -78,9 +107,8 @@ function fixGeoJson(geojson) {
 }
 
 // --- COMPONENTE QUE LIDA COM O GEOJSON ---
-function MapWithGeoJson() {
+function MapWithGeoJson({ onLoad, onZoneClick }) {
     const map = useMap();
-    const [info, setInfo] = useState(null);
     const [geodata, setGeodata] = useState(null);
 
     useEffect(() => {
@@ -95,14 +123,10 @@ function MapWithGeoJson() {
                 const data = await response.json();
                 if (data.type === "FeatureCollection") {
                     setGeodata(data);
-                } else {
-           //         console.error("GeoJSON inválido:", data);
                 }
             } catch (error) {
-                if (error.name === "AbortError") {
-           //         console.log("Requisição abortada!");
-                } else {
-              //      console.error("Erro ao buscar dados:", error);
+                if (error.name !== "AbortError") {
+                    console.error("Erro ao buscar dados:", error);
                 }
             }
         };
@@ -114,7 +138,6 @@ function MapWithGeoJson() {
     useEffect(() => {
         if (!map || !geodata?.features) return;
 
-        // Corrigir GeoJSON (fechar polígonos)
         const fixedGeo = fixGeoJson(geodata);
 
         // Limpa dados anteriores
@@ -123,14 +146,15 @@ function MapWithGeoJson() {
         // Adiciona GeoJSON corrigido
         map.data.addGeoJson(fixedGeo);
 
-        // Estilo de cada polígono
-        map.data.setStyle((feature) => {
+        // Estilo
+        map.data.setStyle(() => {
             const colors = [
                 "#FF0000",
                 "#008000",
                 "#0000FF",
                 "#FFA500",
                 "#800080",
+                "#04fde8ff",
             ];
             const randomColor =
                 colors[Math.floor(Math.random() * colors.length)];
@@ -142,14 +166,14 @@ function MapWithGeoJson() {
             };
         });
 
-        // Clique em um polígono
+        // Clique em polígono → chama callback para marcar posição
         map.data.addListener("click", (e) => {
-            const zona = e.feature.getProperty("zona") || "N/A";
-            const tecnologia = e.feature.getProperty("tecnologia") || "N/A";
-            setInfo({
-                content: `<div><b>Zona:</b> ${zona}<br/><b>Tecnologia:</b> ${tecnologia}</div>`,
-                position: e.latLng,
-            });
+            const lat = e.latLng.lat();
+            const lng = e.latLng.lng();
+
+            if (onZoneClick) {
+                onZoneClick({ lat, lng });
+            }
         });
 
         // Ajustar bounds
@@ -157,7 +181,7 @@ function MapWithGeoJson() {
         fixedGeo.features.forEach((f) => {
             if (f.geometry.type === "Polygon") {
                 f.geometry.coordinates[0].forEach(([lng, lat]) => {
-                    bounds.extend(new window.google.maps.LatLng(lat, lng)); // inverter [lng,lat] → (lat,lng)
+                    bounds.extend(new window.google.maps.LatLng(lat, lng));
                 });
             }
             if (f.geometry.type === "MultiPolygon") {
@@ -169,41 +193,113 @@ function MapWithGeoJson() {
             }
         });
         map.fitBounds(bounds);
-    }, [map, geodata]);
 
-    return (
-        <>
-            {info && (
-                <InfoWindow
-                    position={info.position}
-                    onCloseClick={() => setInfo(null)}
-                >
-                    <div dangerouslySetInnerHTML={{ __html: info.content }} />
-                </InfoWindow>
-            )}
-        </>
-    );
+        if (onLoad) {
+            onLoad(map);
+        }
+    }, [map, geodata, onLoad, onZoneClick]);
+
+    return null;
+}
+
+function MapWithUserLocation({ userLocation }) {
+    const map = useMap();
+
+    useEffect(() => {
+        if (map && userLocation?.lat && userLocation?.lng) {
+            map.setCenter(userLocation);
+            map.setZoom(16);
+        }
+    }, [map, userLocation]);
+
+    return userLocation?.lat && userLocation?.lng ? (
+        <Marker position={userLocation} />
+    ) : null;
 }
 
 // --- MAPA PRINCIPAL ---
 function Sandbox() {
     const [markerPos, setMarkerPos] = useState(null);
     const API_KEY = import.meta.env.VITE_API_KEY_GOOGLE;
-    const [showAvalibe, setShowAvalibe] = useState(false);
 
-    const handleMapClick = (event) => {
+    const [userLoctaion, setUserLocation] = useState({});
+    const { showAvalibe, setShowAvalibe, showVerific } = UseTimeoutEffect();
+    const { checkCoverage } = UseCheckCoverage();
+    const { getIpUser } = UseUserIp();
+    const [location, setLocation] = useState({});
+
+    // clique no mapa fora das zonas
+    const handleMapClick = async (event) => {
         const lat = event.detail.latLng.lat;
         const lng = event.detail.latLng.lng;
         setMarkerPos({ lat, lng });
         setShowAvalibe(true);
+
+        if (lat && lng && getIpUser) {
+            const payload = {
+                userIp: getIpUser,
+                userLat: lat,
+                userLon: lng,
+            };
+
+            const result = await checkCoverage(payload);
+
+            setLocation({
+                lat: result.userLat,
+                lng: result.userLon,
+                ip: result.userIp,
+                corvaged: false,
+            });
+        }
+    };
+
+    // clique dentro da zona (GeoJSON)
+    const handleZoneClick = async (pos) => {
+        console.log(pos);
+        setMarkerPos(pos);
+        setShowAvalibe(true);
+        if (pos.lat && pos.lng && getIpUser) {
+            const payload = {
+                userIp: getIpUser,
+                userLat: pos.lat,
+                userLon: pos.lng,
+            };
+
+            const result = await checkCoverage(payload);
+            console.log(result);
+
+            setLocation({
+                lat: result.userLat,
+                lng: result.userLon,
+                ip: result.userIp,
+                corvaged: result.available,
+            });
+        }
     };
 
     useEffect(() => {
-        if (showAvalibe) {
-            const timeOut = setTimeout(() => setShowAvalibe(false), 3000);
-            return () => clearTimeout(timeOut);
+        if (!navigator.geolocation) {
+            return;
         }
-    }, [showAvalibe]);
+
+        if (!navigator.geolocation) return;
+
+        const watcher = navigator.geolocation.watchPosition(
+            (pos) => {
+                console.log(pos.coords.latitude, pos.coords.longitude);
+                setUserLocation({
+                    lat: pos.coords.latitude,
+                    lng: pos.coords.longitude,
+                });
+            },
+            (err) => {
+                console.error("Erro:", err);
+            },
+            { enableHighAccuracy: true, maximumAge: 0, timeout: 10000 }
+        );
+
+        return () => navigator.geolocation.clearWatch(watcher);
+    }, []);
 
     return (
         <React.Fragment>
@@ -215,22 +311,58 @@ function Sandbox() {
                         bg={true}
                     />
                 )}
+
                 <APIProvider apiKey={API_KEY}>
                     <GoogleMap
                         style={{ width: "100%", height: "100vh" }}
-                        defaultCenter={{ lat: -8.839, lng: 13.2344 }}
+                        defaultCenter={{ lat: -8.8383, lng: 13.2344 }}
                         defaultZoom={12}
                         gestureHandling="greedy"
                         minZoom={4.5}
                         disableDefaultUI
                         onClick={(e) => handleMapClick(e)}
                     >
-                        <MapWithGeoJson />
-                        {markerPos && <Marker position={markerPos} />}
+                        <MapWithUserLocation userLocation={userLoctaion} />
+                        <MapWithGeoJson
+                            onZoneClick={handleZoneClick}
+                            onLoad={(map) => {
+                                if (
+                                    map &&
+                                    userLoctaion?.lat &&
+                                    userLoctaion?.lng
+                                ) {
+                                    map.setCenter(userLoctaion);
+                                    map.setZoom(15);
+                                }
+                            }}
+                        />
+                        {markerPos && (
+                            <Marker
+                                position={markerPos}
+                                icon={
+                                    showVerific === false && {
+                                        url:
+                                            location.corvaged === false
+                                                ? vectorImages.icons
+                                                      .PinHasNoCoverage
+                                                : vectorImages.icons
+                                                      .PinHasCoverage,
+                                        scaledSize: new window.google.maps.Size(
+                                            48,
+                                            48
+                                        ),
+                                        anchor: new window.google.maps.Point(
+                                            24,
+                                            48
+                                        ),
+                                    }
+                                }
+                            />
+                        )}
                     </GoogleMap>
                 </APIProvider>
-                <Container>
-                    <FormControl variant="outlined" sx={{ width: "60%" }}>
+                <ContainerForm>
+                    <FormControl variant="outlined" sx={{ width: "70%" }}>
                         <OutlinedInput
                             placeholder="Digite sua localização"
                             endAdornment={
@@ -243,7 +375,7 @@ function Sandbox() {
                         />
                     </FormControl>
                     <Button text={"Testar cobertura"} variant="contained" />
-                </Container>
+                </ContainerForm>
             </Wrapper>
         </React.Fragment>
     );
