@@ -1,136 +1,131 @@
-import { UseLangContext } from "./useLangContext";
-import { z } from "zod";
+import { useMemo, useState, useCallback } from "react";
 import { useForm } from "react-hook-form";
+import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { jwtDecode } from "jwt-decode";
-import { UseUserContext } from "./useUserContext";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { useLangContext } from "./useLangContext";
+import { useUserContext } from "./useUserContext";
 
+export function useSignin() {
+  const { translations } = useLangContext();
+  const { dispatch } = useUserContext();
+  const navigate = useNavigate();
 
+  const schema = useMemo(() => z.object({
+    email: z
+      .string()
+      .nonempty(translations.pages.signin.errors.emailRequired)
+      .email(translations.pages.signin.errors.emailInvalid),
+    password: z
+      .string()
+      .nonempty(translations.pages.signin.errors.passwordRequired)
+      .min(8, translations.pages.signin.errors.passwordMin),
+  }), [translations]);
 
-function UseSignin() {
-    const { translations } = UseLangContext();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ resolver: zodResolver(schema), mode: "onSubmit" });
 
-    const schema = z.object({
-        email: z
-            .string()
-            .nonempty(translations.pages.signin.errors.emailRequired)
-            .email(translations.pages.signin.errors.emailInvalid),
-        password: z
-            .string()
-            .nonempty(translations.pages.signin.errors.passwordRequired)
-            .min(8, translations.pages.signin.errors.passwordMin),
-    });
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
+  const url_api = `${import.meta.env.VITE_API_URL}/auth/sign-in`;
 
-    const url_api = `${import.meta.env.VITE_API_URL}/auth/sign-in`;
+  const handleClickShowPassword = useCallback(() => {
+    setShowPassword((v) => !v);
+  }, []);
 
-    const {
-            register,
-            handleSubmit,
-            formState: { errors },
-        } = useForm({
-            resolver: zodResolver(schema),
-        });
+  const prevent = useCallback((e) => e.preventDefault(), []);
 
-        const [showPassword, setShowPassword] = useState(false);
-        const [loading, setLoading] = useState(false);
-        const [errorMessage, setErrorMessage] = useState();
-        const { dispatch } = UseUserContext();
-        const navigate = useNavigate();
+  const safeJson = async (res) => {
+    try { return await res.json(); } catch { return null; }
+  };
 
-        const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const storeToken = (token) => {
+    if (!token) return;
+    try {
+      const decoded = jwtDecode(token);
+      const expMs = decoded?.exp ? decoded.exp * 1000 : null;
+      localStorage.setItem("auth_token", token);
+      if (expMs) localStorage.setItem("auth_token_exp", String(expMs));
+    } catch {
+      localStorage.setItem("auth_token", token);
+    }
+  };
 
-        const handleMouseDownPassword = (event) => {
-            event.preventDefault();
-        };
+  const onSubmit = useCallback(async (value) => {
+    setLoading(true);
+    setErrorMessage("");
 
-        const handleMouseUpPassword = (event) => {
-            event.preventDefault();
-        };
+    try {
+      const payload = {
+        userEmail: value.email,
+        userPassword: value.password,
+      };
 
-        async function onSubmit(value) {
+      const response = await fetch(url_api, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
 
-            setLoading(true);
+      const data = await safeJson(response);
 
-            try {
-                const payload = {
-                    userEmail: value.email,
-                    userPassword: value.password,
-                };
+      if (!response.ok) {
+        const apiMsg =
+          data?.message ||
+          translations.pages.signin.errors.invalidCredentials ||
+          "Não foi possível iniciar sessão.";
+        setErrorMessage(apiMsg);
+        return;
+      }
 
-                const response = await fetch(url_api, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(payload),
-                });
+      const accessToken = data?.accessToken || data?.token;
+      storeToken(accessToken);
 
-                const data = await response.json();
+      const user = data?.user ?? {};
+      const fullName = `${user.userFirstName ?? ""} ${user.userLastName ?? ""}`.trim();
+      const name =
+        fullName ||
+        user.name ||
+        user.username ||
+        user.userEmail ||
+        value.email;
 
-                if (response.ok) {
-                    // expecting { accessToken: string, user: { id, userFirstName, userLastName, userEmail } }
-                    const accessToken = data?.accessToken || data?.token;
-                    if (accessToken) {
-                        try {
-                            const decoded = jwtDecode(accessToken);
-                            const exp = decoded?.exp ? decoded.exp * 1000 : null;
-                            localStorage.setItem("auth_token", accessToken);
-                            if (exp) {
-                                localStorage.setItem("auth_token_exp", String(exp));
-                            }
-                        } catch (_) {
-                            // if decode fails, still store token
-                            localStorage.setItem("auth_token", accessToken);
-                        }
-                    }
+      dispatch({
+        type: "user_active",
+        payload: {
+          email: user.userEmail || data?.email || value.email,
+          name,
+          photo: user.photo || null,
+        },
+      });
 
-                    const user = data?.user || {};
-                    const fullName = `${user.userFirstName ?? ""} ${
-                        user.userLastName ?? ""
-                    }`.trim();
-                    dispatch({
-                        type: "user_active",
-                        payload: {
-                            email: user.userEmail || data.email,
-                            name:
-                                fullName ||
-                                user.name ||
-                                user.username ||
-                                data.email,
-                            photo: user.photo || null,
-                        },
-                    });
-                    setLoading(false);
-                    navigate("/dashboard", { replace: true });
-                } else {
-                    setErrorMessage(data.message);
-                    console.log("Login error:", response);
-                    setLoading(false);
-                }
-            } catch (error) {
-                console.log(error.message);
-                setErrorMessage(error.message);
-                setLoading(false);
-            }
-        }
+      navigate("/dashboard", { replace: true });
+    } catch (err) {
+      setErrorMessage(err?.message || "Erro inesperado. Tenta novamente.");
+    } finally {
+      setLoading(false);
+    }
+  }, [dispatch, navigate, translations, url_api]);
 
-    return {
-        handleClickShowPassword,
-        handleMouseDownPassword,
-        handleMouseUpPassword,
-        onSubmit,
-        showPassword,
-        loading,
-        errorMessage,
-        register,
-        handleSubmit,
-        errors
-    };
+  return {
+    register,
+    handleSubmit,
+    errors,
+    onSubmit,
 
+    showPassword,
+    handleClickShowPassword,
+    handleMouseDownPassword: prevent,
+    handleMouseUpPassword: prevent,
+
+    loading,
+    errorMessage,
+  };
 }
-
-export { UseSignin };

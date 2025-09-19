@@ -1,4 +1,5 @@
 import React, { useRef, forwardRef } from "react";
+import PropTypes from "prop-types";
 import * as Styled from "../../styles";
 
 const InputOtp = forwardRef(({ value = "", onChange, error, gap }, ref) => {
@@ -52,5 +53,12 @@ const InputOtp = forwardRef(({ value = "", onChange, error, gap }, ref) => {
     );
 });
 InputOtp.displayName = "InputOtp";
+
+InputOtp.propTypes = {
+    value: PropTypes.string,
+    onChange: PropTypes.func.isRequired,
+    error: PropTypes.bool,
+    gap: PropTypes.string,
+};
 
 export { InputOtp };

@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { UserContext } from "../context";
-function UseUserContext() {
+function useUserContext() {
     const [state, dispatch] = useContext(UserContext);
     return {
         state,
@@ -8,4 +8,4 @@ function UseUserContext() {
     };
 }
 
-export { UseUserContext };
+export { useUserContext };

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import { LocationContext } from "./locationContext";
 
 function LocationProvider({ children }) {
@@ -6,10 +7,9 @@ function LocationProvider({ children }) {
     const [error, setError] = useState();
     const [isLoading, setIsLoading] = useState(false);
     const [getIpUser, setGetIpUser] = useState(false);
-    const url_api = `${import.meta.env.VITE_API_URL}/`;
     const [getValueRandom, setGetValueRandom] = useState(null);
-    
-    async function sendPayloadToBackend(payload) {
+
+    async function sendPayloadToBackend() {
         /*try {
               const response = await fetch(url_api, {
                   method: "POST",
@@ -35,7 +35,7 @@ function LocationProvider({ children }) {
     const getRondom = () => {
         const result = Math.floor(Math.random() * 2) + 1;
 
-        console.log(result);
+        // console.log(result);
 
         if (result <= 1) {
             setGetValueRandom(false);
@@ -66,12 +66,7 @@ function LocationProvider({ children }) {
                         ip: getIpUser,
                         corvaged: getValueRandom,
                     });
-                    const payload = {
-                        lat: position.coords.latitude,
-                        lng: position.coords.longitude,
-                        ip: getIpUser,
-                    };
-                    sendPayloadToBackend(payload);
+                    sendPayloadToBackend({});
                     setError(null);
                     callback?.();
                 }
@@ -127,5 +122,9 @@ function LocationProvider({ children }) {
         </LocationContext.Provider>
     );
 }
+
+LocationProvider.propTypes = {
+    children: PropTypes.node.isRequired,
+};
 
 export { LocationProvider };

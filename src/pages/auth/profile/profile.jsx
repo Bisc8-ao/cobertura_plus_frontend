@@ -10,7 +10,7 @@ import {
     Button as MuiButton,
 } from "@mui/material";
 import { Button } from "../../../components";
-import { UseLangContext } from "../../../hooks";
+import { useLangContext } from "../../../hooks";
 import styled from "@emotion/styled";
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 
@@ -220,7 +220,7 @@ const Input = styled(TextField)(({ theme }) => ({
 }));
 
 function Profile() {
-    const { translations } = UseLangContext();
+    const { translations } = useLangContext();
     const InputFile = useRef(null);
     const [getImage, setImage] = useState(null);
     const navigate = useNavigate();

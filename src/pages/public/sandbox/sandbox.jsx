@@ -96,13 +96,13 @@ function MapWithGeoJson() {
                 if (data.type === "FeatureCollection") {
                     setGeodata(data);
                 } else {
-                    console.error("GeoJSON inválido:", data);
+           //         console.error("GeoJSON inválido:", data);
                 }
             } catch (error) {
                 if (error.name === "AbortError") {
-                    console.log("Requisição abortada!");
+           //         console.log("Requisição abortada!");
                 } else {
-                    console.error("Erro ao buscar dados:", error);
+              //      console.error("Erro ao buscar dados:", error);
                 }
             }
         };

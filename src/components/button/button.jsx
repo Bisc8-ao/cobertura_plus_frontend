@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import * as Styled from "../../styles";
 
 
@@ -19,5 +20,15 @@ function Button({ text, onClick, type, variant, disabled, icon, loading}) {
         </React.Fragment>
     );
 }
+
+Button.propTypes = {
+    text: PropTypes.string,
+    onClick: PropTypes.func,
+    type: PropTypes.string,
+    variant: PropTypes.string,
+    disabled: PropTypes.bool,
+    icon: PropTypes.node,
+    loading: PropTypes.bool,
+};
 
 export { Button };

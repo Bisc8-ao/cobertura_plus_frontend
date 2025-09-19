@@ -9,7 +9,7 @@ import { vectorImages } from "../../../assets/svgs";
 import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { UseLangContext } from "../../../hooks";
+import { useLangContext } from "../../../hooks";
 
 const Wrapper = styled("div")({
     width: "100%",
@@ -35,7 +35,7 @@ const schema = z.object({
 
 function VerifyAccount() {
     const navigate = useNavigate()
-   const { translations } = UseLangContext();
+   const { translations } = useLangContext();
     const {
         register,
         control,
@@ -46,10 +46,10 @@ function VerifyAccount() {
         resolver: zodResolver(schema),
     });
 
-    function onSubmit(data) {
+    function onSubmit() {
         alert("Dados atualizados, inicia sessão")
         navigate("/signin");
-        console.log(data);
+     //   console.log(data);
     }
     return (
         <React.Fragment>

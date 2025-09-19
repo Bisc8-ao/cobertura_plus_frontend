@@ -1,4 +1,5 @@
 import * as React from "react";
+import PropTypes from "prop-types";
 import { Box, styled, Drawer as MuiDrawer, Button } from "@mui/material";
 
 import { useState } from "react";
@@ -86,5 +87,14 @@ function AnchorTemporaryDrawer({
         </div>
     );
 }
+
+AnchorTemporaryDrawer.propTypes = {
+    anchor: PropTypes.string.isRequired,
+    icon: PropTypes.node.isRequired,
+    children: PropTypes.node.isRequired,
+    width: PropTypes.string.isRequired,
+    btnWidth: PropTypes.string.isRequired,
+    btnRadius: PropTypes.string.isRequired,
+};
 
 export { AnchorTemporaryDrawer };

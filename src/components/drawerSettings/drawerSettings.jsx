@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { vectorImages } from "../../assets";
 import CloseIcon from "@mui/icons-material/Close";
-import { UseLangContext } from "../../hooks";
+import { useLangContext } from "../../hooks";
 const Wrapper = styled("div")({
     height: "100%",
     padding: "2rem",
@@ -125,7 +125,7 @@ const CardFooter = styled("div")(({ theme }) => ({
 }));
 
 function DrawerSettings() {
-     const { langSelected, setLangSelected } = UseLangContext();
+     const { langSelected, setLangSelected } = useLangContext();
     const [isPortuguese, setIsPortuguese] = useState(() => {
         const portuguesSelected = langSelected === "Português" ? true : false;
         return portuguesSelected;

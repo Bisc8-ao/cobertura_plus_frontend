@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Box, styled, Typography, IconButton, Tabs as MuiTabs, Tab as MuiTab } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
 import SettingsIcon from "@mui/icons-material/Settings";
-import { UseLangContext } from "../../hooks";
+import { useLangContext } from "../../hooks";
 
 
 const Wrapper = styled("div")({
@@ -75,9 +74,8 @@ function a11yProps(index) {
 }
 
 function DrawerNotification() {
-    const theme = useTheme();
     const [value, setValue] = useState(0);
-    const { translations } = UseLangContext();
+    const { translations } = useLangContext();
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -129,13 +127,13 @@ function DrawerNotification() {
                             {...a11yProps(2)}
                         />
                     </Tabs>
-                    <TabPanel value={value} index={0} dir={theme.direction}>
+                    <TabPanel value={value} index={0}>
                         {translations.components.DrawerNotification.btn.all}
                     </TabPanel>
-                    <TabPanel value={value} index={1} dir={theme.direction}>
+                    <TabPanel value={value} index={1}>
                         {translations.components.DrawerNotification.btn.unr}
                     </TabPanel>
-                    <TabPanel value={value} index={2} dir={theme.direction}>
+                    <TabPanel value={value} index={2}>
                         {translations.components.DrawerNotification.btn.arc}
                     </TabPanel>
                 </Box>

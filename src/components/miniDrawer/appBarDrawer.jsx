@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import {
     styled,
     AppBar as MuiAppBar,
@@ -194,5 +195,11 @@ function AppBarDrawer({ handleDrawerOpen, handleDrawerClose, open }) {
         </React.Fragment>
     );
 }
+
+AppBarDrawer.propTypes = {
+    handleDrawerOpen: PropTypes.func.isRequired,
+    handleDrawerClose: PropTypes.func.isRequired,
+    open: PropTypes.bool.isRequired,
+};
 
 export { AppBarDrawer };

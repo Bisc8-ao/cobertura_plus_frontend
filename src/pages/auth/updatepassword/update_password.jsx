@@ -18,7 +18,7 @@ import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { UseLangContext } from "../../../hooks";
+import { useLangContext } from "../../../hooks";
 
 const Wrapper = styled("div")({
     width: "100%",
@@ -42,7 +42,7 @@ const schema = z.object({
 function UpdatePassword() {
     const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
-    const { translations } = UseLangContext();
+    const { translations } = useLangContext();
 
     const {
         register,
@@ -52,9 +52,9 @@ function UpdatePassword() {
     } = useForm({
         resolver: zodResolver(schema),
     });
-    function onSubmit(data) {
+    function onSubmit() {
         navigate("/verifyaccount");
-        console.log(data);
+    //    console.log(data);
     }
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);

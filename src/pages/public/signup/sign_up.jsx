@@ -15,7 +15,7 @@ import { Link } from "react-router-dom";
 import { Button } from "../../../components";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
-import { UseLangContext, UseSignUp } from "../../../hooks";
+import { useLangContext, useSignUp } from "../../../hooks";
 const Wrapper = styled("div")({
     width: "100%",
     height: "100%",
@@ -32,9 +32,9 @@ function SignUp() {
         handleMouseUpPassword,
         showPassword,
         loading,
-    } = UseSignUp();
+    } = useSignUp();
 
-    const { translations } = UseLangContext();
+    const { translations } = useLangContext();
 
     return (
         <React.Fragment>

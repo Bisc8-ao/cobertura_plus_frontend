@@ -4,7 +4,7 @@ import { Button, Loader } from "../../../components";
 import { vectorImages, lotties } from "../../../assets";
 import * as Styled from "../../../styles";
 import { Link, useNavigate } from "react-router-dom";
-import { UseLangContext, UseLocation } from "../../../hooks";
+import { useLangContext, useLocation } from "../../../hooks";
 
 function Home() {
     const navigate = useNavigate();
@@ -13,9 +13,9 @@ function Home() {
     const [showAvalibe, setShowAvalibe] = useState(false);
     const [showVerific, setShowVerific] = useState(false);
 
-    const { handleLocation, location } = UseLocation();
+    const { handleLocation, location } = useLocation();
 
-    const { translations } = UseLangContext();
+    const { translations } = useLangContext();
 
     function handleClick() {
         navigate("/signin");

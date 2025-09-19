@@ -4,11 +4,11 @@ import { Typography } from "@mui/material";
 import { Button } from "../../../components";
 import { useNavigate } from "react-router-dom";
 import { vectorImages } from "../../../assets/svgs";
-import { UseLangContext, UseLocation } from "../../../hooks";
+import { useLangContext } from "../../../hooks";
 
 function SubscriptionConfirmation() {
     const navigate = useNavigate();
-    const { translations } = UseLangContext();
+    const { translations } = useLangContext();
     
 
     function handleClick() {

@@ -16,7 +16,7 @@ import { Button } from "../../../components";
 
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
-import { UseLangContext, UseSignin } from "../../../hooks";
+import { useLangContext, useSignin } from "../../../hooks";
 
 const Wrapper = styled("div")({
     width: "100%",
@@ -25,19 +25,19 @@ const Wrapper = styled("div")({
 
 function SignIn() {
     const {
-        handleClickShowPassword,
-        handleMouseDownPassword,
-        handleMouseUpPassword,
-        onSubmit,
-        showPassword,
-        loading,
-        errorMessage,
         register,
         handleSubmit,
         errors,
-    } = UseSignin();
+        onSubmit,
+        showPassword,
+        handleClickShowPassword,
+        handleMouseDownPassword,
+        handleMouseUpPassword,
+        loading,
+        errorMessage,
+    } = useSignin();
 
-    const { translations } = UseLangContext();
+    const { translations } = useLangContext();
 
     return (
         <React.Fragment>

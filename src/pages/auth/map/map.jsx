@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { APIProvider, Map as GooleMap, useMap } from "@vis.gl/react-google-maps";
 
 
 
 function MapWithGeoJson() {
     const map = useMap();
-    const [info, setInfo] = useState(null);
-    const[getData, setGetData] = useState({})
 
 
 
@@ -20,29 +18,29 @@ function MapWithGeoJson() {
 
         HandleFecthData()
     },[])
-    const geodata = {
-        type: "FeatureCollection",
-        features: [
-            {
-                type: "Feature",
-                properties: { zona: "Kilamba", tecnologia: "FTTH" },
-                geometry: {
-                    type: "Polygon",
-                    coordinates: [
-                        [
-                            [13.2344, -8.839],
-                            [13.235, -8.84],
-                            [13.236, -8.839],
-                            [13.2344, -8.839],
-                        ],
-                    ],
-                },
-            },
-        ],
-    };
-
     useEffect(() => {
         if (!map) return;
+
+        const geodata = {
+            type: "FeatureCollection",
+            features: [
+                {
+                    type: "Feature",
+                    properties: { zona: "Kilamba", tecnologia: "FTTH" },
+                    geometry: {
+                        type: "Polygon",
+                        coordinates: [
+                            [
+                                [13.2344, -8.839],
+                                [13.235, -8.84],
+                                [13.236, -8.839],
+                                [13.2344, -8.839],
+                            ],
+                        ],
+                    },
+                },
+            ],
+        };
 
         // Adiciona o GeoJSON
         map.data.addGeoJson(geodata);
@@ -56,14 +54,7 @@ function MapWithGeoJson() {
         });
 
         // Clique no polígono
-        map.data.addListener("click", (e) => {
-            const zona = e.feature.getProperty("zona");
-            const tecnologia = e.feature.getProperty("tecnologia");
-
-            setInfo({
-                content: `<div><b>Zona:</b> ${zona}<br/><b>Tecnologia:</b> ${tecnologia}</div>`,
-                position: e.latLng,
-            });
+        map.data.addListener("click", () => {
         });
 
         // Ajustar bounds

@@ -2,7 +2,7 @@ import { Box as MuiBox, styled } from "@mui/material";
 
 import { images } from "../../assets";
 
-const Ho_Wrapper = styled("section")(({ theme }) => ({
+const Ho_Wrapper = styled("section")(() => ({
     width: "100%",
     height: "100%",
     padding: "1.2rem",
@@ -19,7 +19,7 @@ const Ho_Wrapper = styled("section")(({ theme }) => ({
     },
 }));
 
-const Ho_Container = styled("div")(({ theme }) => ({
+const Ho_Container = styled("div")(() => ({
     display: "flex",
     alignItems: "flex-end",
     width: "100%",

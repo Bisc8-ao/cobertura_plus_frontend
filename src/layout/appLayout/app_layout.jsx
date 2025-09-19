@@ -1,12 +1,12 @@
 import React from "react";
-import { UseWidthScreen } from "../../hooks";
+import { useWidthScreen } from "../../hooks";
 import { Outlet} from "react-router-dom";
 import { Header, Header2 } from "../../components";
 import * as Styled from "../../styles";
 
 function AppLayout() {
 
-    const {  showHeader2 } = UseWidthScreen();
+    const {  showHeader2 } = useWidthScreen();
 
 
 
