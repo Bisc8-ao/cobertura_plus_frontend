@@ -2,7 +2,7 @@ import React from "react";
 import { Typography, Box, styled } from "@mui/material";
 import { Card } from "../../../components";
 import { vectorImages } from "../../../assets";
-import { UseLangContext } from "../../../hooks";
+import { useLangContext } from "../../../hooks";
 
 const Wrapper = styled("section")({
     display: "flex",
@@ -17,7 +17,7 @@ const Container = styled("div")({
 });
 
 function Dashboard() {
-    const { translations } = UseLangContext();
+    const { translations } = useLangContext();
     return (
         <React.Fragment>
             <Wrapper>

@@ -3,12 +3,10 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { UseLocation } from "./useLocation";
-import { UseLangContext } from "./useLangContext";
+import { useLangContext } from "./useLangContext";
 
-function UseSteps() {
-    const {translations} = UseLangContext()
-    const { location } = UseLocation();
+function useSteps() {
+    const {translations} = useLangContext()
     const schena = z.object({
         firstName: z.string().min(2, {
             message: translations.pages.subscribe.errors.firstNameMin,
@@ -76,21 +74,13 @@ function UseSteps() {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
 
-    function onSubmit(value) {
-
-
-
-        const payload = {
-            ...value,
-            ...location
-        }
-        console.log(payload);
+    function onSubmit() {
 
         setLoading(true)
         navigate("/subscription-confirmation");
     }
 
-    
+
     return {
         register,
         handleSubmit,
@@ -104,4 +94,4 @@ function UseSteps() {
     };
 }
 
-export { UseSteps };
+export { useSteps };

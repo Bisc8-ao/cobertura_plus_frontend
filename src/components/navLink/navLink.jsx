@@ -1,4 +1,4 @@
-import React from "react";
+import PropTypes from "prop-types";
 import {
     List,
     ListItem,
@@ -6,7 +6,7 @@ import {
     ListItemIcon,
     ListItemText,
 } from "@mui/material";
-import { UseLangContext } from "../../hooks";
+import { useLangContext } from "../../hooks";
 import PersonIcon from "@mui/icons-material/Person";
 import SpeedIcon from "@mui/icons-material/Speed";
 import MapIcon from "@mui/icons-material/Map";
@@ -37,7 +37,7 @@ const ListText = styled(ListItemText, {
 function NavLink({ open }) {
     const location = useLocation();
     const navigate = useNavigate();
-    const { translations } = UseLangContext();
+    const { translations } = useLangContext();
 
     const categories = [
         {
@@ -144,5 +144,9 @@ function NavLink({ open }) {
         </>
     );
 }
+
+NavLink.propTypes = {
+    open: PropTypes.bool.isRequired,
+};
 
 export { NavLink };

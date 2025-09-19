@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
-function UseWidthScreen() {
+function useWidthScreen() {
     const location = useLocation();
 
     const [widthScreen, setWidthScreen] = useState(
@@ -30,4 +30,4 @@ function UseWidthScreen() {
     return { widthScreen, showHeader2, isPageHome };
 }
 
-export { UseWidthScreen };
+export { useWidthScreen };

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Menu, MenuItem as MuiMenuItem, styled } from "@mui/material";
 import { vectorImages } from "../../assets";
-import { UseLangContext } from "../../hooks";
+import { useLangContext } from "../../hooks";
 
 const MenuItem = styled(MuiMenuItem)({
     display: "flex",
@@ -11,7 +11,7 @@ const MenuItem = styled(MuiMenuItem)({
 });
 
 function MenuLang() {
-    const { langSelected, setLangSelected } = UseLangContext();
+    const { langSelected, setLangSelected } = useLangContext();
     const [anchorEl, setAnchorEl] = useState(null);
 
 

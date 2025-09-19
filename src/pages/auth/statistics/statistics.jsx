@@ -1,6 +1,6 @@
 import React from 'react'
 import {  Box, Typography, styled, Card as Muicard, CardContent as MuiCardContent,  } from "@mui/material";
-import { UseLangContext } from '../../../hooks';
+import { useLangContext } from '../../../hooks';
 import { Card, ChartPie, BarChart } from '../../../components';
 import { vectorImages } from "../../../assets";
 
@@ -48,7 +48,7 @@ const LinearDotted = styled("div")({
     zIndex: 1,
 });
 function Statistics() {
-    const { translations } = UseLangContext();
+    const { translations } = useLangContext();
 
 
   return (

@@ -1,4 +1,5 @@
 import React, { useReducer } from "react";
+import PropTypes from "prop-types";
 import { UserContext } from "./userContext";
 import { InitialStaste } from "../initialState/initialState";
 import { UserReducer } from "../reducer";
@@ -13,5 +14,9 @@ function UserProvider({ children }) {
         </React.Fragment>
     );
 }
+
+UserProvider.propTypes = {
+    children: PropTypes.node.isRequired,
+};
 
 export { UserProvider };

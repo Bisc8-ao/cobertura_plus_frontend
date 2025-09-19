@@ -4,12 +4,12 @@ import { Typography, Box } from "@mui/material";
 import { Button } from "../../../components";
 import { useNavigate, Navigate } from "react-router-dom";
 import { vectorImages } from "../../../assets/svgs";
-import { UseLangContext, UseLocation } from "../../../hooks";
+import { useLangContext, useLocation } from "../../../hooks";
 
 function TestCovarge() {
     const navigate = useNavigate();
-    const { location } = UseLocation();
-    const { translations } = UseLangContext();
+    const { location } = useLocation();
+    const { translations } = useLangContext();
 
     function HandleNavigateSubscribe() {
         navigate("/subscribe");

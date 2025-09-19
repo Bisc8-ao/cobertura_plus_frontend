@@ -1,9 +1,9 @@
-import { UseUserContext } from "../../hooks";
+import { useUserContext } from "../../hooks";
 import { Navigate, Outlet } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 
 function ProtectedRoute() {
-    const { state } = UseUserContext();
+    const { state } = useUserContext();
     // Validate JWT in storage
     const token = typeof window !== 'undefined' ? localStorage.getItem("auth_token") : null;
     const expStr = typeof window !== 'undefined' ? localStorage.getItem("auth_token_exp") : null;

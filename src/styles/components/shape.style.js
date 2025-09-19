@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 
-const Shape = styled("div")(({ theme }) => ({
+const Shape = styled("div")(() => ({
     position: "absolute",
     top: "1rem",
     left: "1.2rem",
@@ -15,7 +15,7 @@ const Shape = styled("div")(({ theme }) => ({
     },
 }));
 
-const Shap2 = styled("div")(({ theme }) => ({
+const Shap2 = styled("div")(() => ({
     position: "absolute",
     bottom: ".9rem",
     right: "1.2rem",

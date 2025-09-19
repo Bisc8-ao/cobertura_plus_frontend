@@ -1,4 +1,5 @@
 import  {useState, useEffect} from 'react'
+import PropTypes from "prop-types";
 import { LangContext } from './langContext'
 import { Translations } from '../../translations';
 
@@ -22,5 +23,9 @@ function LangProvider({ children }) {
         </LangContext.Provider>
     );
 }
+
+LangProvider.propTypes = {
+    children: PropTypes.node.isRequired,
+};
 
 export {LangProvider}

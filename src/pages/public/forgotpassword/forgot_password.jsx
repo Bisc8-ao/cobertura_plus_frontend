@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { UseLangContext } from "../../../hooks";
+import { useLangContext } from "../../../hooks";
 const Wrapper = styled("div")({
     width: "100%",
     height: "100%",
@@ -28,7 +28,7 @@ const schema = z.object({
 });
 function ForgotPassword() {
     const navigate = useNavigate()
-    const { translations } = UseLangContext();
+    const { translations } = useLangContext();
 
       const {
                 register,
@@ -37,9 +37,9 @@ function ForgotPassword() {
             } = useForm({
                 resolver: zodResolver(schema),
             });
-    function onSubmit(data) {
+    function onSubmit() {
        navigate("/verifyaccount");
-        console.log(data);
+    //    console.log(data);
     }
     return (
         <React.Fragment>

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import PropTypes from "prop-types";
 import { drawerWidth, closedMixin, openedMixin } from "./mix";
 
 import {
@@ -6,7 +7,6 @@ import {
     Box,
     Drawer as MuiDrawer,
     CssBaseline,
-    Badge as MuiBadge,
 } from "@mui/material";
 import { AppBarDrawer } from "./appBarDrawer";
 
@@ -96,5 +96,9 @@ function MiniDrawer({ children }) {
         </Box>
     );
 }
+
+MiniDrawer.propTypes = {
+    children: PropTypes.node.isRequired,
+};
 
 export { MiniDrawer };

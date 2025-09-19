@@ -1,5 +1,5 @@
 import React from "react";
-import { UseLangContext, UseWidthScreen } from "../../hooks";
+import { useLangContext, useWidthScreen } from "../../hooks";
 import { vectorImages } from "../../assets";
 import SettingsIcon from "@mui/icons-material/Settings";
 import * as Styled from "../../styles";
@@ -8,8 +8,8 @@ import { AnchorTemporaryDrawer } from "../anchorTemporaryDrawer";
 import { DrawerSettings } from "../drawerSettings";
 
 function Header() {
-    const { widthScreen, isPageHome } = UseWidthScreen();
-    const { translations } = UseLangContext();
+    const { langSelected, setLangSelected, translations } = useLangContext();
+    const { widthScreen, isPageHome } = useWidthScreen();
     const location = useLocation();
 
 

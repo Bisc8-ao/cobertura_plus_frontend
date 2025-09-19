@@ -1,18 +1,17 @@
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState, useMemo } from "react";
-import { UseUserContext } from "./useUserContext";
-import { useNavigate } from "react-router-dom";
-import { UseLangContext } from "./useLangContext";
+import { useState } from "react";
+import { useUserContext } from "./useUserContext";
+import { useLangContext } from "./useLangContext";
 
-function UseSignUp() {
+function useSignUp() {
     const url_api = `${import.meta.env.VITE_API_URL}/auth/sign-up`;
 
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
-    const { dispatch } = UseUserContext();
-    const { translations } = UseLangContext();
+    const { dispatch } = useUserContext();
+    const { translations } = useLangContext();
 
     const schema = z
         .object({
@@ -47,8 +46,6 @@ function UseSignUp() {
             path: ["confirmPassword"],
             message: translations.pages.signup.errors.passwordsMismatch,
         });
-
-    const navigate = useNavigate();
 
     const {
         register,
@@ -131,4 +128,4 @@ function UseSignUp() {
     };
 }
 
-export { UseSignUp };
+export { useSignUp };

@@ -3,7 +3,7 @@ import { Box, styled, Typography, IconButton, Button as MuiButton } from "@mui/m
 import CloseIcon from "@mui/icons-material/Close";
 import Avatar from "@mui/material/Avatar";
 import { useNavigate } from "react-router-dom";
-import { UseUserContext } from "../../hooks";
+import { useUserContext } from "../../hooks";
 
 const Wrapper = styled("div")({
     height: "90svh",
@@ -30,7 +30,7 @@ const Button = styled(MuiButton)(() => ({
 function DrawerProfile() {
     const navigate = useNavigate();
 
-    const { dispatch } = UseUserContext();
+    const { dispatch } = useUserContext();
     function handleClickLogout() {
         localStorage.removeItem("auth_token");
         localStorage.removeItem("auth_token_exp");

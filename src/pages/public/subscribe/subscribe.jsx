@@ -1,5 +1,5 @@
 import React from "react";
-import { UseLangContext, UseLocation, UseSteps } from "../../../hooks";
+import { useLangContext, useLocation, useSteps } from "../../../hooks";
 import { Typography, StepLabel, Step, Box } from "@mui/material";
 import { images } from "../../../assets";
 import { styled } from "@mui/material";
@@ -15,19 +15,19 @@ const Wrapper = styled("div")({
 });
 
 function Subscribe() {
-    const { location } = UseLocation();
-    const { translations } = UseLangContext();
+    const { location } = useLocation();
+    const { translations } = useLangContext();
     const {
-        steps,
         register,
         handleSubmit,
-        onSubmit,
         errors,
+        steps,
+        activeStep,
         handleNext,
         handleBack,
-        activeStep,
+        onSubmit,
         loading,
-    } = UseSteps();
+    } = useSteps();
 
    if (Object.keys(location).length === 0) {
           return <Navigate to="/" replace />;
