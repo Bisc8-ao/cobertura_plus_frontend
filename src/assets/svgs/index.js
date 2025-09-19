@@ -6,6 +6,8 @@ import email from "./icons/email_icon.svg";
 import vector from "./shapes/vector.png";
 import shap_1 from "./shapes/shape_1.svg";
 import send from "./icons/send.svg";
+import PinHasCoverage from "./icons/pinHasCoverage.svg";
+import PinHasNoCoverage from "./icons/pinHasNoCoverage.svg";
 import Pt_flag from "./flags/PT.svg";
 import GB_flag from "./flags/GB.svg";
 import waving_hand from "./emoji/waving-hand.svg";
@@ -23,6 +25,8 @@ const vectorImages = {
         email,
         send,
         icglassusers,
+        PinHasCoverage,
+        PinHasNoCoverage,
     },
     shapes: {
         shap_1,

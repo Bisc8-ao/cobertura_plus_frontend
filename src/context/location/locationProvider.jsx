@@ -1,41 +1,23 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
 import { LocationContext } from "./locationContext";
+import { UseCheckCoverage, UseUserIp } from "../../hooks";
 
 function LocationProvider({ children }) {
     const [location, setLocation] = useState({});
     const [error, setError] = useState();
     const [isLoading, setIsLoading] = useState(false);
-    const [getIpUser, setGetIpUser] = useState(false);
+
     const [getValueRandom, setGetValueRandom] = useState(null);
+    const { checkCoverage } = UseCheckCoverage();
+    const { getIpUser } = UseUserIp();
 
-    async function sendPayloadToBackend() {
-        /*try {
-              const response = await fetch(url_api, {
-                  method: "POST",
-                  headers: {
-                      "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify(payload),
-              });
 
-              if (!response.ok) {
-                  throw new Error("Falha ao enviar payload para o backend");
-              }
-
-              const data = await response.json();
-               setLocation(data)
-              console.log("Resposta do backend:", data);
-          } catch (err) {
-              console.error("Erro ao enviar payload:", err.message);
-              setError(err.message);
-          }*/
-    }
 
     const getRondom = () => {
         const result = Math.floor(Math.random() * 2) + 1;
 
-        // console.log(result);
+
 
         if (result <= 1) {
             setGetValueRandom(false);
@@ -60,13 +42,22 @@ function LocationProvider({ children }) {
                     position.coords.longitude &&
                     getIpUser
                 ) {
+
+                    const payload = {
+                        userIp: getIpUser,
+                        userLat: position.coords.latitude,
+                        userLon: position.coords.longitude,
+                    };
+
+                    console.log(payload)
+                    const result = checkCoverage(payload);
                     setLocation({
-                        lat: position.coords.latitude,
-                        lng: position.coords.longitude,
-                        ip: getIpUser,
+                        lat: result.userLat,
+                        lng: result.userLon,
+                        ip: result.userIp,
                         corvaged: getValueRandom,
                     });
-                    sendPayloadToBackend({});
+
                     setError(null);
                     callback?.();
                 }
@@ -74,36 +65,10 @@ function LocationProvider({ children }) {
             (err) => {
                 setError("Erro a obter a localização: " + err.message);
                 setIsLoading(false);
-            }
+            },
+            { enableHighAccuracy: true, maximumAge: 0, timeout: 10000 }
         );
     }
-
-    useEffect(() => {
-        const controller = new AbortController();
-        const signal = controller.signal;
-
-        const handleGetIpUser = async () => {
-            try {
-                const response = await fetch(
-                    "https://api.ipify.org?format=json",
-                    { signal }
-                );
-                const data = await response.json();
-                setGetIpUser(data.ip);
-            } catch (error) {
-                if (error.name !== "AbortError") {
-                    //setError(`Erro ao buscar IP:${error}`);
-                    console.error("Erro ao buscar IP:", error);
-                }
-            }
-        };
-
-        handleGetIpUser();
-
-        return () => {
-            controller.abort();
-        };
-    }, []);
 
 
 

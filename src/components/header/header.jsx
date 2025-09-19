@@ -8,7 +8,7 @@ import { AnchorTemporaryDrawer } from "../anchorTemporaryDrawer";
 import { DrawerSettings } from "../drawerSettings";
 
 function Header() {
-    const { langSelected, setLangSelected, translations } = useLangContext();
+    const {  translations } = useLangContext();
     const { widthScreen, isPageHome } = useWidthScreen();
     const location = useLocation();
 
@@ -16,7 +16,6 @@ function Header() {
     const isPageVerifyAccount = [
         "/verifyaccount",
         "/",
-        "/sandbox",
         "/subscription-confirmation",
         "/test-covarge",
     ].includes(location.pathname);

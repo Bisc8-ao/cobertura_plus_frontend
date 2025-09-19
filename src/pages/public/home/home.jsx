@@ -1,17 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 import { Button, Loader } from "../../../components";
 import { vectorImages, lotties } from "../../../assets";
 import * as Styled from "../../../styles";
 import { Link, useNavigate } from "react-router-dom";
 import { useLangContext, useLocation } from "../../../hooks";
+import { UseTimeoutEffect } from "../../../hooks";
 
 function Home() {
     const navigate = useNavigate();
-
-
-    const [showAvalibe, setShowAvalibe] = useState(false);
-    const [showVerific, setShowVerific] = useState(false);
+    const { showAvalibe, setShowAvalibe, showVerific } = UseTimeoutEffect();
 
     const { handleLocation, location } = useLocation();
 
@@ -21,38 +19,11 @@ function Home() {
         navigate("/signin");
     }
 
-
     function handleClickLocation() {
         handleLocation(() => {
-        setShowAvalibe(true);
-
+            setShowAvalibe(true);
         });
     }
-
-    useEffect(() => {
-        if (showAvalibe) {
-            const timeOut = setTimeout(() => {
-                setShowAvalibe(false);
-                setShowVerific(true);
-
-            }, 3000);
-            return () => clearTimeout(timeOut);
-        }
-    }, [showAvalibe]);
-
-
-    useEffect(() => {
-        if (showVerific) {
-            const timeOut = setTimeout(() => {
-                setShowVerific(false);
-
-                navigate("/test-covarge");
-            }, 2000);
-            return () => clearTimeout(timeOut);
-        }
-    }, [showVerific, navigate]);
-
-   
     return (
         <React.Fragment>
             {showAvalibe ? (

@@ -13,7 +13,7 @@ function MapWithGeoJson() {
         const HandleFecthData = async () => {
             const response = await fetch(url_api);
             const data = await response.json()
-            setGetData(data)
+           // setGetData(data)
         }
 
         HandleFecthData()
