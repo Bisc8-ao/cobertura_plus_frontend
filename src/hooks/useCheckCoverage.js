@@ -6,9 +6,9 @@ function UseCheckCoverage() {
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
 
-    const url_api = `${import.meta.env.VITE_API_URL}/coverage/quick-test`;
+    const url_api = `${import.meta.env.VITE_API_URL}/api/coverage/quick-test`;
 
-   
+
 
     const checkCoverage = async (payload) => {
         setLoading(true);

@@ -112,7 +112,7 @@ function MapWithGeoJson({ onLoad, onZoneClick }) {
     const [geodata, setGeodata] = useState(null);
 
     useEffect(() => {
-        const url_api = `${import.meta.env.VITE_API_URL}/coverage/areas`;
+        const url_api = `${import.meta.env.VITE_API_URL}/api/coverage/areas`;
         const controller = new AbortController();
 
         const fetchData = async () => {
