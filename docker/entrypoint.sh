@@ -7,7 +7,6 @@ PORT=${PORT:-8080}
 echo "[entrypoint] Starting container, injecting runtime env..."
 
 if [ -f "$INDEX" ]; then
-    # Substitui placeholders (podem estar vazios)
     sed -i "s|__VITE_API_KEY_GOOGLE__|${VITE_API_KEY_GOOGLE:-}|g" "$INDEX"
     sed -i "s|__VITE_API_URL__|${VITE_API_URL:-}|g" "$INDEX"
 
@@ -23,5 +22,4 @@ else
 fi
 
 echo "[entrypoint] Starting static server on 0.0.0.0:${PORT}"
-# serve aceita "tcp://0.0.0.0:PORT" para bind seguro
 exec serve -s /app/dist -l "tcp://0.0.0.0:${PORT}"
