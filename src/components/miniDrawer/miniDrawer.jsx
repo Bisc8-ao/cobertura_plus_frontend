@@ -13,6 +13,7 @@ import { AppBarDrawer } from "./appBarDrawer";
 import { NavLink } from "../navLink";
 
 import { vectorImages } from "../../assets";
+import { UseThemeMode } from "../../hooks";
 
 
 const DrawerHeader = styled("div")(({ theme }) => ({
@@ -58,6 +59,7 @@ const Drawer = styled(MuiDrawer, {
 
 function MiniDrawer({ children }) {
     const [open, setOpen] = useState(true);
+    const {mode} = UseThemeMode()
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -84,7 +86,14 @@ function MiniDrawer({ children }) {
                     }}
                 >
                     {open === true && (
-                        <img src={vectorImages.logos.brand.brand_logo_2} />
+                        <img
+                            src={
+                                mode=== "dark"
+                                    ? vectorImages.logos.brand.brand_logo_1
+                                    : vectorImages.logos.brand.brand_logo_2
+                            }
+                            width="100"
+                        />
                     )}
                 </DrawerHeader>
                 <NavLink open={open} />

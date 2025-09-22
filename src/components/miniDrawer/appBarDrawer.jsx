@@ -25,42 +25,49 @@ import { DrawerProfile } from "../drawerProfile";
 
 const AppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== "open" && prop !== "headerChangeBg",
-})(({ theme, headerChangeBg, open }) => ({
-    zIndex: theme.zIndex.drawer + 1,
-    transition: theme.transitions.create(["width", "margin"], {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-    }),
-    background: "transparent",
-    boxShadow: headerChangeBg
-        ? "0px 1px 2px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.1)"
-        : "none",
-    "&::before": {
-        content: '""',
-        backdropFilter: "blur(5px)",
-        background: "rgba(255, 255, 255, 0.63)",
-        visibility: headerChangeBg ? "visible" : "hidden",
-        opacity: headerChangeBg ? "1" : "0",
-        transition:
-            "opacity 200ms cubic-bezier(0.4, 0, 0.2, 1), visibility 200ms cubic-bezier(0.4, 0, 0.2, 1)",
-        position: "absolute",
-        width: "100%",
-        height: "100%",
-        zIndex: "-1",
-    },
-    "@media (max-width:1024px)": {
-        width: "100%",
-    },
-    ...(open && {
-        marginLeft: drawerWidth,
-        width: `calc(100% - ${drawerWidth}px)`,
+})(({ theme, headerChangeBg, open }) => {
+    const closedWidth = `calc(${theme.spacing(8)} + 1px)`;
+
+    return {
+        zIndex: theme.zIndex.drawer + 1,
         transition: theme.transitions.create(["width", "margin"], {
             easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.enteringScreen,
+            duration: theme.transitions.duration.leavingScreen,
         }),
-    }),
-}));
-
+        background: theme.palette.appBar.background,
+        boxShadow: "none",
+        "&::before": {
+            content: '""',
+            backdropFilter: "blur(5px)",
+            background: theme.palette.appBar.beforeBg,
+            visibility: headerChangeBg ? "visible" : "hidden",
+            opacity: headerChangeBg ? "1" : "0",
+            transition:
+                "opacity 200ms cubic-bezier(0.4, 0, 0.2, 1), visibility 200ms cubic-bezier(0.4, 0, 0.2, 1)",
+            position: "absolute",
+            width: "100%",
+            height: "100%",
+            zIndex: "-1",
+        },
+        "@media (max-width:1024px)": {
+            width: "100%",
+            marginLeft: 0,
+        },
+        ...(open
+            ? {
+                  marginLeft: drawerWidth,
+                  width: `calc(100% - ${drawerWidth}px)`,
+                  transition: theme.transitions.create(["width", "margin"], {
+                      easing: theme.transitions.easing.sharp,
+                      duration: theme.transitions.duration.enteringScreen,
+                  }),
+              }
+            : {
+                  marginLeft: closedWidth,
+                  width: `calc(100% - ${closedWidth})`,
+              }),
+    };
+});
 
 const Badge = styled(MuiBadge)(({ theme }) => ({
     "& span": {
@@ -109,17 +116,23 @@ function AppBarDrawer({ handleDrawerOpen, handleDrawerClose, open }) {
                         onClick={handleDrawerOpen}
                         edge="start"
                         sx={[
-                            {
-                                marginRight: 9,
-                                marginLeft: 3,
+                            (theme) => ({
+                                marginRight: 1,
+                                marginLeft: -5.3,
 
-                                background: "transparent",
+                                background: theme.palette.background.default,
                                 borderRadius: "50%",
                                 border: "1px solid #919eab36",
+                                "&:hover": {
+                                    background:
+                                        theme.palette.mode === "dark"
+                                            ? "#191f27ff"
+                                            : "#F4F6F8",
+                                },
                                 "@media (max-width:1024px)": {
                                     display: "none",
                                 },
-                            },
+                            }),
                             open && { display: "none" },
                         ]}
                     >
@@ -131,17 +144,22 @@ function AppBarDrawer({ handleDrawerOpen, handleDrawerClose, open }) {
                         onClick={handleDrawerClose}
                         edge="start"
                         sx={[
-                            {
+                            (theme) => ({
                                 marginRight: 9,
                                 marginLeft: -5.3,
-
-                                background: "transparent",
+                                background: theme.palette.background.default,
                                 borderRadius: "50%",
-                                border: "1px solid #919eab36",
+                                border: `1px solid #919eab36`,
+                                "&:hover": {
+                                    background:
+                                        theme.palette.mode === "dark"
+                                            ? "#191f27ff"
+                                            : "#F4F6F8",
+                                },
                                 "@media (max-width:1024px)": {
                                     display: "none",
                                 },
-                            },
+                            }),
                             open == false && { display: "none" },
                         ]}
                     >
@@ -165,7 +183,7 @@ function AppBarDrawer({ handleDrawerOpen, handleDrawerClose, open }) {
                             btnRadius="50%"
                             icon={
                                 <Badge badgeContent={4}>
-                                    <NotificationsIcon fontSize="1rem" />
+                                    <NotificationsIcon fontSize="3.4rem" />
                                 </Badge>
                             }
                         >
@@ -173,7 +191,7 @@ function AppBarDrawer({ handleDrawerOpen, handleDrawerClose, open }) {
                         </AnchorTemporaryDrawer>
                         <AnchorTemporaryDrawer
                             anchor="right"
-                            icon={<PeopleAltIcon fontSize="1rem" />}
+                            icon={<PeopleAltIcon fontSize="3.4rem" />}
                             width="310px"
                             btnWidth="3rem"
                             btnRadius="50%"

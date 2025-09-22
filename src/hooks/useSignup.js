@@ -6,9 +6,10 @@ import { useUserContext } from "./useUserContext";
 import { useLangContext } from "./useLangContext";
 
 function useSignUp() {
-    const url_api = `${import.meta.env.VITE_API_URL}/auth/sign-up`;
+    const url_api = `${import.meta.env.VITE_API_URL}/api/api/auth/sign-up`;
 
     const [showPassword, setShowPassword] = useState(false);
+    const [data, setData] = useState({});
     const [loading, setLoading] = useState(false);
     const { dispatch } = useUserContext();
     const { translations } = useLangContext();
@@ -84,22 +85,23 @@ function useSignUp() {
                 body: JSON.stringify(payload),
             });
 
-            const data = await response.json();
-            console.log(data);
+            const result = await response.json();
+            setData(result);
+
             if (response.ok) {
-                const user = data?.user || {};
+                const user = result?.user || {};
                 const fullName = `${user.userFirstName ?? ""} ${
                     user.userLastName ?? ""
                 }`.trim();
                 dispatch({
                     type: "user_active",
                     payload: {
-                        email: user.userEmail || data.email,
+                        email: user.userEmail || result.email,
                         name:
                             fullName ||
                             user.name ||
                             user.username ||
-                            data.email,
+                            result.email,
                         photo: user.photo || null,
                     },
                 });
@@ -107,7 +109,7 @@ function useSignUp() {
                 setLoading(false);
             } else {
                 setLoading(false);
-                console.log("Login error:", response);
+                console.log("signup:", response);
             }
         } catch (error) {
             console.log(error);
@@ -125,6 +127,7 @@ function useSignUp() {
         handleMouseUpPassword,
         showPassword,
         loading,
+        data,
     };
 }
 

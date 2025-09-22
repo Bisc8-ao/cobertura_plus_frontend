@@ -11,6 +11,10 @@ import {
 import { vectorImages } from "../../assets";
 import CloseIcon from "@mui/icons-material/Close";
 import { useLangContext } from "../../hooks";
+import SunnyIcon from "@mui/icons-material/Sunny";
+import BedtimeIcon from "@mui/icons-material/Bedtime";
+import { UseThemeMode } from "../../hooks";
+
 const Wrapper = styled("div")({
     height: "100%",
     padding: "2rem",
@@ -125,7 +129,13 @@ const CardFooter = styled("div")(({ theme }) => ({
 }));
 
 function DrawerSettings() {
-     const { langSelected, setLangSelected } = useLangContext();
+    const { langSelected, setLangSelected } = useLangContext();
+    const {
+        modeLightSelected,
+        modeDarkSelected,
+        handleModeLight,
+        handleModeDark,
+    } = UseThemeMode();
     const [isPortuguese, setIsPortuguese] = useState(() => {
         const portuguesSelected = langSelected === "Português" ? true : false;
         return portuguesSelected;
@@ -138,6 +148,7 @@ function DrawerSettings() {
         Português: vectorImages.flags.Pt_flag,
         Inglês: vectorImages.flags.GB_flag,
     };
+
 
     function handleSwitchChangePt(event) {
 
@@ -191,11 +202,11 @@ function DrawerSettings() {
                 <Box
                     onClick={(e) => e.stopPropagation()}
                     sx={{
-                        display: "flex",
+                        display: "grid",
+                        gridTemplateColumns: "repeat(2, 1fr)",
                         alignItems: "center",
                         gap: "2rem",
                         width: "100%",
-
                     }}
                 >
                     <Card>
@@ -253,6 +264,56 @@ function DrawerSettings() {
                                     }}
                                 >
                                     Inglês
+                                </Typography>
+                            </CardFooter>
+                        </CardContent>
+                    </Card>
+                    <Card>
+                        <CardContent>
+                            <CardHeader>
+                                <SunnyIcon sx={{ fontSize: "2.4rem" }} />
+                                <Switch
+                                    sx={{ m: 1 }}
+                                    checked={modeLightSelected}
+                                    onChange={handleModeLight}
+                                />
+                            </CardHeader>
+
+                            <CardFooter>
+                                <Typography
+                                    variant="h3"
+                                    component="span"
+                                    sx={{
+                                        fontSize: "1.4rem",
+                                        fontWeight: "700",
+                                    }}
+                                >
+                                    Light
+                                </Typography>
+                            </CardFooter>
+                        </CardContent>
+                    </Card>
+                    <Card>
+                        <CardContent>
+                            <CardHeader>
+                                <BedtimeIcon sx={{ fontSize: "2.4rem" }} />
+                                <Switch
+                                    sx={{ m: 1 }}
+                                    checked={modeDarkSelected}
+                                    onChange={handleModeDark}
+                                />
+                            </CardHeader>
+
+                            <CardFooter>
+                                <Typography
+                                    variant="h3"
+                                    component="span"
+                                    sx={{
+                                        fontSize: "1.4rem",
+                                        fontWeight: "700",
+                                    }}
+                                >
+                                    Dark
                                 </Typography>
                             </CardFooter>
                         </CardContent>

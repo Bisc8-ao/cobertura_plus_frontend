@@ -13,7 +13,7 @@ export const globalStyle = {
         boxSizing: "border-box",
         padding: "0",
         margin: "0",
-       textDecoration: "none"
+        textDecoration: "none",
     },
     html: {
         scrollBehavior: "smooth",
@@ -22,6 +22,12 @@ export const globalStyle = {
         fontSize: "62.5%",
     },
     body: {
+        fontFamily: "Public Sans, sans-serif",
+    },
+
+    "span .apexcharts-legend-text": {
+        fontWeight: "800", // bold
+
         fontFamily: "Public Sans, sans-serif",
     },
 };

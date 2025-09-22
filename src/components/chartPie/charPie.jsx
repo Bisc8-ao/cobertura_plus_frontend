@@ -1,7 +1,10 @@
 import React from "react";
 import Chart from "react-apexcharts";
+import { UseThemeMode } from "../../hooks";
 
 function ChartPie() {
+    const { mode } = UseThemeMode();
+    const modeDark = mode === "dark";
     const options = {
         chart: {
             type: "pie",
@@ -18,7 +21,7 @@ function ChartPie() {
                 vertical: 5,
             },
             labels: {
-                colors: "#333",
+                colors: modeDark ? "#ffffffff" : "#333",
                 fontWeight: "bold",
                 fontSize: "2rem",
                 useSeriesColors: false,
@@ -27,7 +30,7 @@ function ChartPie() {
                 width: 12,
                 height: 12,
                 radius: 6,
-                offsetX: 0,
+                offsetX: -2,
                 offsetY: 0,
             },
         },
@@ -61,7 +64,7 @@ function ChartPie() {
 
     return (
         <React.Fragment>
-           
+
             <div style={{width:"100%", height:"100%", display:"flex", alignItems:"center", justifyContent:"center"}}>
                 <Chart options={options} series={series} type="pie" width="390px" />
             </div>

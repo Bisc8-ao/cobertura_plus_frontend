@@ -21,7 +21,7 @@ function UseTimeoutEffect() {
             const timeOut = setTimeout(() => {
                 setShowVerific(false);
 
-                //navigate("/test-covarge");
+                navigate("/test-coverage");
             }, 2000);
             return () => clearTimeout(timeOut);
         }

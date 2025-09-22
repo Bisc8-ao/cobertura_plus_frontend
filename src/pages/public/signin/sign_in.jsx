@@ -9,7 +9,7 @@ import {
     Typography,
 } from "@mui/material";
 import { images } from "../../../assets";
-import { styled } from "@mui/material";
+
 import * as Styled from "../../../styles";
 import { Link } from "react-router-dom";
 import { Button } from "../../../components";
@@ -18,10 +18,7 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 import { useLangContext, useSignin } from "../../../hooks";
 
-const Wrapper = styled("div")({
-    width: "100%",
-    height: "100%",
-});
+
 
 function SignIn() {
     const {
@@ -41,7 +38,7 @@ function SignIn() {
 
     return (
         <React.Fragment>
-            <Wrapper>
+            <Styled.Pag_Wrapper>
                 <Styled.Container_Grid gridTemplateColumns="4.7fr 7.5fr">
                     <Styled.GridImg
                         img={images.characters.character_1}
@@ -168,7 +165,7 @@ function SignIn() {
                         </Styled.ContainerForm>
                     </Styled.GridContent>
                 </Styled.Container_Grid>
-            </Wrapper>
+            </Styled.Pag_Wrapper>
         </React.Fragment>
     );
 }

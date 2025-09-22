@@ -41,11 +41,12 @@ function LocationProvider({ children }) {
                             corvaged: result.available,
                         });
                         setError(null);
+                         callback?.();
                     } catch (err) {
                         setError(err.message);
                     } finally {
                         setIsLoading(false);
-                        callback?.();
+
                     }
                 } else {
                     setError("Não foi possível obter todos os dados necessários (IP, Localização).");

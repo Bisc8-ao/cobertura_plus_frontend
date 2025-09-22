@@ -8,3 +8,4 @@ export { useSignUp } from "./useSignup";
 export { UseCheckCoverage } from "./useCheckCoverage";
 export { UseTimeoutEffect } from "./useTimeoutEffect";
 export { UseUserIp } from "./useUserIp";
+export { UseThemeMode } from "./useThemeMode";

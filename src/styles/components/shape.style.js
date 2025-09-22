@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 
 const Shape = styled("div")(() => ({
+
     position: "absolute",
     top: "1rem",
     left: "1.2rem",
@@ -18,7 +19,7 @@ const Shape = styled("div")(() => ({
 const Shap2 = styled("div")(() => ({
     position: "absolute",
     bottom: ".9rem",
-    right: "1.2rem",
+    right: "0",
 
 
     zIndex: "2",
@@ -28,7 +29,7 @@ const Shap2 = styled("div")(() => ({
 
     "@media (min-width: 1512px)": {
         bottom: "1rem",
-        right: "2.5rem",
+        right: "2.4rem",
     },
     "@media (max-width: 1024px)": {
        display:"none"

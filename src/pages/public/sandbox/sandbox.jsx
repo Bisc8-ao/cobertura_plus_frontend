@@ -3,82 +3,16 @@ import {
     APIProvider,
     Map as GoogleMap,
     Marker,
-    InfoWindow,
     useMap,
 } from "@vis.gl/react-google-maps";
-import { renderToStaticMarkup } from "react-dom/server";
+
 import { vectorImages } from "../../../assets";
-import {
-    styled,
-    FormControl as MuiFormControl,
-    OutlinedInput as MuiOutlinedInput,
-    InputAdornment,
-    IconButton,
-} from "@mui/material";
+import { InputAdornment } from "@mui/material";
 import { Button, Loader } from "../../../components";
 import LocationSearchingIcon from "@mui/icons-material/LocationSearching";
 import { lotties } from "../../../assets";
 import { UseCheckCoverage, UseTimeoutEffect, UseUserIp } from "../../../hooks";
-
-const Wrapper = styled("div")({
-    width: "100%",
-    height: "100%",
-    position: "relative",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "end",
-    zIndex: 1,
-});
-
-const ContainerForm = styled("form")({
-    display: "flex",
-    justifyContent: "center",
-
-    position: "absolute",
-    bottom: "2rem",
-    gap: "1rem",
-    width: "40%",
-    padding: "2rem 0",
-    background: "rgba(255, 255, 255, 1)",
-    borderRadius: ".8rem",
-    overflow: "hidden",
-    zIndex: "1",
-
-    "@media (max-width: 820px)": {
-        flexDirection: "column",
-        padding: "2rem",
-        width: "85%",
-    },
-});
-
-const FormControl = styled(MuiFormControl)(({ theme }) => ({
-    "@media (max-width: 820px)": {
-        width: "100%",
-    },
-    "& label": {
-        fontSize: theme.typography.sizes.base,
-        background: "#fff",
-        color: theme.palette.gray[800],
-    },
-}));
-
-const OutlinedInput = styled(MuiOutlinedInput)(({ theme }) => ({
-    "& .MuiOutlinedInput-notchedOutline": {
-        borderColor: theme.palette.gray[200],
-        borderWidth: "2px",
-        width: "100%",
-    },
-    "&:hover .MuiOutlinedInput-notchedOutline": {
-        borderColor: "#000",
-    },
-    "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-        borderColor: "#000",
-    },
-    "& .MuiInputBase-input": {
-        fontSize: "1.4rem",
-        width: "100%",
-    },
-}));
+import * as Styled from "../../../styles";
 
 // ---- Funções utilitárias para corrigir GeoJSON ----
 function closePolygon(coords) {
@@ -92,7 +26,7 @@ function closePolygon(coords) {
 }
 
 function fixGeoJson(geojson) {
-    const fixed = JSON.parse(JSON.stringify(geojson)); // deep clone
+    const fixed = JSON.parse(JSON.stringify(geojson));
     fixed.features.forEach((f) => {
         if (f.geometry.type === "Polygon") {
             f.geometry.coordinates = f.geometry.coordinates.map(closePolygon);
@@ -266,7 +200,6 @@ function Sandbox() {
             };
 
             const result = await checkCoverage(payload);
-            console.log(result);
 
             setLocation({
                 lat: result.userLat,
@@ -303,7 +236,7 @@ function Sandbox() {
 
     return (
         <React.Fragment>
-            <Wrapper>
+            <Styled.Sand_Wrapper>
                 {showAvalibe && (
                     <Loader
                         Animation={lotties.MarkAnimation}
@@ -361,22 +294,25 @@ function Sandbox() {
                         )}
                     </GoogleMap>
                 </APIProvider>
-                <ContainerForm>
-                    <FormControl variant="outlined" sx={{ width: "70%" }}>
-                        <OutlinedInput
+                <Styled.Sand_ContainerForm>
+                    <Styled.Sand_FormControl
+                        variant="outlined"
+                        sx={{ width: "70%" }}
+                    >
+                        <Styled.Sand_OutlinedInput
                             placeholder="Digite sua localização"
                             endAdornment={
                                 <InputAdornment position="end">
-                                    <IconButton>
+                                    <Styled.Sand_IconButton>
                                         <LocationSearchingIcon />
-                                    </IconButton>
+                                    </Styled.Sand_IconButton>
                                 </InputAdornment>
                             }
                         />
-                    </FormControl>
+                    </Styled.Sand_FormControl>
                     <Button text={"Testar cobertura"} variant="contained" />
-                </ContainerForm>
-            </Wrapper>
+                </Styled.Sand_ContainerForm>
+            </Styled.Sand_Wrapper>
         </React.Fragment>
     );
 }

@@ -6,7 +6,7 @@ import { useNavigate, Navigate } from "react-router-dom";
 import { vectorImages } from "../../../assets/svgs";
 import { useLangContext, useLocation } from "../../../hooks";
 
-function TestCovarge() {
+function TestCoverage() {
     const navigate = useNavigate();
     const { location } = useLocation();
     const { translations } = useLangContext();
@@ -19,10 +19,10 @@ function TestCovarge() {
      }
 
 
-     if (Object.keys(location).length === 0) {
+   /*  if (Object.keys(location).length === 0) {
          return <Navigate to="/" replace />;
         }
-
+*/
         return (
             <React.Fragment>
                 <Styled.Subs_Wrapper>
@@ -77,4 +77,4 @@ function TestCovarge() {
         );
 }
 
-export { TestCovarge };
+export { TestCoverage };

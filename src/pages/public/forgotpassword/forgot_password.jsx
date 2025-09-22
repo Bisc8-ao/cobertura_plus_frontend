@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Typography } from "@mui/material";
 import { images } from "../../../assets";
 import { styled } from "@mui/material";
@@ -13,6 +13,7 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useLangContext } from "../../../hooks";
+
 const Wrapper = styled("div")({
     width: "100%",
     height: "100%",
@@ -21,25 +22,55 @@ const schema = z.object({
     email: z
         .string()
         .nonempty("O email é obrigatório")
-        .email("Endereço de email inválido")
-        .refine((val) => val.endsWith("@tvcabo.co.ao"), {
+        .email("Endereço de email inválido"),
+    /*.refine((val) => val.endsWith("@tvcabo.co.ao"), {
             message: "O email deve terminar com @tvcabo.co.ao",
-        }),
+        })*/
 });
 function ForgotPassword() {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
+    const [data, setData] = useState({})
+    const url_api = `${import.meta.env.VITE_API_URL}/forgot-password`;
     const { translations } = useLangContext();
 
-      const {
-                register,
-                handleSubmit,
-                formState: { errors },
-            } = useForm({
-                resolver: zodResolver(schema),
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm({
+        resolver: zodResolver(schema),
+    });
+    async function onSubmit(value) {
+        //navigate("/verifyaccount");
+        const payload = {
+            userEmail: value.email,
+        };
+        setLoading(true);
+        try {
+            const response = await fetch(url_api, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(payload),
             });
-    function onSubmit() {
-       navigate("/verifyaccount");
-    //    console.log(data);
+            const result = response.json();
+            setData(result)
+            console.log(result);
+
+            if (response.ok) {
+                console.log("response sucess:", response);
+                setLoading(false);
+            } else {
+                console.log("response error:", response);
+                setLoading(false);
+            }
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setLoading(false);
+        }
     }
     return (
         <React.Fragment>
@@ -73,6 +104,12 @@ function ForgotPassword() {
                             </Styled.ContainerFormContent>
 
                             <Styled.ContainerInputs>
+                                {data.messsage && <Styled.AdaptiveAlert
+                                    severity="info"
+                                    icon={<Styled.AdaptiveInfoIcon />}
+                                >
+                                    {data.message}
+                                </Styled.AdaptiveAlert>}
                                 <Styled.Input
                                     helperText={
                                         errors.email ? errors.email.message : ""
@@ -89,6 +126,7 @@ function ForgotPassword() {
 
                                 <Button
                                     variant="contained"
+                                    loading={loading}
                                     text={
                                         translations.pages.forgotpassword
                                             .btnText.reset

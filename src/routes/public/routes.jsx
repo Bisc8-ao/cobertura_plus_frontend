@@ -9,7 +9,7 @@ import {
     Subscribe,
     Sandbox,
     SubscriptionConfirmation,
-    TestCovarge,
+    TestCoverage,
 } from "../../pages";
 
 function PublicRoutes() {
@@ -22,7 +22,7 @@ function PublicRoutes() {
                 <Route path="/signup" element={<SignUp />} />
                 <Route path="/verifyaccount" element={<VerifyAccount />} />
                 <Route path="/subscribe" element={<Subscribe />} />
-                <Route path="/test-covarge" element={<TestCovarge />} />
+                <Route path="/test-coverage" element={<TestCoverage />} />
                 <Route
                     path="/subscription-confirmation"
                     element={<SubscriptionConfirmation />}
