@@ -2,30 +2,25 @@
 FROM node:22-alpine AS build
 WORKDIR /app
 
+# Copy package files and install
 COPY package*.json ./
 RUN npm ci
-
 COPY . .
+
+# Copy source and build
+ARG VITE_API_URL
+ARG VITE_API_KEY_GOOGLE
+
+ENV VITE_API_URL=$VITE_API_URL
+ENV VITE_API_KEY_GOOGLE=$VITE_API_KEY_GOOGLE
+
 RUN npm run build
 
-# -------- Stage 2: Runtime --------
+# -------- Stage 2: Runtime (no Nginx) --------
 FROM node:22-alpine
 WORKDIR /app
-
-# Install a tiny static server (as root)
-RUN npm i -g serve@14
-
-# Copy built files and give ownership to node user
+RUN npm i -g serve
 COPY --from=build /app/dist ./dist
-RUN chown -R node:node /app/dist
-
-# Copy entrypoint and make it executable
-COPY ./docker/entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
-
-# Use a non-root user for process safety
-USER node
-
+# Cloud Run expõe 8080 por convenção
 EXPOSE 8080
-
-ENTRYPOINT ["/entrypoint.sh"]
+CMD ["serve", "-s", "dist", "-l", "8080"]

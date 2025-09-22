@@ -21,7 +21,7 @@ function Header() {
         "/test-covarge",
     ].includes(location.pathname);
 
-        console.log((widthScreen || isPageVerifyAccount) && mode === "light");
+       
     const logoSrc =
         (widthScreen || isPageVerifyAccount) && mode === "light"
             ? vectorImages.logos.brand.brand_logo_2

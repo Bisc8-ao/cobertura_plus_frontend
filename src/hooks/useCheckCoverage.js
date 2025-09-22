@@ -2,11 +2,12 @@ import { useState } from "react";
 
 
 function UseCheckCoverage() {
-    const [data, setData] = useState(null);
+    const [responseBack, setResponseBack] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
 
-    const API_URL = (window.__RUNTIME__ && window.__RUNTIME__.VITE_API_KEY_GOOGLE) || import.meta.env.VITE_API_URL;
+
+    const API_URL = import.meta.env.VITE_API_URL;
     const url_api = `${API_URL}/api/coverage/quick-test`;
 
     const checkCoverage = async (payload) => {
@@ -21,6 +22,7 @@ function UseCheckCoverage() {
                 },
                 body: JSON.stringify(payload),
             });
+            setResponseBack(response)
 
             if (!response.ok) {
                 throw new Error("Falha ao enviar payload para o backend");
@@ -28,7 +30,7 @@ function UseCheckCoverage() {
 
             const result = await response.json();
             console.log("responsta do backend:", result)
-            setData(result);
+
             return result;
         } catch (err) {
             setError(err.message);
@@ -38,7 +40,7 @@ function UseCheckCoverage() {
         }
     };
 
-    return { data, error, loading, checkCoverage };
+    return { responseBack, error, loading, checkCoverage };
 }
 
 export { UseCheckCoverage };

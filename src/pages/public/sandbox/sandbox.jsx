@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
     APIProvider,
     Map as GoogleMap,
@@ -44,7 +44,7 @@ function fixGeoJson(geojson) {
 function MapWithGeoJson({ onLoad, onZoneClick }) {
     const map = useMap();
     const [geodata, setGeodata] = useState(null);
-    const API_URL = (window.__RUNTIME__ && window.__RUNTIME__.VITE_API_KEY_GOOGLE) || import.meta.env.VITE_API_URL;
+    const API_URL = import.meta.env.VITE_API_URL;
 
     useEffect(() => {
         const url_api = `${API_URL}/api/coverage/areas`;
@@ -83,14 +83,7 @@ function MapWithGeoJson({ onLoad, onZoneClick }) {
 
         // Estilo
         map.data.setStyle(() => {
-            const colors = [
-                "#FF0000",
-                "#008000",
-                "#0000FF",
-                "#FFA500",
-                "#800080",
-                "#04fde8ff",
-            ];
+            const colors = ["#04fde8ff"];
             const randomColor =
                 colors[Math.floor(Math.random() * colors.length)];
             return {
@@ -138,17 +131,57 @@ function MapWithGeoJson({ onLoad, onZoneClick }) {
 }
 
 function MapWithUserLocation({ userLocation }) {
+     const [location, setLocation] = useState({});
+    const { checkCoverage: rawCheckCoverage } = UseCheckCoverage();
+    const { getIpUser } = UseUserIp();
     const map = useMap();
 
-    useEffect(() => {
-        if (map && userLocation?.lat && userLocation?.lng) {
-            map.setCenter(userLocation);
-            map.setZoom(16);
-        }
-    }, [map, userLocation]);
+    const checkCoverage = useCallback(
+        (payload) => rawCheckCoverage(payload),
+        [rawCheckCoverage]
+    );
+
+   useEffect(() => {
+       if (map && userLocation?.lat && userLocation?.lng) {
+           const checkCoveraged = async () => {
+               const payload = {
+                   getIpUser,
+                   userLat: userLocation.lat,
+                   userLon: userLocation.lng,
+               };
+
+               const result = await checkCoverage(payload);
+
+               setLocation({
+                   lat: result.userLat,
+                   lng: result.userLon,
+                   ip: result.userIp,
+                   covered: result.covered ?? false,
+               });
+           };
+
+           checkCoveraged();
+
+           map.setCenter(userLocation);
+           map.setZoom(16);
+       }
+   }, [map, userLocation, checkCoverage, getIpUser]);
+
 
     return userLocation?.lat && userLocation?.lng ? (
-        <Marker position={userLocation} />
+        <Marker
+            position={userLocation}
+            icon={
+                {
+                    url:
+                        location.corvaged === false
+                            ? vectorImages.icons.PinHasNoCoverage
+                            : vectorImages.icons.PinHasCoverage,
+                    scaledSize: new window.google.maps.Size(48, 48),
+                    anchor: new window.google.maps.Point(24, 48),
+                }
+            }
+        />
     ) : null;
 }
 
@@ -156,6 +189,8 @@ function MapWithUserLocation({ userLocation }) {
 function Sandbox() {
     const [markerPos, setMarkerPos] = useState(null);
     const API_KEY_GOOGLEMAPS = (window.__RUNTIME__ && window.__RUNTIME__.VITE_API_KEY_GOOGLE) || import.meta.env.VITE_API_KEY_GOOGLE;
+
+    console.log(API_KEY_GOOGLEMAPS);
 
     const [userLoctaion, setUserLocation] = useState({});
     const { showAvalibe, setShowAvalibe, showVerific } = UseTimeoutEffect();
@@ -235,6 +270,15 @@ function Sandbox() {
         return () => navigator.geolocation.clearWatch(watcher);
     }, []);
 
+    const memoizedUserLocation = useMemo(
+        () =>
+            userLoctaion
+                ? { lat: userLoctaion.lat, lng: userLoctaion.lng }
+                : null,
+        [userLoctaion]
+    );
+    console.log(markerPos)
+
     return (
         <React.Fragment>
             <Styled.Sand_Wrapper>
@@ -256,7 +300,11 @@ function Sandbox() {
                         disableDefaultUI
                         onClick={(e) => handleMapClick(e)}
                     >
-                        <MapWithUserLocation userLocation={userLoctaion} />
+                        {markerPos === null && (
+                            <MapWithUserLocation
+                                userLocation={memoizedUserLocation}
+                            />
+                        )}
                         <MapWithGeoJson
                             onZoneClick={handleZoneClick}
                             onLoad={(map) => {
