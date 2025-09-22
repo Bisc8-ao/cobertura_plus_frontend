@@ -9,7 +9,7 @@ function MapWithGeoJson() {
 
 
     useEffect(() => {
-        const url_api = `${import.meta.env.VITE_API_URL}/coverage/areas`;
+        const url_api = `${import.meta.env.VITE_API_URL}/api/coverage/areas`;
         const HandleFecthData = async () => {
             const response = await fetch(url_api);
             const data = await response.json()
