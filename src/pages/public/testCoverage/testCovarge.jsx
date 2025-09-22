@@ -18,11 +18,12 @@ function TestCoverage() {
          navigate("/");
      }
 
+    console.log(location);
 
-   /*  if (Object.keys(location).length === 0) {
+     /*if (Object.keys(location).length === 0) {
          return <Navigate to="/" replace />;
-        }
-*/
+        }*/
+
         return (
             <React.Fragment>
                 <Styled.Subs_Wrapper>
