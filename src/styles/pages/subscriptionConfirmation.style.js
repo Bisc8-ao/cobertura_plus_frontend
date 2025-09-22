@@ -21,7 +21,7 @@ const Subs_Container = styled("div")(({ theme }) => ({
     gap: "4rem",
     width: "28%",
     padding: "4rem",
-    background: theme.palette.common.white,
+    background: theme.palette.background.default,
     borderRadius: "1.5rem",
     "& div[data-element='Link_back']": {
         display: "flex",
@@ -35,7 +35,7 @@ const Subs_Container = styled("div")(({ theme }) => ({
         alignItems: "center",
         gap: " .8rem",
         fontSize: theme.typography.sizes.base,
-        color: theme.palette.gray[950],
+        color:theme.palette.mode === "dark" ? theme.palette.common.white:theme.palette.gray[950],
     },
     "& div[data-element='Link_back'] a svg": {
         fontSize: theme.typography.sizes.xs,
@@ -68,6 +68,7 @@ const Subs_ContainerContent = styled("div")(({ theme }) => ({
     gap: "1.2rem",
     justifyContent: "center",
     alignItems: "center",
+    color:theme.palette.mode === "dark" ? theme.palette.common.white: theme.palette.common.black,
 
     "& > span ": {
         fontSize: theme.typography.sizes.base,
