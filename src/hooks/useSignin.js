@@ -38,7 +38,9 @@ export function useSignin() {
     const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
 
-    const url_api = `${import.meta.env.VITE_API_URL}/api/auth/sign-in`;
+    const API_URL = (window.__RUNTIME__ && window.__RUNTIME__.VITE_API_KEY_GOOGLE) || import.meta.env.VITE_API_URL;
+
+    const url_api = `${API_URL}/api/auth/sign-in`;
 
     const handleClickShowPassword = useCallback(() => {
         setShowPassword((v) => !v);

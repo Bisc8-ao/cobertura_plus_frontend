@@ -5,11 +5,10 @@ import { APIProvider, Map as GooleMap, useMap } from "@vis.gl/react-google-maps"
 
 function MapWithGeoJson() {
     const map = useMap();
-
-
+    const API_URL = (window.__RUNTIME__ && window.__RUNTIME__.VITE_API_KEY_GOOGLE) || import.meta.env.VITE_API_URL;
 
     useEffect(() => {
-        const url_api = `${import.meta.env.VITE_API_URL}/api/coverage/areas`;
+        const url_api = `${API_URL}/api/coverage/areas`;
         const HandleFecthData = async () => {
             const response = await fetch(url_api);
             const data = await response.json()
@@ -71,9 +70,9 @@ function MapWithGeoJson() {
 }
 
 function Map() {
-     const API_KEY = import.meta.env.VITE_API_KEY_GOOGLE;
+     const API_KEY_GOOGLEMAPS = (window.__RUNTIME__ && window.__RUNTIME__.VITE_API_KEY_GOOGLE) || import.meta.env.VITE_API_KEY_GOOGLE;
     return (
-        <APIProvider apiKey={API_KEY}>
+        <APIProvider apiKey={API_KEY_GOOGLEMAPS}>
             <GooleMap
                 style={{ width: "100%", height: "90vh", borderRadius:"2rem", overflow:"hidden"}}
                 defaultCenter={{ lat: -8.839, lng: 13.2344 }}
