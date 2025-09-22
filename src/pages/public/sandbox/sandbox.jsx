@@ -44,9 +44,10 @@ function fixGeoJson(geojson) {
 function MapWithGeoJson({ onLoad, onZoneClick }) {
     const map = useMap();
     const [geodata, setGeodata] = useState(null);
+    const API_URL = (window.__RUNTIME__ && window.__RUNTIME__.VITE_API_KEY_GOOGLE) || import.meta.env.VITE_API_URL;
 
     useEffect(() => {
-        const url_api = `${import.meta.env.VITE_API_URL}/api/coverage/areas`;
+        const url_api = `${API_URL}/api/coverage/areas`;
         const controller = new AbortController();
 
         const fetchData = async () => {
@@ -187,7 +188,7 @@ function MapWithUserLocation({ userLocation }) {
 // --- MAPA PRINCIPAL ---
 function Sandbox() {
     const [markerPos, setMarkerPos] = useState(null);
-    const API_KEY = import.meta.env.VITE_API_KEY_GOOGLE;
+    const API_KEY_GOOGLEMAPS = (window.__RUNTIME__ && window.__RUNTIME__.VITE_API_KEY_GOOGLE) || import.meta.env.VITE_API_KEY_GOOGLE;
 
     const [userLoctaion, setUserLocation] = useState({});
     const { showAvalibe, setShowAvalibe, showVerific } = UseTimeoutEffect();
@@ -287,7 +288,7 @@ function Sandbox() {
                     />
                 )}
 
-                <APIProvider apiKey={API_KEY}>
+                <APIProvider apiKey={API_KEY_GOOGLEMAPS}>
                     <GoogleMap
                         style={{ width: "100%", height: "100vh" }}
                         defaultCenter={{ lat: -8.8383, lng: 13.2344 }}
