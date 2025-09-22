@@ -144,7 +144,7 @@ function MapWithUserLocation({ userLocation }) {
    useEffect(() => {
        if (map && userLocation?.lat && userLocation?.lng) {
            map.setCenter(userLocation);
-           //map.setZoom(16);
+            
            const checkCoveraged = async () => {
                const payload = {
                    getIpUser,
@@ -191,7 +191,7 @@ function Sandbox() {
     const [markerPos, setMarkerPos] = useState(null);
     const API_KEY_GOOGLEMAPS = (window.__RUNTIME__ && window.__RUNTIME__.VITE_API_KEY_GOOGLE) || import.meta.env.VITE_API_KEY_GOOGLE;
 
-    console.log(API_KEY_GOOGLEMAPS, "ola");
+
 
     const [userLoctaion, setUserLocation] = useState({});
     const { showAvalibe, setShowAvalibe, showVerific } = UseTimeoutEffect();
