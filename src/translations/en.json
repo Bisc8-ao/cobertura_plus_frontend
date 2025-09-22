@@ -4,6 +4,7 @@
         "statistics": "Statistics",
         "map": "Map",
         "user": "User",
+        "hatmap": "Hat map",
         "category": {
             "overview": "Overview",
             "management": "Management"

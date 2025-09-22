@@ -58,6 +58,11 @@ function NavLink({ open }) {
                     icon: <MapIcon fontSize="2.4rem" />,
                     to: "/dashboard/map",
                 },
+                {
+                    text: translations.navlink.hatmap,
+                    icon: <MapIcon fontSize="2.4rem" />,
+                    to: "/dashboard/hatmap",
+                },
             ],
         },
         {
