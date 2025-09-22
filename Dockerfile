@@ -8,11 +8,12 @@ RUN npm ci
 
 # Copy source and build
 COPY . .
-ARG VITE_API_URL
-ARG VITE_API_KEY_GOOGLE
-# These args are optional at build-time; main idea is runtime injection
-ENV VITE_API_URL=$VITE_API_URL
-ENV VITE_API_KEY_GOOGLE=$VITE_API_KEY_GOOGLE
+
+# Keep the args/env if you ever want to build with them
+#ARG VITE_API_URL
+#ARG VITE_API_KEY_GOOGLE
+#ENV VITE_API_URL=$VITE_API_URL
+#ENV VITE_API_KEY_GOOGLE=$VITE_API_KEY_GOOGLE
 
 RUN npm run build
 
@@ -20,16 +21,19 @@ RUN npm run build
 FROM node:22-alpine
 WORKDIR /app
 
-# Install a tiny static server
-RUN npm i -g serve
+# Install a tiny static server (as root)
+RUN npm i -g serve@14
 
 # Copy built files
 COPY --from=build /app/dist ./dist
 
 # Copy entrypoint
-COPY docker/entrypoint.sh /entrypoint.sh
+COPY ./docker/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-EXPOSE 8080
+# Use a non-root user (node user exists in official node image)
 USER node
-CMD ["/entrypoint.sh"]
+
+EXPOSE 8080
+
+ENTRYPOINT ["/entrypoint.sh"]
