@@ -1,7 +1,7 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 import { LocationContext } from "./locationContext";
-import { UseCheckCoverage,  UseUserIp } from "../../hooks";
+import { UseCheckCoverage, UseTimeoutEffect, UseUserIp } from "../../hooks";
 
 function LocationProvider({ children }) {
     const [location, setLocation] = useState({
@@ -17,8 +17,8 @@ function LocationProvider({ children }) {
     const { getIpUser } = UseUserIp();
 
     function handleLocation(callback) {
-        setIsLoading(true);
         callback?.();
+        setIsLoading(true);
         console.log("ok")
         if (!navigator.geolocation) {
             setError("Geolocalização não suportada");

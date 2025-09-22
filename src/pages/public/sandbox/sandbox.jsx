@@ -190,6 +190,8 @@ function Sandbox() {
     const [markerPos, setMarkerPos] = useState(null);
     const API_KEY_GOOGLEMAPS = (window.__RUNTIME__ && window.__RUNTIME__.VITE_API_KEY_GOOGLE) || import.meta.env.VITE_API_KEY_GOOGLE;
 
+    console.log(API_KEY_GOOGLEMAPS);
+
     const [userLoctaion, setUserLocation] = useState({});
     const { showAvalibe, setShowAvalibe, showVerific } = UseTimeoutEffect();
     const { checkCoverage } = UseCheckCoverage();
