@@ -1,10 +1,15 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 import { LocationContext } from "./locationContext";
-import { UseCheckCoverage, UseUserIp } from "../../hooks";
+import { UseCheckCoverage,  UseUserIp } from "../../hooks";
 
 function LocationProvider({ children }) {
-    const [location, setLocation] = useState({});
+    const [location, setLocation] = useState({
+        lat: null,
+        lng: null,
+        ip: null,
+        corvaged: null,
+    });
     const [error, setError] = useState();
     const [isLoading, setIsLoading] = useState(false);
 
@@ -12,12 +17,15 @@ function LocationProvider({ children }) {
     const { getIpUser } = UseUserIp();
 
     function handleLocation(callback) {
+        setIsLoading(true);
+        callback?.();
+        console.log("ok")
         if (!navigator.geolocation) {
             setError("Geolocalização não suportada");
             return;
         }
 
-        setIsLoading(true);
+
 
         navigator.geolocation.getCurrentPosition(
             async (position) => {
@@ -41,7 +49,7 @@ function LocationProvider({ children }) {
                             corvaged: result.available,
                         });
                         setError(null);
-                         callback?.();
+
                     } catch (err) {
                         setError(err.message);
                     } finally {
