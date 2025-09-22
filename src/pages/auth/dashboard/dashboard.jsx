@@ -1,5 +1,16 @@
 import React from "react";
-import { Typography, Box, styled } from "@mui/material";
+import {
+    Typography,
+    Box,
+    styled,
+    TableContainer,
+    Paper,
+    Table,
+    TableHead,
+    TableRow,
+    TableCell,
+    TableBody,
+} from "@mui/material";
 import { Card } from "../../../components";
 import { vectorImages } from "../../../assets";
 import { useLangContext } from "../../../hooks";
@@ -15,6 +26,15 @@ const Container = styled("div")({
     flexDirection: "column",
     gap: "2.4rem",
 });
+function createData(name, calories, fat, carbs, protein) {
+    return { name, calories, fat, carbs, protein };
+}
+
+const rows = [
+    createData("Invoice ID", 159, 6.0, 24, 4.0),
+    createData("Category", 237, 9.0, 37, 4.3),
+    createData("Status", 262, 16.0, 24, 6.0),
+];
 
 function Dashboard() {
     const { translations } = useLangContext();
@@ -52,6 +72,76 @@ function Dashboard() {
                         <Card />
                     </Box>
                 </Container>
+
+                <TableContainer component={Paper}>
+                    <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                        <TableHead
+                            sx={[
+                                (theme) => ({
+                                    background:
+                                        theme.palette.mode === "dark"
+                                            ? "#28323c"
+                                            : "#f5f6f8",
+                                    border: "none",
+                                }),
+                            ]}
+                        >
+                            <TableRow>
+                                <TableCell
+                                    sx={{ fontSize: "1.4rem", border: "none" }}
+                                >
+                                    Invoice ID
+                                </TableCell>
+
+                                <TableCell
+                                    align="right"
+                                    sx={{ fontSize: "1.4rem", border: "none" }}
+                                >
+                                    Category
+                                </TableCell>
+                                <TableCell
+                                    align="right"
+                                    sx={{ fontSize: "1.4rem",border:"none" }}
+                                >
+                                    Status
+                                </TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {rows.map((row) => (
+                                <TableRow
+                                    key={row.name}
+                                    sx={{
+                                        "&:last-child td, &:last-child th": {
+                                            border: 0,
+                                        },
+                                    }}
+                                >
+                                    <TableCell
+                                        component="th"
+                                        scope="row"
+                                        sx={{ fontSize: "1.4rem" }}
+                                    >
+                                        {row.name}
+                                    </TableCell>
+                                    <TableCell
+                                        align="right"
+                                        sx={{ fontSize: "1.4rem" }}
+                                    >
+                                        
+                                        {row.calories}
+                                    </TableCell>
+                                    <TableCell
+                                        align="center"
+                                        sx={{ fontSize: "1.4rem" }}
+                                    >
+                                        {row.fat}
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
             </Wrapper>
         </React.Fragment>
     );

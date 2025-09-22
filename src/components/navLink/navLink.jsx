@@ -51,12 +51,12 @@ function NavLink({ open }) {
                 {
                     text: translations.navlink.statistics,
                     icon: <BarChartIcon fontSize="2.4rem" />,
-                    to: "/statistics",
+                    to: "/dashboard/statistics",
                 },
                 {
                     text: translations.navlink.map,
                     icon: <MapIcon fontSize="2.4rem" />,
-                    to: "/map",
+                    to: "/dashboard/map",
                 },
             ],
         },
@@ -66,7 +66,7 @@ function NavLink({ open }) {
                 {
                     text: translations.navlink.user,
                     icon: <PersonIcon fontSize="2.4rem" />,
-                    to: "/profile",
+                    to: "/dashboard/profile",
                 },
             ],
         },

@@ -6,18 +6,24 @@ import { ProtectedRoute } from "../../guards"
 function PrivateRoutes() {
     return (
         <>
-            <Route element={<ProtectedRoute />}>
-            <Route element={<AppLayoutPrivate />}>
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/statistics" element={<Statistics />} />
-                <Route path="/map" element={<Map />} />
-                <Route path="/user" element={<User />} />
-                <Route path="/profile" element={<Profile />} />
-            </Route>
-            <Route element={<AppLayout />}>
-                <Route path="/updatePassword" element={<UpdatePassword />} />
-            </Route>
-            </Route>
+
+                <Route element={<AppLayoutPrivate />}>
+                    <Route path="/dashboard" element={<Dashboard />} />
+                    <Route
+                        path="/dashboard/statistics"
+                        element={<Statistics />}
+                    />
+                    <Route path="/dashboard/map" element={<Map />} />
+                    <Route path="/dashboard/user" element={<User />} />
+                    <Route path="/dashboard/profile" element={<Profile />} />
+                </Route>
+                <Route element={<AppLayout />}>
+                    <Route
+                        path="/updatePassword"
+                        element={<UpdatePassword />}
+                    />
+                </Route>
+            {/*<Route element={<ProtectedRoute />}></Route>*/}
         </>
     );
 }

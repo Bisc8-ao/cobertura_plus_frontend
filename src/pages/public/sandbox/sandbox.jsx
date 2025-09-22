@@ -68,7 +68,7 @@ function MapWithGeoJson({ onLoad, onZoneClick }) {
 
         fetchData();
         return () => controller.abort();
-    }, []);
+    }, [API_URL]);
 
     useEffect(() => {
         if (!map || !geodata?.features) return;
@@ -190,7 +190,7 @@ function Sandbox() {
     const [markerPos, setMarkerPos] = useState(null);
     const API_KEY_GOOGLEMAPS = (window.__RUNTIME__ && window.__RUNTIME__.VITE_API_KEY_GOOGLE) || import.meta.env.VITE_API_KEY_GOOGLE;
 
-    console.log(API_KEY_GOOGLEMAPS);
+    console.log(API_KEY_GOOGLEMAPS, "ola");
 
     const [userLoctaion, setUserLocation] = useState({});
     const { showAvalibe, setShowAvalibe, showVerific } = UseTimeoutEffect();
