@@ -101,7 +101,7 @@ function Dashboard() {
                                 </TableCell>
                                 <TableCell
                                     align="right"
-                                    sx={{ fontSize: "1.4rem",border:"none" }}
+                                    sx={{ fontSize: "1.4rem", border: "none" }}
                                 >
                                     Status
                                 </TableCell>
@@ -128,12 +128,13 @@ function Dashboard() {
                                         align="right"
                                         sx={{ fontSize: "1.4rem" }}
                                     >
-                                        
                                         {row.calories}
                                     </TableCell>
                                     <TableCell
-                                        align="center"
-                                        sx={{ fontSize: "1.4rem" }}
+                                        align="right"
+                                        sx={[
+                                            (theme) => ({ fontSize: "1.4rem", borderBottom:"1px dashed" }),
+                                        ]}
                                     >
                                         {row.fat}
                                     </TableCell>

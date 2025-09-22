@@ -143,6 +143,8 @@ function MapWithUserLocation({ userLocation }) {
 
    useEffect(() => {
        if (map && userLocation?.lat && userLocation?.lng) {
+           map.setCenter(userLocation);
+           //map.setZoom(16);
            const checkCoveraged = async () => {
                const payload = {
                    getIpUser,
@@ -162,8 +164,7 @@ function MapWithUserLocation({ userLocation }) {
 
            checkCoveraged();
 
-           map.setCenter(userLocation);
-           map.setZoom(16);
+
        }
    }, [map, userLocation, checkCoverage, getIpUser]);
 
