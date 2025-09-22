@@ -6,7 +6,7 @@ import { useUserContext } from "./useUserContext";
 import { useLangContext } from "./useLangContext";
 
 function useSignUp() {
-    const API_URL = (window.__RUNTIME__ && window.__RUNTIME__.VITE_API_KEY_GOOGLE) || import.meta.env.VITE_API_URL;
+    const API_URL = import.meta.env.VITE_API_URL;
     const url_api = `${API_URL}/api/api/auth/sign-up`;
 
     const [showPassword, setShowPassword] = useState(false);

@@ -31,7 +31,7 @@ function ForgotPassword() {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState({})
-    const API_URL = (window.__RUNTIME__ && window.__RUNTIME__.VITE_API_KEY_GOOGLE) || import.meta.env.VITE_API_URL;
+    const API_URL = import.meta.env.VITE_API_URL;
     const url_api = `${API_URL}/forgot-password`;
     const { translations } = useLangContext();
 

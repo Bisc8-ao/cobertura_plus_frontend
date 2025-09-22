@@ -5,7 +5,7 @@ import { APIProvider, Map as GooleMap, useMap } from "@vis.gl/react-google-maps"
 
 function MapWithGeoJson() {
     const map = useMap();
-    const API_URL = (window.__RUNTIME__ && window.__RUNTIME__.VITE_API_KEY_GOOGLE) || import.meta.env.VITE_API_URL;
+    const API_URL = import.meta.env.VITE_API_URL;
 
     useEffect(() => {
         const url_api = `${API_URL}/api/coverage/areas`;
