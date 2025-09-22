@@ -144,7 +144,7 @@ function MapWithUserLocation({ userLocation }) {
    useEffect(() => {
        if (map && userLocation?.lat && userLocation?.lng) {
            map.setCenter(userLocation);
-            
+
            const checkCoveraged = async () => {
                const payload = {
                    getIpUser,
