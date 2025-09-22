@@ -6,7 +6,7 @@ import { useNavigate, Navigate } from "react-router-dom";
 import { vectorImages } from "../../../assets/svgs";
 import { useLangContext, useLocation } from "../../../hooks";
 
-function TestCovarge() {
+function TestCoverage() {
     const navigate = useNavigate();
     const { location } = useLocation();
     const { translations } = useLangContext();
@@ -77,4 +77,4 @@ function TestCovarge() {
         );
 }
 
-export { TestCovarge };
+export { TestCoverage };

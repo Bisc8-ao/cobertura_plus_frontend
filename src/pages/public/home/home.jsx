@@ -4,13 +4,13 @@ import { Button, Loader } from "../../../components";
 import { vectorImages, lotties } from "../../../assets";
 import * as Styled from "../../../styles";
 import { Link, useNavigate } from "react-router-dom";
-import { useLangContext, useLocation } from "../../../hooks";
+import { useLangContext, useLocation, UseThemeMode } from "../../../hooks";
 import { UseTimeoutEffect } from "../../../hooks";
 
 function Home() {
     const navigate = useNavigate();
     const { showAvalibe, setShowAvalibe, showVerific } = UseTimeoutEffect();
-
+    const {mode} = UseThemeMode()
     const { handleLocation, location } = useLocation();
 
     const { translations } = useLangContext();
@@ -40,7 +40,11 @@ function Home() {
                 <Styled.Ho_Wrapper>
                     <Styled.Shape>
                         <img
-                            src={vectorImages.shapes.shap_1}
+                            src={
+                                mode === "dark"
+                                    ? vectorImages.shapes.shap_2
+                                    : vectorImages.shapes.shap_1
+                            }
                             alt="shape decorativo"
                             style={{ width: "100%", height: "100%" }}
                         />
@@ -68,7 +72,11 @@ function Home() {
 
                     <Styled.Shap2>
                         <img
-                            src={vectorImages.shapes.shap_1}
+                            src={
+                                mode === "dark"
+                                    ? vectorImages.shapes.shap_2
+                                    : vectorImages.shapes.shap_1
+                            }
                             alt="shape decorativo"
                             style={{ width: "100%", height: "100%" }}
                         />

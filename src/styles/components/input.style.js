@@ -5,21 +5,30 @@ import { FormControl } from "@mui/material";
 export const Input = styled(TextField)(({ theme }) => ({
     "& label": {
         fontSize: theme.typography.sizes.base,
-        background: theme.palette.common.white,
-        color: theme.palette.gray[900],
+        background: theme.palette.background.default,
+        color:
+            theme.palette.mode === "dark"
+                ? theme.palette.common.white
+                : theme.palette.gray[900],
         lineHeight: "2.4rem",
         top: "-.5rem",
         paddingRight: ".5rem",
     },
 
     "& label.Mui-focused": {
-        color: "#1d1b20",
+        color:
+            theme.palette.mode === "dark"
+                ? theme.palette.common.white
+                : "#1d1b20",
         top: "-.2rem",
         fontWeight: "600",
     },
     "& label.MuiInputLabel-shrink": {
         top: "-.1rem",
-        color: theme.palette.gray[900],
+        color:
+            theme.palette.mode === "dark"
+                ? theme.palette.common.white
+                : theme.palette.gray[900],
     },
     "& label.MuiFormLabel-root:not(.Mui-error).Mui-focused": {
         top: "-.1rem",
@@ -32,17 +41,27 @@ export const Input = styled(TextField)(({ theme }) => ({
     "& .MuiInputBase-input": {
         fontSize: theme.typography.sizes.base,
         padding: "1.4rem",
-        color: theme.palette.gray[900],
+        color:
+            theme.palette.mode === "dark"
+                ? theme.palette.common.white
+                : theme.palette.gray[900],
     },
     "& .MuiOutlinedInput-root": {
         "& fieldset": {
             borderRadius: ".4rem",
-            border: `.1rem solid ${theme.palette.gray["900_25"]}`,
+            border: `.1rem solid ${
+                theme.palette.mode === "dark"
+                    ? "rgb(53, 61, 71)"
+                    : theme.palette.gray["900_25"]
+            }`,
             borderWidth: ".1rem",
             padding: "1rem",
         },
         "&.Mui-focused fieldset": {
-            borderColor: theme.palette.gray["900_25"],
+            borderColor:
+                theme.palette.mode === "dark"
+                    ? "#ffff"
+                    : theme.palette.gray["900_25"],
             borderWidth: ".1rem",
         },
         "&.Mui-error fieldset": {
@@ -55,8 +74,6 @@ export const Input = styled(TextField)(({ theme }) => ({
     "& .MuiFormHelperText-root": {
         fontSize: theme.typography.sizes.xs,
         marginLeft: "0",
-
-
     },
 }));
 
@@ -65,22 +82,31 @@ export const FormControlPassword = styled(FormControl)(({ theme }) => ({
 
     "& label": {
         fontSize: theme.typography.sizes.base,
-        background: "#fff",
-        color: theme.palette.gray[900],
+        background: theme.palette.background.default,
+        color:
+            theme.palette.mode === "dark"
+                ? theme.palette.common.white
+                : theme.palette.gray[900],
         lineHeight: "2.4rem",
         top: "-.5rem",
         paddingRight: ".5rem",
     },
 
     "& label.Mui-focused": {
-        color: "#1d1b20",
+        color:
+            theme.palette.mode === "dark"
+                ? theme.palette.common.white
+                : "#1d1b20",
         top: "-.2rem",
         fontWeight: "600",
     },
 
     "& label.MuiInputLabel-shrink": {
         top: "-.1rem",
-        color: theme.palette.gray[900],
+        color:
+            theme.palette.mode === "dark"
+                ? theme.palette.common.white
+                : theme.palette.gray[900],
     },
 
     "& label.MuiFormLabel-root:not(.Mui-error).Mui-focused": {
@@ -95,18 +121,28 @@ export const FormControlPassword = styled(FormControl)(({ theme }) => ({
     "& .MuiInputBase-input": {
         fontSize: theme.typography.sizes.base,
         padding: "1.4rem",
-        color: theme.palette.gray[900],
+        color:
+            theme.palette.mode === "dark"
+                ? theme.palette.common.white
+                : theme.palette.gray[900],
     },
 
     "& .MuiOutlinedInput-root": {
         borderColor: theme.palette.red[500],
         "& fieldset": {
             borderRadius: ".4rem",
-            border: `.1rem solid ${theme.palette.gray["900_25"]}`,
+            border: `.1rem solid ${
+                theme.palette.mode === "dark"
+                    ? "rgb(53, 61, 71)"
+                    : theme.palette.gray["900_25"]
+            }`,
             borderWidth: ".1rem",
         },
         "&.Mui-focused fieldset": {
-            borderColor: theme.palette.gray["900_25"],
+            borderColor:
+                theme.palette.mode === "dark"
+                    ? theme.palette.common.white
+                    : theme.palette.gray["900_25"],
             borderWidth: ".1rem",
         },
 

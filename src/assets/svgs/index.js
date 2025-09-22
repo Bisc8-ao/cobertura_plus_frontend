@@ -5,6 +5,7 @@ import padlock from "./icons/padlock.svg";
 import email from "./icons/email_icon.svg";
 import vector from "./shapes/vector.png";
 import shap_1 from "./shapes/shape_1.svg";
+import shap_2 from "./shapes/shape_2.svg";
 import send from "./icons/send.svg";
 import PinHasCoverage from "./icons/pinHasCoverage.svg";
 import PinHasNoCoverage from "./icons/pinHasNoCoverage.svg";
@@ -30,6 +31,7 @@ const vectorImages = {
     },
     shapes: {
         shap_1,
+        shap_2,
         vector,
     },
     flags: {

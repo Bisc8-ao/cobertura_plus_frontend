@@ -17,7 +17,7 @@ function PrivateRoutes() {
             <Route element={<AppLayout />}>
                 <Route path="/updatePassword" element={<UpdatePassword />} />
             </Route>
-           </Route>
+            </Route>
         </>
     );
 }

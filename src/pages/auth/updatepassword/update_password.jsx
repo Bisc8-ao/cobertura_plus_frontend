@@ -257,7 +257,7 @@ function UpdatePassword() {
                                 </Styled.ContainerFormContent>
 
                                 <div data-element="Link_back">
-                                    <Link to="/user">
+                                    <Link to="/profile">
                                         <span>
                                             <ArrowBackIosIcon />
                                         </span>{" "}

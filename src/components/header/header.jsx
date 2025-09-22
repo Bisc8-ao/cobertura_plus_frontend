@@ -1,5 +1,5 @@
 import React from "react";
-import { useLangContext, useWidthScreen } from "../../hooks";
+import { useLangContext, UseThemeMode, useWidthScreen } from "../../hooks";
 import { vectorImages } from "../../assets";
 import SettingsIcon from "@mui/icons-material/Settings";
 import * as Styled from "../../styles";
@@ -8,7 +8,8 @@ import { AnchorTemporaryDrawer } from "../anchorTemporaryDrawer";
 import { DrawerSettings } from "../drawerSettings";
 
 function Header() {
-    const {  translations } = useLangContext();
+    const { translations } = useLangContext();
+    const {mode} = UseThemeMode()
     const { widthScreen, isPageHome } = useWidthScreen();
     const location = useLocation();
 
@@ -20,9 +21,9 @@ function Header() {
         "/test-covarge",
     ].includes(location.pathname);
 
-
+        console.log((widthScreen || isPageVerifyAccount) && mode === "light");
     const logoSrc =
-        widthScreen || isPageVerifyAccount
+        (widthScreen || isPageVerifyAccount) && mode === "light"
             ? vectorImages.logos.brand.brand_logo_2
             : vectorImages.logos.brand.brand_logo_1;
 

@@ -8,6 +8,7 @@ const Ho_Wrapper = styled("section")(() => ({
     padding: "1.2rem",
     position: "relative",
     overflow: "hidden",
+
     "@media (min-width: 1512px)": {
         padding: " 2.5rem",
     },
@@ -19,7 +20,7 @@ const Ho_Wrapper = styled("section")(() => ({
     },
 }));
 
-const Ho_Container = styled("div")(() => ({
+const Ho_Container = styled("div")(({ theme }) => ({
     display: "flex",
     alignItems: "flex-end",
     width: "100%",
@@ -35,7 +36,11 @@ const Ho_Container = styled("div")(() => ({
         position: "absolute",
         top: "0",
         left: "0",
-        background: `linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.02)),
+        background: `linear-gradient(0deg, ${
+            theme.palette.mode === "dark"
+                ? "rgba(0, 0, 0, 0.84), rgba(0, 0, 0, 0.6)"
+                : "rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.02)"
+        }),
         url(${images.backgrounds.background_2})`,
         backgroundPosition: "100%",
         backgroundSize: "cover",

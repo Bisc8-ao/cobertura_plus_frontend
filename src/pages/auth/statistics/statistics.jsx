@@ -20,12 +20,12 @@ const Container = styled("div")({
 
 const MuiCard = styled(Muicard, {
     shouldForwardProp: (prop) => prop !== "gridColumn",
-})(({ gridColumn }) => ({
+})(({ gridColumn, theme }) => ({
     gridColumn,
     borderRadius: "1.6rem",
     position: "relative",
-    boxShadow:
-        "0 0 2px 0 rgba(145 158 171 / 20%),0 12px 24px -4px rgba(145 158 171 / 12%)",
+    background: theme.palette.card.background,
+    boxShadow: theme.customShadows.card,
     "@media (max-width:820px)": {
         gridColumn: "span 1",
     },
@@ -38,15 +38,17 @@ const CardContent = styled(MuiCardContent, {
     padding,
 }));
 
-const LinearDotted = styled("div")({
+const LinearDotted = styled("div")(({ theme }) => ({
     position: "absolute",
     bottom: "7rem",
     left: "0",
     right: "0",
     height: "1px",
-    borderTop: "1px dashed #ccc",
+    borderTop: `1px dashed ${
+        theme.palette.mode === "dark" ? "#7a7a7a33" : "#e0e0e0"
+    }`,
     zIndex: 1,
-});
+}));
 function Statistics() {
     const { translations } = useLangContext();
 

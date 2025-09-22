@@ -1,6 +1,5 @@
 import React from "react";
-import { images } from "../../../assets";
-import { styled, Typography } from "@mui/material";
+
 import * as Styled from "../../../styles";
 import { Button, InputOtp } from "../../../components";
 import { Link,useNavigate } from "react-router-dom";
@@ -11,17 +10,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useLangContext } from "../../../hooks";
 
-const Wrapper = styled("div")({
-    width: "100%",
-    height: "100%",
-    backgroundImage: `url(${images.backgrounds.background_1})`,
-    backgroundPosition: "center",
-    backgroundSize: "cover",
-    backgroundRepeat: "no-repeat",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-});
+
 
 const schema = z.object({
     email: z
@@ -53,7 +42,7 @@ function VerifyAccount() {
     }
     return (
         <React.Fragment>
-            <Wrapper>
+            <Styled.Ver_Wrapper>
                 <Styled.ContainerForm
                     borderRadius="1.5rem"
                     padding="4rem"
@@ -62,17 +51,13 @@ function VerifyAccount() {
                 >
                     <Styled.ContainerFormContent alignment="center">
                         <img src={vectorImages.icons.email} />
-                        <Typography
+                        <Styled.Ver_Typography
                             variant="h4"
                             component="h2"
-                            sx={{
-                                fontSize: "1.9rem",
-                                fontWeight: "800",
-                                lineHeight: "2.8rem",
-                            }}
+
                         >
                             {translations.pages.verifyaccount.title}
-                        </Typography>
+                        </Styled.Ver_Typography>
                         <span>
                             {translations.pages.verifyaccount.description}
                         </span>
@@ -131,7 +116,7 @@ function VerifyAccount() {
                         </div>
                     </Styled.ContainerInputs>
                 </Styled.ContainerForm>
-            </Wrapper>
+            </Styled.Ver_Wrapper>
         </React.Fragment>
     );
 }

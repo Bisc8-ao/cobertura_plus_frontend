@@ -1,5 +1,5 @@
 import React from "react";
-import { useLangContext, useWidthScreen } from "../../hooks";
+import { useLangContext, UseThemeMode, useWidthScreen } from "../../hooks";
 import { vectorImages } from "../../assets";
 import SettingsIcon from "@mui/icons-material/Settings";
 import * as Styled from "../../styles";
@@ -10,6 +10,9 @@ import { DrawerSettings } from "../drawerSettings";
 function Header2() {
     const { translations } = useLangContext();
     const { widthScreen } = useWidthScreen()
+    const { mode } = UseThemeMode();
+
+
     return (
         <React.Fragment>
             <Styled.He_Wrapper>
@@ -27,7 +30,6 @@ function Header2() {
                                             }}
                                         />
 
-
                                         <SettingsIcon
                                             sx={{ color: "#637381" }}
                                         />
@@ -43,7 +45,7 @@ function Header2() {
                             <Styled.He_ImgContainer>
                                 <img
                                     src={
-                                        widthScreen
+                                        widthScreen && mode === "light"
                                             ? vectorImages.logos.brand
                                                   .brand_logo_2
                                             : vectorImages.logos.brand

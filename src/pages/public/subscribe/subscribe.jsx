@@ -2,17 +2,14 @@ import React from "react";
 import { useLangContext, useLocation, useSteps } from "../../../hooks";
 import { Typography, StepLabel, Step, Box } from "@mui/material";
 import { images } from "../../../assets";
-import { styled } from "@mui/material";
+
 import * as Styled from "../../../styles";
 import { Button } from "../../../components";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { Navigate } from "react-router-dom";
 
-const Wrapper = styled("div")({
-    width: "100%",
-    height: "100%",
-});
+
 
 function Subscribe() {
     const { location } = useLocation();
@@ -35,7 +32,7 @@ function Subscribe() {
 
     return (
         <React.Fragment>
-            <Wrapper>
+            <Styled.Pag_Wrapper>
                 <Styled.Container_Grid gridTemplateColumns="4.7fr 7.5fr">
                     <Styled.GridImg
                         img={images.characters.character_1}
@@ -227,7 +224,7 @@ function Subscribe() {
                         </Styled.ContainerForm>
                     </Styled.GridContent>
                 </Styled.Container_Grid>
-            </Wrapper>
+            </Styled.Pag_Wrapper>
         </React.Fragment>
     );
 }

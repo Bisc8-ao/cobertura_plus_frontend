@@ -45,17 +45,17 @@ function NavLink({ open }) {
             items: [
                 {
                     text: translations.navlink.app,
-                    icon: <SpeedIcon />,
+                    icon: <SpeedIcon fontSize="2.4rem" />,
                     to: "/dashboard",
                 },
                 {
                     text: translations.navlink.statistics,
-                    icon: <BarChartIcon />,
+                    icon: <BarChartIcon fontSize="2.4rem" />,
                     to: "/statistics",
                 },
                 {
                     text: translations.navlink.map,
-                    icon: <MapIcon />,
+                    icon: <MapIcon fontSize="2.4rem" />,
                     to: "/map",
                 },
             ],
@@ -65,7 +65,7 @@ function NavLink({ open }) {
             items: [
                 {
                     text: translations.navlink.user,
-                    icon: <PersonIcon />,
+                    icon: <PersonIcon fontSize="2.4rem" />,
                     to: "/profile",
                 },
             ],
@@ -73,7 +73,7 @@ function NavLink({ open }) {
     ];
 
     const renderList = (title, items, index) => (
-        <List key={index} sx={{padding:"4rem 1.5rem"}}>
+        <List key={index} sx={{paddingX:" 1.6rem"}}>
             <ListItem>
                 <ListText
                     open={open}
@@ -89,7 +89,7 @@ function NavLink({ open }) {
                     <ListItem
                         key={index}
                         disablePadding
-                        sx={{ display: "block", padding: "0 1rem" }}
+                        sx={{ display: "block", padding: ` 0 ${open === false ? "0" :"1rem" }` }}
                     >
                         <ListItemButton
                             onClick={() => navigate(item.to)}
@@ -98,9 +98,9 @@ function NavLink({ open }) {
                                     background: isActive
                                         ? "#1ca6e61e"
                                         : "transparent",
-                                    padding: ".5rem 1rem",
+                                    padding:` 1rem ${open === false ? "2rem" :"1rem" }` ,
                                     margin: "2rem 0",
-                                    borderRadius: ".4rem",
+                                    borderRadius: ".8rem",
                                     "@media (max-width:1024px)": {
                                         gap: "2rem",
                                     },
@@ -126,7 +126,7 @@ function NavLink({ open }) {
                             <ListText
                                 isActive={isActive}
                                 open={open}
-                                fontSize="1.4rem"
+                                fontSize="1.6rem"
                                 primary={item.text}
                             />
                         </ListItemButton>

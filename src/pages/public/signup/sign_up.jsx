@@ -9,17 +9,14 @@ import {
     Typography,
 } from "@mui/material";
 import { images } from "../../../assets";
-import { styled } from "@mui/material";
+
 import * as Styled from "../../../styles";
 import { Link } from "react-router-dom";
 import { Button } from "../../../components";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 import { useLangContext, useSignUp } from "../../../hooks";
-const Wrapper = styled("div")({
-    width: "100%",
-    height: "100%",
-});
+
 
 function SignUp() {
     const {
@@ -32,13 +29,14 @@ function SignUp() {
         handleMouseUpPassword,
         showPassword,
         loading,
+        data
     } = useSignUp();
 
     const { translations } = useLangContext();
 
     return (
         <React.Fragment>
-            <Wrapper>
+            <Styled.Pag_Wrapper>
                 <Styled.Container_Grid gridTemplateColumns="7.5fr 4.7fr">
                     <Styled.GridContent>
                         <Styled.ContainerForm onSubmit={handleSubmit(onSubmit)}>
@@ -63,6 +61,13 @@ function SignUp() {
                             </Styled.ContainerFormContent>
 
                             <Styled.ContainerInputs>
+                                {data.messsage &&
+                                <Styled.AdaptiveAlert
+                                    severity="info"
+                                    icon={<Styled.AdaptiveInfoIcon />}
+                                >
+                                    {data.messsage}
+                                </Styled.AdaptiveAlert>}
                                 <Styled.NameContainer>
                                     <Styled.Input
                                         error={!!errors.firstName}
@@ -95,7 +100,6 @@ function SignUp() {
                                         }
                                     />
                                 </Styled.NameContainer>
-
                                 <Styled.Input
                                     error={!!errors.email}
                                     id="outlined-basic-3"
@@ -217,7 +221,6 @@ function SignUp() {
                                         </FormHelperText>
                                     )}
                                 </Styled.FormControlPassword>
-
                                 <Button
                                     variant="contained"
                                     text={translations.pages.signup.btnText.crt}
@@ -252,7 +255,7 @@ function SignUp() {
                         borderRadius=" 1.5rem 0  0 1.5rem"
                     />
                 </Styled.Container_Grid>
-            </Wrapper>
+            </Styled.Pag_Wrapper>
         </React.Fragment>
     );
 }

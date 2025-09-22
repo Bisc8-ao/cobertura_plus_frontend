@@ -6,4 +6,4 @@ export { VerifyAccount } from "./verifyaccount";
 export { Subscribe } from "./subscribe";
 export { Sandbox } from "./sandbox"
 export {SubscriptionConfirmation} from "./subscriptionConfirmation"
-export {TestCovarge} from "./testCovarge"
+export { TestCoverage } from "./testCoverage";

@@ -26,15 +26,14 @@ export const He_Container = styled("div", {
 export const He_Content = styled("div")({
     display: "flex",
     justifyContent: "space-between",
-    alignItems:"center"
+    alignItems: "center",
 });
 
-export const Span = styled(Typography)(({theme}) =>({
-    color:theme.palette.gray[950],
+export const Span = styled(Typography)(({ theme }) => ({
+    color: theme.palette.gray[950],
     fontZise: theme.typography.sizes.base,
-    fontWeight:"600"
+    fontWeight: "600",
 }));
-
 
 export const He_ImgContainer = styled("div")({
     "& img": {
@@ -62,6 +61,8 @@ export const RouterLink = styled(Link, {
     "& span": {
         fontSize: theme.typography.sizes.base,
         color: isPageHome
+            ? theme.palette.common.white
+            : theme.palette.mode === "dark"
             ? theme.palette.common.white
             : theme.palette.gray[950],
         fontWeight: "600",

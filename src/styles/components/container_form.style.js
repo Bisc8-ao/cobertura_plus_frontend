@@ -1,7 +1,6 @@
 import { Alert, styled } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
 
-
 const ContainerForm = styled("form")(
     ({ theme, borderRadius, padding, width }) => ({
         display: "flex",
@@ -9,7 +8,7 @@ const ContainerForm = styled("form")(
         gap: "4rem",
         width: width || "45%",
         padding: padding || "0",
-        background: theme.palette.common.white,
+        background: theme.palette.background.default,
         borderRadius: borderRadius,
 
         "@media (min-width: 1920px)": {
@@ -40,6 +39,10 @@ const ContainerFormContent = styled("div")(({ theme, alignment }) => ({
     gap: "1.2rem",
     justifyContent: alignment || "start",
     alignItems: alignment || "start",
+    color:
+        theme.palette.mode === "dark"
+            ? theme.palette.common.white
+            : theme.palette.common.black,
 
     "& > span ": {
         fontSize: theme.typography.sizes.base,
@@ -96,7 +99,10 @@ const ContainerInputs = styled("div")(({ theme }) => ({
         alignItems: "center",
         gap: " .8rem",
         fontSize: theme.typography.sizes.base,
-        color: theme.palette.gray[950],
+        color:
+            theme.palette.mode === "dark"
+                ? theme.palette.common.white
+                : theme.palette.gray[950],
     },
     "& div[data-element='Link_back'] a svg": {
         fontSize: theme.typography.sizes.xs,
@@ -118,6 +124,9 @@ const ContainerInputs = styled("div")(({ theme }) => ({
 const AdaptiveAlert = styled(Alert)(({ theme }) => ({
     background: theme.palette.mint[50],
     fontSize: theme.typography.sizes.base,
+    color:theme.palette.mode === "dark"
+                ? theme.palette.common.black
+                : theme.palette.gray[500],
     "@media (max-width: 320px)": {
         fontSize: theme.typography.sizes.xs,
     },
@@ -144,7 +153,10 @@ const TermsService = styled("div")(({ theme }) => ({
     "& span > a": {
         fontWeight: "800",
 
-        color: theme.palette.common.black,
+        color:
+            theme.palette.mode === "dark"
+                ? theme.palette.common.white
+                : theme.palette.common.black,
         borderBottom: `1px solid ${theme.palette.gray[500]}`,
         paddingBottom: "0.3rem",
         transition: " all 0.3s ease-in-out",

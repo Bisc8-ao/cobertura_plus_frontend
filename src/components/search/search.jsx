@@ -29,11 +29,18 @@ function Search() {
           <div>
               <Button
                   onClick={handleOpen}
-                  sx={{
-                      background: "#919eab1c",
-                      color: "#1d1b208f",
+                  sx={(theme) => ({
+                      background:
+                          theme.palette.mode === "dark"
+                              ? "#1d242c"
+                              : "#919eab1c",
+
+                      color:
+                          theme.palette.mode === "dark"
+                              ? "#75808a"
+                              : "#1d1b208f",
                       borderRadius: "1.2rem",
-                  }}
+                  })}
               >
                   <SearchIcon sx={{ fontSize: "2rem" }} />
               </Button>
