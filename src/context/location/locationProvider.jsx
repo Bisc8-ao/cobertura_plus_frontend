@@ -4,12 +4,7 @@ import { LocationContext } from "./locationContext";
 import { UseCheckCoverage, UseUserIp } from "../../hooks";
 
 function LocationProvider({ children }) {
-    const [location, setLocation] = useState({
-        lat: null,
-        lng: null,
-        ip: null,
-        corvaged: null,
-    });
+    const [location, setLocation] = useState({});
     const [error, setError] = useState();
     const [isLoading, setIsLoading] = useState(false);
 
@@ -24,8 +19,6 @@ function LocationProvider({ children }) {
             setError("Geolocalização não suportada");
             return;
         }
-
-
 
         navigator.geolocation.getCurrentPosition(
             async (position) => {
@@ -49,17 +42,16 @@ function LocationProvider({ children }) {
                             corvaged: result.available,
                         });
                         setError(null);
-
                     } catch (err) {
                         setError(err.message);
                     } finally {
                         setIsLoading(false);
-
                     }
                 } else {
-                    setError("Não foi possível obter todos os dados necessários (IP, Localização).");
+                    setError(
+                        "Não foi possível obter todos os dados necessários (IP, Localização)."
+                    );
                     setIsLoading(false);
-
                 }
             },
             (err) => {

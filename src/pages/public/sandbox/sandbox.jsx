@@ -11,7 +11,7 @@ import { InputAdornment } from "@mui/material";
 import { Button, Loader } from "../../../components";
 import LocationSearchingIcon from "@mui/icons-material/LocationSearching";
 import { lotties } from "../../../assets";
-import { UseCheckCoverage, UseTimeoutEffect, UseUserIp } from "../../../hooks";
+import { UseCheckCoverage, UseLocation, UseTimeoutEffect, UseUserIp } from "../../../hooks";
 import * as Styled from "../../../styles";
 
 // ---- Funções utilitárias para corrigir GeoJSON ----
@@ -168,6 +168,7 @@ function MapController({
 function MapWithUserLocation({ userLocation, showUserMarker }) {
     const [location, setLocation] = useState({});
     const { checkCoverage: rawCheckCoverage } = UseCheckCoverage();
+
     const { getIpUser } = UseUserIp();
 
     const checkCoverage = useCallback(
@@ -192,6 +193,7 @@ function MapWithUserLocation({ userLocation, showUserMarker }) {
                     ip: result.userIp,
                     covered: result.covered ?? false,
                 });
+
             };
 
             checkCoveraged();
@@ -216,6 +218,8 @@ function MapWithUserLocation({ userLocation, showUserMarker }) {
 // --- MAPA PRINCIPAL ---
 function Sandbox() {
     const [markerPos, setMarkerPos] = useState(null);
+    const { location, setLocation } =
+        UseLocation();
     const API_KEY_GOOGLEMAPS =
         (window.__RUNTIME__ && window.__RUNTIME__.VITE_API_KEY_GOOGLE) ||
         import.meta.env.VITE_API_KEY_GOOGLE;
@@ -224,7 +228,7 @@ function Sandbox() {
     const { showAvalibe, setShowAvalibe, showVerific } = UseTimeoutEffect();
     const { checkCoverage } = UseCheckCoverage();
     const { getIpUser } = UseUserIp();
-    const [location, setLocation] = useState({});
+
 
     // clique no mapa fora das zonas
     const handleMapClick = async (event) => {
@@ -244,11 +248,12 @@ function Sandbox() {
 
             const result = await checkCoverage(payload);
 
+
             setLocation({
-                lat: result.userLat,
-                lng: result.userLon,
-                ip: result.userIp,
-                corvaged: false,
+                lat,
+                lng,
+                ip: getIpUser,
+                corvaged: result.available ?? false,
             });
         }
     };
@@ -267,13 +272,14 @@ function Sandbox() {
             };
 
             const result = await checkCoverage(payload);
-
             setLocation({
-                lat: result.userLat,
-                lng: result.userLon,
-                ip: result.userIp,
-                corvaged: result.available,
+                lat: pos.lat,
+                lng: pos.lng,
+                ip: getIpUser,
+                corvaged: result.available ?? false,
             });
+
+
         }
     };
 
@@ -307,7 +313,7 @@ function Sandbox() {
         [userLoctaion]
     );
 
-    console.log(markerPos);
+    console.log(location);
 
     return (
         <React.Fragment>
@@ -330,7 +336,7 @@ function Sandbox() {
                         disableDefaultUI
                         onClick={(e) => handleMapClick(e)}
                     >
-                       
+
                         <MapController
                             userLocation={memoizedUserLocation}
                             clickedPosition={markerPos}

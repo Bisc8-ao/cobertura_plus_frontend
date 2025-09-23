@@ -4,14 +4,14 @@ import { Button, Loader } from "../../../components";
 import { vectorImages, lotties } from "../../../assets";
 import * as Styled from "../../../styles";
 import { Link, useNavigate } from "react-router-dom";
-import { useLangContext, useLocation, UseThemeMode } from "../../../hooks";
+import { useLangContext, UseLocation, UseThemeMode } from "../../../hooks";
 import { UseTimeoutEffect } from "../../../hooks";
 
 function Home() {
     const navigate = useNavigate();
     const { showAvalibe, setShowAvalibe, showVerific } = UseTimeoutEffect();
     const {mode} = UseThemeMode()
-    const { handleLocation, location } = useLocation();
+    const { handleLocation, location } = UseLocation();
 
     const { translations } = useLangContext();
 

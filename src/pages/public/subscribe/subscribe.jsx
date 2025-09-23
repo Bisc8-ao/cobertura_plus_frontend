@@ -1,5 +1,5 @@
 import React from "react";
-import { useLangContext, useLocation, useSteps } from "../../../hooks";
+import { useLangContext, UseLocation, useSteps } from "../../../hooks";
 import { Typography, StepLabel, Step, Box } from "@mui/material";
 import { images } from "../../../assets";
 
@@ -12,7 +12,7 @@ import { Navigate } from "react-router-dom";
 
 
 function Subscribe() {
-    const { location } = useLocation();
+    const { location } = UseLocation();
     const { translations } = useLangContext();
     const {
         register,
@@ -26,9 +26,9 @@ function Subscribe() {
         loading,
     } = useSteps();
 
-  /* if (Object.keys(location).length === 0) {
+  if (Object.keys(location).length === 0) {
           return <Navigate to="/" replace />;
-      }*/
+      }
 
     return (
         <React.Fragment>

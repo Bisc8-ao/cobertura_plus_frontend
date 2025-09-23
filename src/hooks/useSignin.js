@@ -100,20 +100,23 @@ export function useSignin() {
                 storeToken(accessToken);
 
                 const user = data?.user ?? {};
-                const fullName = `${user.userFirstName ?? ""} ${
-                    user.userLastName ?? ""
+                const fullName = `${user.firstName ?? ""} ${
+                    user.lastName ?? ""
                 }`.trim();
+                const emailUsername = user.email
+                    ? user.email.split("@")[0]
+                    : "";
                 const name =
                     fullName ||
                     user.name ||
                     user.username ||
-                    user.userEmail ||
+                    emailUsername ||
                     value.email;
 
                 dispatch({
                     type: "user_active",
                     payload: {
-                        email: user.userEmail || data?.email || value.email,
+                        email: user.email || data?.email || value.email,
                         name,
                         photo: user.photo || null,
                     },

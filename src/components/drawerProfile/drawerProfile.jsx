@@ -39,7 +39,8 @@ const Button = styled(MuiButton)(({ theme }) => ({
 function DrawerProfile() {
     const navigate = useNavigate();
 
-    const { dispatch } = useUserContext();
+
+    const { state,dispatch } = useUserContext();
     function handleClickLogout() {
         localStorage.removeItem("auth_token");
         localStorage.removeItem("auth_token_exp");
@@ -95,10 +96,10 @@ function DrawerProfile() {
                             component="span"
                             sx={{ fontWeight: "800" }}
                         >
-                            Yuran Simão
+                            {state?.user_name}
                         </Typography>
                         <Typography variant="h5" component="span">
-                            yuran@bisc8.co
+                            {state.user_email}
                         </Typography>
                     </Box>
                     <Button variant="contained" onClick={handleClickLogout}>
