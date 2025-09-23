@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Navigate, Outlet } from "react-router-dom";
 import {
     FormHelperText,
     IconButton,
@@ -16,7 +16,7 @@ import { Button } from "../../../components";
 
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
-import { useLangContext, useSignin } from "../../../hooks";
+import { useLangContext, useSignin, useUserContext } from "../../../hooks";
 
 
 
@@ -35,6 +35,11 @@ function SignIn() {
     } = useSignin();
 
     const { translations } = useLangContext();
+    const { state } = useUserContext();
+
+     if (state?.user_email) {
+            return <Navigate to={"/dashboard"} replace />;
+        }
 
     return (
         <React.Fragment>
