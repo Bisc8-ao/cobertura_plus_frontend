@@ -6,7 +6,7 @@ import { ProtectedRoute } from "../../guards"
 function PrivateRoutes() {
     return (
         <>
-            <Route element={<ProtectedRoute />}>
+             <Route element={<ProtectedRoute />}>
             <Route element={<AppLayoutPrivate />}>
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/dashboard/statistics" element={<Statistics />} />
@@ -18,7 +18,7 @@ function PrivateRoutes() {
             <Route element={<AppLayout />}>
                 <Route path="/updatePassword" element={<UpdatePassword />} />
             </Route>
-            </Route>
+           </Route>
         </>
     );
 }

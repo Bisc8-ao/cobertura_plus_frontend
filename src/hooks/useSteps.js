@@ -77,7 +77,7 @@ function useSteps() {
     function onSubmit() {
 
         setLoading(true)
-        navigate("/subscription-confirmation");
+        navigate("/coverage/subscription-confirmation");
     }
 
 

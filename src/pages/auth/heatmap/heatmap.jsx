@@ -34,35 +34,56 @@ const darkMapStyle = [
     },
 ];
 
-// ---- Lista de pontos em Angola ----
-const angolaPoints = [
-    { lat: -8.839, lng: 13.2894 }, // Luanda
-    { lat: -12.5763, lng: 13.4055 }, // Benguela
-    { lat: -12.7761, lng: 15.7396 }, // Huambo
-    { lat: -14.917, lng: 13.4925 }, // Lobito
-    { lat: -14.9167, lng: 13.5 }, // Catumbela
-    { lat: -12.3833, lng: 16.9333 }, // Kuito
-    { lat: -14.917, lng: 13.5 }, // Sumbe
-    { lat: -15.1961, lng: 12.1522 }, // Namibe
-    { lat: -16.7833, lng: 14.9167 }, // Lubango
-];
+// ---- Hook para buscar dados da API ----
+function GetAllTest() {
+    const [data, setData] = useState(null);
+    const userToken = localStorage.getItem("auth_token");
+    const url = `${import.meta.env.VITE_API_URL}/api/dashboard/tests`;
 
-// ---- Função que converte lista para GeoJSON ----
-const makeGeojson = () => ({
-    type: "FeatureCollection",
-    features: angolaPoints.map((p, i) => ({
-        type: "Feature",
-        geometry: {
-            type: "Point",
-            coordinates: [p.lng, p.lat],
-        },
-        properties: {
-            id: `p-${i}`,
-            mag: 1,
-        },
-    })),
-});
+    useEffect(() => {
+        fetch(url, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${userToken}`,
+            },
+        })
+            .then((res) => {
+                if (!res.ok) throw new Error("Não autorizado");
+                return res.json();
+            })
+            .then((json) => setData(json))
+            .catch((err) => console.error("Erro no fetch:", err));
+    }, [url, userToken]);
 
+    return { data };
+}
+
+// ---- Função que converte dados da API para GeoJSON ----
+const makeGeojsonFromApi = (apiData) => {
+    if (!apiData) return { type: "FeatureCollection", features: [] };
+
+    // junta todos os arrays dentro do objeto (testes, 461, etc.)
+    const allPoints = Object.values(apiData).flat();
+
+    return {
+        type: "FeatureCollection",
+        features: allPoints.map((p) => ({
+            type: "Feature",
+            geometry: {
+                type: "Point",
+                coordinates: [p.lon, p.lat], // ordem: [lon, lat]
+            },
+            properties: {
+                id: p.id,
+                available: p.available,
+                mag: p.available ? 2 : 1, // peso maior se disponível
+            },
+        })),
+    };
+};
+
+// ---- Componente Heatmap ----
 const HeatmapExemple = ({ geojson, radius, opacity }) => {
     const map = useMap();
     const visualization = useMapsLibrary("visualization");
@@ -98,17 +119,23 @@ const HeatmapExemple = ({ geojson, radius, opacity }) => {
     return null;
 };
 
+// ---- Componente principal ----
 function HeatMap() {
     const [radius, setRadius] = useState(25);
     const [opacity, setOpacity] = useState(0.8);
     const [angolaGeojson, setAngolaGeojson] = useState();
+
     const API_KEY_GOOGLEMAPS =
         (window.__RUNTIME__ && window.__RUNTIME__.VITE_API_KEY_GOOGLE) ||
         import.meta.env.VITE_API_KEY_GOOGLE;
-    
+
+    const { data } = GetAllTest();
+
     useEffect(() => {
-        setAngolaGeojson(makeGeojson());
-    }, []);
+        if (data) {
+            setAngolaGeojson(makeGeojsonFromApi(data));
+        }
+    }, [data]);
 
     return (
         <APIProvider apiKey={API_KEY_GOOGLEMAPS}>

@@ -4,15 +4,15 @@ import { Typography, Box } from "@mui/material";
 import { Button } from "../../../components";
 import { useNavigate, Navigate } from "react-router-dom";
 import { vectorImages } from "../../../assets/svgs";
-import { useLangContext, useLocation } from "../../../hooks";
+import { useLangContext, UseLocation } from "../../../hooks";
 
 function TestCoverage() {
     const navigate = useNavigate();
-    const { location } = useLocation();
+    const { location } = UseLocation();
     const { translations } = useLangContext();
 
     function HandleNavigateSubscribe() {
-        navigate("/subscribe");
+        navigate("/coverage/subscribe");
     }
      function HandleClickNavigate() {
          navigate("/");
@@ -20,9 +20,9 @@ function TestCoverage() {
 
     console.log(location);
 
-     /*if (Object.keys(location).length === 0) {
+     if (Object.keys(location).length === 0) {
          return <Navigate to="/" replace />;
-        }*/
+        }
 
         return (
             <React.Fragment>

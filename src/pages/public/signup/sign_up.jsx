@@ -54,20 +54,21 @@ function SignUp() {
                                 </Typography>
                                 <span>
                                     {translations.pages.signup.description}{" "}
-                                    <Link to="/signin">
+                                    <Link to="/auth/signin">
                                         {translations.pages.signup.link.log}
                                     </Link>
                                 </span>
                             </Styled.ContainerFormContent>
 
                             <Styled.ContainerInputs>
-                                {data.messsage &&
-                                <Styled.AdaptiveAlert
-                                    severity="info"
-                                    icon={<Styled.AdaptiveInfoIcon />}
-                                >
-                                    {data.messsage}
-                                </Styled.AdaptiveAlert>}
+                                {data.messsage && (
+                                    <Styled.AdaptiveAlert
+                                        severity="info"
+                                        icon={<Styled.AdaptiveInfoIcon />}
+                                    >
+                                        {data.messsage}
+                                    </Styled.AdaptiveAlert>
+                                )}
                                 <Styled.NameContainer>
                                     <Styled.Input
                                         error={!!errors.firstName}

@@ -4,19 +4,19 @@ import { Button, Loader } from "../../../components";
 import { vectorImages, lotties } from "../../../assets";
 import * as Styled from "../../../styles";
 import { Link, useNavigate } from "react-router-dom";
-import { useLangContext, useLocation, UseThemeMode } from "../../../hooks";
+import { useLangContext, UseLocation, UseThemeMode } from "../../../hooks";
 import { UseTimeoutEffect } from "../../../hooks";
 
 function Home() {
     const navigate = useNavigate();
     const { showAvalibe, setShowAvalibe, showVerific } = UseTimeoutEffect();
     const {mode} = UseThemeMode()
-    const { handleLocation, location } = useLocation();
+    const { handleLocation, location } = UseLocation();
 
     const { translations } = useLangContext();
 
     function handleClick() {
-        navigate("/signin");
+        navigate("/auth/signin");
     }
 
     function handleClickLocation() {
@@ -63,7 +63,7 @@ function Home() {
                                     variant="contained"
                                     onClick={handleClickLocation}
                                 />
-                                <Link to="/sandbox">
+                                <Link to="/coverage/sandbox">
                                     {translations.pages.home.btn.OTL}
                                 </Link>
                             </Styled.Ho_Box>

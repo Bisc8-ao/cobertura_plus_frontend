@@ -7,7 +7,7 @@ import { useLangContext } from "./useLangContext";
 
 function useSignUp() {
     const API_URL = import.meta.env.VITE_API_URL;
-    const url_api = `${API_URL}/api/api/auth/sign-up`;
+    const url_api = `${API_URL}/api/auth/sign-up`;
 
     const [showPassword, setShowPassword] = useState(false);
     const [data, setData] = useState({});
@@ -88,7 +88,7 @@ function useSignUp() {
 
             const result = await response.json();
             setData(result);
-
+            console.log(result)
             if (response.ok) {
                 const user = result?.user || {};
                 const fullName = `${user.userFirstName ?? ""} ${

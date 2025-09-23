@@ -1,7 +1,7 @@
 import React, { useReducer } from "react";
 import PropTypes from "prop-types";
 import { UserContext } from "./userContext";
-import { InitialStaste } from "../initialState/initialState";
+import { InitialStaste } from "../initialState/userInitialState";
 import { UserReducer } from "../reducer";
 
 function UserProvider({ children }) {

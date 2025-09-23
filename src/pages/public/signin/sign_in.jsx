@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Navigate, Outlet } from "react-router-dom";
 import {
     FormHelperText,
     IconButton,
@@ -16,7 +16,7 @@ import { Button } from "../../../components";
 
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
-import { useLangContext, useSignin } from "../../../hooks";
+import { useLangContext, useSignin} from "../../../hooks";
 
 
 
@@ -35,6 +35,8 @@ function SignIn() {
     } = useSignin();
 
     const { translations } = useLangContext();
+
+
 
     return (
         <React.Fragment>
@@ -60,7 +62,7 @@ function SignIn() {
                                 </Typography>
                                 <span>
                                     {translations.pages.signin.description}{" "}
-                                    <Link to="/signup">
+                                    <Link to="/auth/signup">
                                         {translations.pages.signin.link.crt}
                                     </Link>
                                 </span>
