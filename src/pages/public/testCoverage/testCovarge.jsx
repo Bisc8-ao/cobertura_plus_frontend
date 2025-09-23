@@ -12,7 +12,7 @@ function TestCoverage() {
     const { translations } = useLangContext();
 
     function HandleNavigateSubscribe() {
-        navigate("/subscribe");
+        navigate("/coverage/subscribe");
     }
      function HandleClickNavigate() {
          navigate("/");

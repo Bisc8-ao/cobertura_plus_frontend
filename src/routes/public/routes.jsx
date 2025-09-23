@@ -17,17 +17,23 @@ function PublicRoutes() {
         <>
             <Route element={<AppLayout />}>
                 <Route path="/" element={<Home />} />
-                <Route path="/forgotpassword" element={<ForgotPassword />} />
-                <Route path="/signin" element={<SignIn />} />
-                <Route path="/signup" element={<SignUp />} />
-                <Route path="/verifyaccount" element={<VerifyAccount />} />
-                <Route path="/subscribe" element={<Subscribe />} />
-                <Route path="/test-coverage" element={<TestCoverage />} />
                 <Route
-                    path="/subscription-confirmation"
+                    path="/auth/forgotpassword"
+                    element={<ForgotPassword />}
+                />
+                <Route path="/auth/signin" element={<SignIn />} />
+                <Route path="/auth/signup" element={<SignUp />} />
+                <Route path="/auth/verifyaccount" element={<VerifyAccount />} />
+                <Route path="/coverage/subscribe" element={<Subscribe />} />
+                <Route
+                    path="coverage/tested-coverage"
+                    element={<TestCoverage />}
+                />
+                <Route
+                    path="/coverage/subscription-confirmation"
                     element={<SubscriptionConfirmation />}
                 />
-                <Route path="/sandbox" element={<Sandbox />} />
+                <Route path="/coverage/sandbox" element={<Sandbox />} />
             </Route>
         </>
     );

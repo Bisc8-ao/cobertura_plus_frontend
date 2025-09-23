@@ -16,7 +16,7 @@ import { Button } from "../../../components";
 
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
-import { useLangContext, useSignin, useUserContext } from "../../../hooks";
+import { useLangContext, useSignin} from "../../../hooks";
 
 
 
@@ -35,11 +35,8 @@ function SignIn() {
     } = useSignin();
 
     const { translations } = useLangContext();
-    const { state } = useUserContext();
 
-     if (state?.user_email) {
-            return <Navigate to={"/dashboard"} replace />;
-        }
+
 
     return (
         <React.Fragment>
@@ -65,7 +62,7 @@ function SignIn() {
                                 </Typography>
                                 <span>
                                     {translations.pages.signin.description}{" "}
-                                    <Link to="/signup">
+                                    <Link to="/auth/signup">
                                         {translations.pages.signin.link.crt}
                                     </Link>
                                 </span>

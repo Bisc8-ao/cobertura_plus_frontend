@@ -16,7 +16,7 @@ function Home() {
     const { translations } = useLangContext();
 
     function handleClick() {
-        navigate("/signin");
+        navigate("/auth/signin");
     }
 
     function handleClickLocation() {
@@ -63,7 +63,7 @@ function Home() {
                                     variant="contained"
                                     onClick={handleClickLocation}
                                 />
-                                <Link to="/sandbox">
+                                <Link to="/coverage/sandbox">
                                     {translations.pages.home.btn.OTL}
                                 </Link>
                             </Styled.Ho_Box>
