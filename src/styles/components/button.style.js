@@ -11,6 +11,8 @@ export const MainButton = styled(Button)(({ theme, variant }) => ({
     color:
         variant === "contained"
             ? theme.palette.common.white
+            : theme.palette.mode === "dark"
+            ? theme.palette.common.white
             : theme.palette.common.black,
     background:
         variant === "contained" ? theme.palette.primary.main : "transparent",

@@ -9,7 +9,7 @@ function UseCheckCoverage() {
 
     const API_URL = import.meta.env.VITE_API_URL;
     const url_api = `${API_URL}/api/coverage/quick-test`;
-    console.log(API_URL);
+   
 
     const checkCoverage = async (payload) => {
         setLoading(true);
