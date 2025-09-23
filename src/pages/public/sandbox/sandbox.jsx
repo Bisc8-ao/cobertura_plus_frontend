@@ -130,58 +130,85 @@ function MapWithGeoJson({ onLoad, onZoneClick }) {
     return null;
 }
 
-function MapWithUserLocation({ userLocation }) {
-     const [location, setLocation] = useState({});
+// Componente separado para controlar o mapa e manter funcionalidade
+function MapController({
+    userLocation,
+    clickedPosition,
+    shouldCenterOnUser = true,
+}) {
+    const map = useMap();
+    const [hasInitialized, setHasInitialized] = useState(false);
+
+    // Efeito separado para posição clicada - sempre executa quando há clique
+    useEffect(() => {
+        if (map && clickedPosition?.lat && clickedPosition?.lng) {
+            map.setCenter(clickedPosition);
+            map.setZoom(15);
+        }
+    }, [map, clickedPosition]);
+
+    // Efeito separado para localização do usuário - só executa uma vez no início
+    useEffect(() => {
+        if (
+            map &&
+            userLocation?.lat &&
+            userLocation?.lng &&
+            shouldCenterOnUser &&
+            !hasInitialized
+        ) {
+            map.setCenter(userLocation);
+            map.setZoom(15);
+            setHasInitialized(true);
+        }
+    }, [map, userLocation, shouldCenterOnUser, hasInitialized]);
+
+    return null; // Não renderiza nada visual
+}
+
+function MapWithUserLocation({ userLocation, showUserMarker }) {
+    const [location, setLocation] = useState({});
     const { checkCoverage: rawCheckCoverage } = UseCheckCoverage();
     const { getIpUser } = UseUserIp();
-    const map = useMap();
 
     const checkCoverage = useCallback(
         (payload) => rawCheckCoverage(payload),
         [rawCheckCoverage]
     );
 
-   useEffect(() => {
-       if (map && userLocation?.lat && userLocation?.lng) {
-           map.setCenter(userLocation);
+    useEffect(() => {
+        if (userLocation?.lat && userLocation?.lng) {
+            const checkCoveraged = async () => {
+                const payload = {
+                    getIpUser,
+                    userLat: userLocation.lat,
+                    userLon: userLocation.lng,
+                };
 
-           const checkCoveraged = async () => {
-               const payload = {
-                   getIpUser,
-                   userLat: userLocation.lat,
-                   userLon: userLocation.lng,
-               };
+                const result = await checkCoverage(payload);
 
-               const result = await checkCoverage(payload);
+                setLocation({
+                    lat: result.userLat,
+                    lng: result.userLon,
+                    ip: result.userIp,
+                    covered: result.covered ?? false,
+                });
+            };
 
-               setLocation({
-                   lat: result.userLat,
-                   lng: result.userLon,
-                   ip: result.userIp,
-                   covered: result.covered ?? false,
-               });
-           };
+            checkCoveraged();
+        }
+    }, [userLocation, checkCoverage, getIpUser]);
 
-           checkCoveraged();
-
-
-       }
-   }, [map, userLocation, checkCoverage, getIpUser]);
-
-
-    return userLocation?.lat && userLocation?.lng ? (
+    return showUserMarker && userLocation?.lat && userLocation?.lng ? (
         <Marker
             position={userLocation}
-            icon={
-                {
-                    url:
-                        location.corvaged === false
-                            ? vectorImages.icons.PinHasNoCoverage
-                            : vectorImages.icons.PinHasCoverage,
-                    scaledSize: new window.google.maps.Size(48, 48),
-                    anchor: new window.google.maps.Point(24, 48),
-                }
-            }
+            icon={{
+                url:
+                    location.covered === false
+                        ? vectorImages.icons.PinHasNoCoverage
+                        : vectorImages.icons.PinHasCoverage,
+                scaledSize: new window.google.maps.Size(48, 48),
+                anchor: new window.google.maps.Point(24, 48),
+            }}
         />
     ) : null;
 }
@@ -189,9 +216,9 @@ function MapWithUserLocation({ userLocation }) {
 // --- MAPA PRINCIPAL ---
 function Sandbox() {
     const [markerPos, setMarkerPos] = useState(null);
-    const API_KEY_GOOGLEMAPS = (window.__RUNTIME__ && window.__RUNTIME__.VITE_API_KEY_GOOGLE) || import.meta.env.VITE_API_KEY_GOOGLE;
-
-
+    const API_KEY_GOOGLEMAPS =
+        (window.__RUNTIME__ && window.__RUNTIME__.VITE_API_KEY_GOOGLE) ||
+        import.meta.env.VITE_API_KEY_GOOGLE;
 
     const [userLoctaion, setUserLocation] = useState({});
     const { showAvalibe, setShowAvalibe, showVerific } = UseTimeoutEffect();
@@ -203,7 +230,9 @@ function Sandbox() {
     const handleMapClick = async (event) => {
         const lat = event.detail.latLng.lat;
         const lng = event.detail.latLng.lng;
-        setMarkerPos({ lat, lng });
+        const clickPosition = { lat, lng };
+
+        setMarkerPos(clickPosition);
         setShowAvalibe(true);
 
         if (lat && lng && getIpUser) {
@@ -229,6 +258,7 @@ function Sandbox() {
         console.log(pos);
         setMarkerPos(pos);
         setShowAvalibe(true);
+
         if (pos.lat && pos.lng && getIpUser) {
             const payload = {
                 userIp: getIpUser,
@@ -251,8 +281,6 @@ function Sandbox() {
         if (!navigator.geolocation) {
             return;
         }
-
-        if (!navigator.geolocation) return;
 
         const watcher = navigator.geolocation.watchPosition(
             (pos) => {
@@ -278,7 +306,8 @@ function Sandbox() {
                 : null,
         [userLoctaion]
     );
-    console.log(markerPos)
+
+    console.log(markerPos);
 
     return (
         <React.Fragment>
@@ -296,29 +325,41 @@ function Sandbox() {
                         style={{ width: "100%", height: "100vh" }}
                         defaultCenter={{ lat: -8.8383, lng: 13.2344 }}
                         defaultZoom={12}
-                        gestureHandling="greedy"
+                        gestureHandling="auto"
                         minZoom={4.5}
                         disableDefaultUI
                         onClick={(e) => handleMapClick(e)}
                     >
-                        {markerPos === null && (
-                            <MapWithUserLocation
-                                userLocation={memoizedUserLocation}
-                            />
-                        )}
+                       
+                        <MapController
+                            userLocation={memoizedUserLocation}
+                            clickedPosition={markerPos}
+                            shouldCenterOnUser={markerPos === null}
+                        />
+
+
+                        <MapWithUserLocation
+                            userLocation={memoizedUserLocation}
+                            showUserMarker={markerPos === null}
+                        />
+
                         <MapWithGeoJson
                             onZoneClick={handleZoneClick}
                             onLoad={(map) => {
+
                                 if (
                                     map &&
                                     userLoctaion?.lat &&
-                                    userLoctaion?.lng
+                                    userLoctaion?.lng &&
+                                    !markerPos
                                 ) {
                                     map.setCenter(userLoctaion);
                                     map.setZoom(15);
                                 }
                             }}
                         />
+
+                        {/* Marker clicado pelo usuário */}
                         {markerPos && (
                             <Marker
                                 position={markerPos}

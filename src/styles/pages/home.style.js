@@ -5,13 +5,11 @@ import { images } from "../../assets";
 const Ho_Wrapper = styled("section")(() => ({
     width: "100%",
     height: "100%",
-    padding: "1.2rem",
+    padding: " 2.5rem",
     position: "relative",
     overflow: "hidden",
 
-    "@media (min-width: 1512px)": {
-        padding: " 2.5rem",
-    },
+  
     "@media (max-width: 1024px)": {
         padding: "7rem 3rem 3rem 3rem",
     },

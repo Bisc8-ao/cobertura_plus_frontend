@@ -79,7 +79,7 @@ export const RouterLink = styled(Link, {
 
     "@media(max-width:1024px)": {
         "& span": {
-            color: theme.palette.gray[950],
+            color:theme.palette.mode === "dark" ? theme.palette.common.white : theme.palette.gray[950],
         },
     },
 

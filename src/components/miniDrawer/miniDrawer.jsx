@@ -14,6 +14,7 @@ import { NavLink } from "../navLink";
 
 import { vectorImages } from "../../assets";
 import { UseThemeMode } from "../../hooks";
+import { Link } from "react-router-dom";
 
 
 const DrawerHeader = styled("div")(({ theme }) => ({
@@ -86,14 +87,16 @@ function MiniDrawer({ children }) {
                     }}
                 >
                     {open === true && (
-                        <img
-                            src={
-                                mode=== "dark"
-                                    ? vectorImages.logos.brand.brand_logo_1
-                                    : vectorImages.logos.brand.brand_logo_2
-                            }
-                            width="100"
-                        />
+                        <Link to="/">
+                            <img
+                                src={
+                                    mode=== "dark"
+                                        ? vectorImages.logos.brand.brand_logo_1
+                                        : vectorImages.logos.brand.brand_logo_2
+                                }
+                                width="100"
+                            />
+                        </Link>
                     )}
                 </DrawerHeader>
                 <NavLink open={open} />
