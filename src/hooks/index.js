@@ -9,3 +9,4 @@ export { UseCheckCoverage } from "./useCheckCoverage";
 export { UseTimeoutEffect } from "./useTimeoutEffect";
 export { UseUserIp } from "./useUserIp";
 export { UseThemeMode } from "./useThemeMode";
+export { UseGetCoverageAreas } from "./useGetCoverageAreas";

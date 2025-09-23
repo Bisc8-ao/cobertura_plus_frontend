@@ -11,126 +11,12 @@ import { InputAdornment } from "@mui/material";
 import { Button, Loader } from "../../../components";
 import LocationSearchingIcon from "@mui/icons-material/LocationSearching";
 import { lotties } from "../../../assets";
-import { UseCheckCoverage, UseLocation, UseTimeoutEffect, UseUserIp } from "../../../hooks";
+import { UseCheckCoverage, UseLocation, UseTimeoutEffect, UseUserIp,UseGetCoverageAreas } from "../../../hooks";
 import * as Styled from "../../../styles";
 
-// ---- Funções utilitárias para corrigir GeoJSON ----
-function closePolygon(coords) {
-    if (!coords.length) return coords;
-    const first = coords[0];
-    const last = coords[coords.length - 1];
-    if (first[0] !== last[0] || first[1] !== last[1]) {
-        coords.push([...first]); // fecha o polígono
-    }
-    return coords;
-}
+import {MapWithGeoJson} from "../../../components"
 
-function fixGeoJson(geojson) {
-    const fixed = JSON.parse(JSON.stringify(geojson));
-    fixed.features.forEach((f) => {
-        if (f.geometry.type === "Polygon") {
-            f.geometry.coordinates = f.geometry.coordinates.map(closePolygon);
-        }
-        if (f.geometry.type === "MultiPolygon") {
-            f.geometry.coordinates = f.geometry.coordinates.map((poly) =>
-                poly.map(closePolygon)
-            );
-        }
-    });
-    return fixed;
-}
 
-// --- COMPONENTE QUE LIDA COM O GEOJSON ---
-function MapWithGeoJson({ onLoad, onZoneClick }) {
-    const map = useMap();
-    const [geodata, setGeodata] = useState(null);
-    const API_URL = import.meta.env.VITE_API_URL;
-
-    useEffect(() => {
-        const url_api = `${API_URL}/api/coverage/areas`;
-        const controller = new AbortController();
-
-        const fetchData = async () => {
-            try {
-                const response = await fetch(url_api, {
-                    signal: controller.signal,
-                });
-                const data = await response.json();
-                if (data.type === "FeatureCollection") {
-                    setGeodata(data);
-                }
-            } catch (error) {
-                if (error.name !== "AbortError") {
-                    console.error("Erro ao buscar dados:", error);
-                }
-            }
-        };
-
-        fetchData();
-        return () => controller.abort();
-    }, [API_URL]);
-
-    useEffect(() => {
-        if (!map || !geodata?.features) return;
-
-        const fixedGeo = fixGeoJson(geodata);
-
-        // Limpa dados anteriores
-        map.data.forEach((f) => map.data.remove(f));
-
-        // Adiciona GeoJSON corrigido
-        map.data.addGeoJson(fixedGeo);
-
-        // Estilo
-        map.data.setStyle(() => {
-            const colors = ["#04fde8ff"];
-            const randomColor =
-                colors[Math.floor(Math.random() * colors.length)];
-            return {
-                fillColor: randomColor,
-                fillOpacity: 0.3,
-                strokeColor: randomColor,
-                strokeWeight: 2,
-            };
-        });
-
-        // Clique em polígono → chama callback para marcar posição
-        map.data.addListener("click", (e) => {
-            const lat = e.latLng.lat();
-            const lng = e.latLng.lng();
-
-            if (onZoneClick) {
-                onZoneClick({ lat, lng });
-            }
-        });
-
-        // Ajustar bounds
-        const bounds = new window.google.maps.LatLngBounds();
-        fixedGeo.features.forEach((f) => {
-            if (f.geometry.type === "Polygon") {
-                f.geometry.coordinates[0].forEach(([lng, lat]) => {
-                    bounds.extend(new window.google.maps.LatLng(lat, lng));
-                });
-            }
-            if (f.geometry.type === "MultiPolygon") {
-                f.geometry.coordinates.forEach((polygon) => {
-                    polygon[0].forEach(([lng, lat]) => {
-                        bounds.extend(new window.google.maps.LatLng(lat, lng));
-                    });
-                });
-            }
-        });
-        map.fitBounds(bounds);
-
-        if (onLoad) {
-            onLoad(map);
-        }
-    }, [map, geodata, onLoad, onZoneClick]);
-
-    return null;
-}
-
-// Componente separado para controlar o mapa e manter funcionalidade
 function MapController({
     userLocation,
     clickedPosition,
@@ -162,7 +48,7 @@ function MapController({
         }
     }, [map, userLocation, shouldCenterOnUser, hasInitialized]);
 
-    return null; // Não renderiza nada visual
+    return null;
 }
 
 function MapWithUserLocation({ userLocation, showUserMarker }) {
