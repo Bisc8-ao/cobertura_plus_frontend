@@ -24,6 +24,8 @@ function Home() {
             setShowAvalibe(true);
         });
     }
+
+   
     return (
         <React.Fragment>
             {showAvalibe ? (

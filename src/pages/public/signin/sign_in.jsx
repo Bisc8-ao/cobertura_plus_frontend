@@ -16,7 +16,7 @@ import { Button } from "../../../components";
 
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
-import { useLangContext, useSignin} from "../../../hooks";
+import { useLangContext, useSignin, useUserContext} from "../../../hooks";
 
 
 
@@ -35,8 +35,9 @@ function SignIn() {
     } = useSignin();
 
     const { translations } = useLangContext();
+    const {state} = useUserContext()
 
-
+    console.log(state.user_name)
 
     return (
         <React.Fragment>
@@ -100,7 +101,7 @@ function SignIn() {
                                 />
 
                                 <Styled.ForgotPassword>
-                                    <Link to="/forgotpassword">
+                                    <Link to="/auth/forgotpassword">
                                         {translations.pages.signin.link.rpw}
                                     </Link>
                                     <Styled.FormControlPassword

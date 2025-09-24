@@ -127,7 +127,7 @@ function Map() {
 
          const watcher = navigator.geolocation.watchPosition(
              (pos) => {
-                 console.log(pos.coords.latitude, pos.coords.longitude);
+                 
                  setUserLocation({
                      lat: pos.coords.latitude,
                      lng: pos.coords.longitude,
@@ -149,7 +149,7 @@ function Map() {
                     : null,
             [userLoctaion]
         );
-        console.log(window.innerWidth)
+
     return (
         <Wrapper>
             <APIProvider apiKey={API_KEY_GOOGLEMAPS}>

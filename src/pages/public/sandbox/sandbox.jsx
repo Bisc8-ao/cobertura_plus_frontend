@@ -17,6 +17,7 @@ import {
     UseUserIp,
     UseLocation,
     UseGetCoverageAreas,
+    useLangContext,
 } from "../../../hooks";
 import * as Styled from "../../../styles";
 
@@ -120,33 +121,30 @@ function MapWithUserLocation({ userLocation, showUserMarker }) {
     const { checkCoverage: rawCheckCoverage } = UseCheckCoverage();
     const { getIpUser } = UseUserIp();
 
-    const checkCoverage = useCallback(
-        (payload) => rawCheckCoverage(payload),
-        [rawCheckCoverage]
-    );
+
 
     useEffect(() => {
         if (userLocation?.lat && userLocation?.lng) {
             const checkCoveraged = async () => {
                 const payload = {
-                    getIpUser,
+                    userIp: getIpUser,
                     userLat: userLocation.lat,
                     userLon: userLocation.lng,
                 };
 
-                const result = await checkCoverage(payload);
+                const result = await rawCheckCoverage(payload);
 
                 setLocation({
-                    lat: result.userLat,
-                    lng: result.userLon,
-                    ip: result.userIp,
-                    covered: result.covered ?? false,
+                    lat: userLocation.lat,
+                    lng: userLocation.lng,
+                    ip: getIpUser,
+                    covered: result.available ?? false,
                 });
             };
-
             checkCoveraged();
         }
-    }, [userLocation, checkCoverage, getIpUser]);
+    }, [userLocation, getIpUser, rawCheckCoverage]);
+
 
     return showUserMarker && userLocation?.lat && userLocation?.lng ? (
         <Marker
@@ -164,9 +162,11 @@ function MapWithUserLocation({ userLocation, showUserMarker }) {
 }
 
 // --- MAPA PRINCIPAL ---
+
 function Sandbox() {
     const [markerPos, setMarkerPos] = useState(null);
     const { location, setLocation } = UseLocation();
+    const { translations } = useLangContext();
     const API_KEY_GOOGLEMAPS =
         (window.__RUNTIME__ && window.__RUNTIME__.VITE_API_KEY_GOOGLE) ||
         import.meta.env.VITE_API_KEY_GOOGLE;
@@ -242,7 +242,7 @@ function Sandbox() {
             (err) => {
                 console.error("Erro:", err);
             },
-            { enableHighAccuracy: true, maximumAge: 0, timeout: 10000 }
+            { enableHighAccuracy: true, maximumAge: 0, timeout: 1000 }
         );
 
         return () => navigator.geolocation.clearWatch(watcher);
@@ -256,7 +256,7 @@ function Sandbox() {
         [userLoctaion]
     );
 
-   
+
 
     return (
         <React.Fragment>
@@ -334,7 +334,9 @@ function Sandbox() {
                         sx={{ width: "70%" }}
                     >
                         <Styled.Sand_OutlinedInput
-                            placeholder="Digite sua localização"
+                            placeholder={
+                                translations.pages.sandbox.input.placeholder
+                            }
                             endAdornment={
                                 <InputAdornment position="end">
                                     <Styled.Sand_IconButton>
@@ -344,7 +346,10 @@ function Sandbox() {
                             }
                         />
                     </Styled.Sand_FormControl>
-                    <Button text={"Testar cobertura"} variant="contained" />
+                    <Button
+                        text={translations.pages.sandbox.button.checkCoverage}
+                        variant="contained"
+                    />
                 </Styled.Sand_ContainerForm>
             </Styled.Sand_Wrapper>
         </React.Fragment>

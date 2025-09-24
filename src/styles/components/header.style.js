@@ -38,8 +38,8 @@ export const Span = styled(Typography)(({ theme }) => ({
 export const He_ImgContainer = styled("div")({
     "& img": {
         width: "10rem",
-        "@media (min-width: 1512px)": {
-            width: "14rem",
+        "@media (min-width: 1920px)": {
+            width: "12rem",
         },
         "@media (max-width:430px)": {
             width: "7rem",

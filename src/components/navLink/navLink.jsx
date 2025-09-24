@@ -113,7 +113,11 @@ function NavLink({ open }) {
 
             return (
                 <div key={index}>
-                    <ListItem disablePadding sx={{ display: "block" }}>
+                    <ListItem
+                        disablePadding
+                        sx={{ display: "block" }}
+                        onClick={(e) => e.stopPropagation()}
+                    >
                         <ListItemButton
                             onClick={toggle}
                             sx={{
@@ -131,7 +135,7 @@ function NavLink({ open }) {
                                     justifyContent: "center",
                                     fontSize: "2rem",
                                     "@media (max-width:1024px)": {
-                                        mr: 1 ,
+                                        mr: 1,
                                     },
                                 }}
                             >
@@ -250,7 +254,7 @@ function NavLink({ open }) {
 }
 
 NavLink.propTypes = {
-    open: PropTypes.bool.isRequired,
+    open: PropTypes.bool,
 };
 
 export { NavLink };
