@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import { Typography } from "@mui/material";
 import { Button } from "../../../components";
-import { useLangContext } from "../../../hooks";
+import { useLangContext, useUserContext } from "../../../hooks";
 
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import * as Styled from "../../../styles";
@@ -13,6 +13,7 @@ function Profile() {
     const InputFile = useRef(null);
     const [getImage, setImage] = useState(null);
     const navigate = useNavigate();
+    const{state} = useUserContext()
 
     const handleChangeFile = (e) => {
         const image = e.target.files[0];
@@ -24,6 +25,9 @@ function Profile() {
     function handleUpdate() {
         navigate("/updatePassword");
     }
+    const firstName = state.user_name.split(" ")[0];
+    const lastName = state.user_name.split(" ")[1]
+
     return (
         <React.Fragment>
             <Styled.Prof_Wrapper>
@@ -76,8 +80,8 @@ function Profile() {
                                             </Styled.Prof_ContainerSvg>
                                         </Styled.Prof_ContainerPhoto>
                                         <Styled.Prof_BoxInfo>
-                                            <span>Yuran Simão</span>
-                                            <span>yuran@bisc8.co</span>
+                                            <span>{state.user_name}</span>
+                                            <span>{state.user_email}</span>
                                         </Styled.Prof_BoxInfo>
                                     </Styled.Prof_BoxContainer>
                                 </Styled.Prof_CardContent>
@@ -91,6 +95,7 @@ function Profile() {
                                                     .inputs.firstName
                                             }
                                             type="text"
+                                            defaultValue={firstName}
                                         />
                                         <Styled.Prof_Input
                                             label={
@@ -98,6 +103,7 @@ function Profile() {
                                                     .inputs.lastName
                                             }
                                             type="text"
+                                            defaultValue={lastName}
                                         />
                                         <Styled.Prof_Input
                                             label={
@@ -105,6 +111,7 @@ function Profile() {
                                                     .inputs.email
                                             }
                                             type="email"
+                                            defaultValue={state.user_email}
                                         />
                                         <Styled.Prof_Input
                                             label={

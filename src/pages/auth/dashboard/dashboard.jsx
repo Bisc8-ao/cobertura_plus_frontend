@@ -53,6 +53,29 @@ const rows = [
 
 function Dashboard() {
     const { translations } = useLangContext();
+
+    const itemCards = [
+        {
+            title: "Diarios",
+            percent: 2.5,
+            total: 28,
+        },
+        {
+            title: "Semanal",
+            percent: 8.5,
+            total: 208,
+        },
+        {
+            title: "Mensal",
+            percent: 43.5,
+            total: 2008,
+        },
+        {
+            title: "Anual",
+            percent: 73.5,
+            total: 20008,
+        },
+    ];
     return (
         <React.Fragment>
             <Wrapper>
@@ -81,17 +104,19 @@ function Dashboard() {
                             },
                         }}
                     >
-                        <Card />
-                        <Card />
-                        <Card />
-                        <Card />
+                        {itemCards.map((item, index) => (
+                            <Card key={index} {...item} />
+                        ))}
+                        
                     </Box>
                 </Container>
 
                 <MuiCard>
-                    
-                    <TableContainer component={Paper} sx={{  boxShadow:"none" }}>
-                        <Table sx={{ minWidth: 650, }} aria-label="simple table">
+                    <TableContainer
+                        component={Paper}
+                        sx={{ boxShadow: "none" }}
+                    >
+                        <Table sx={{ width: "100%" }} aria-label="simple table">
                             <TableHead
                                 sx={[
                                     (theme) => ({
@@ -105,25 +130,37 @@ function Dashboard() {
                             >
                                 <TableRow>
                                     <TableCell
-                                        sx={{ fontSize: "1.4rem", border: "none" }}
+                                        sx={{
+                                            fontSize: "1.4rem",
+                                            border: "none",
+                                        }}
                                     >
                                         Invoice ID
                                     </TableCell>
                                     <TableCell
                                         align="right"
-                                        sx={{ fontSize: "1.4rem", border: "none" }}
+                                        sx={{
+                                            fontSize: "1.4rem",
+                                            border: "none",
+                                        }}
                                     >
                                         Category
                                     </TableCell>
                                     <TableCell
                                         align="right"
-                                        sx={{ fontSize: "1.4rem", border: "none" }}
+                                        sx={{
+                                            fontSize: "1.4rem",
+                                            border: "none",
+                                        }}
                                     >
                                         Status
                                     </TableCell>
                                     <TableCell
                                         align="right"
-                                        sx={{ fontSize: "1.4rem", border: "none" }}
+                                        sx={{
+                                            fontSize: "1.4rem",
+                                            border: "none",
+                                        }}
                                     >
                                         {""}
                                     </TableCell>
@@ -134,9 +171,10 @@ function Dashboard() {
                                     <TableRow
                                         key={row.name}
                                         sx={{
-                                            "&:last-child td, &:last-child th": {
-                                                border: 0,
-                                            },
+                                            "&:last-child td, &:last-child th":
+                                                {
+                                                    border: 0,
+                                                },
                                         }}
                                     >
                                         <TableCell
@@ -203,7 +241,7 @@ function Dashboard() {
                                             ]}
                                         >
                                             <IconButton>
-                                               <MoreVertIcon/>
+                                                <MoreVertIcon />
                                             </IconButton>
                                         </TableCell>
                                     </TableRow>

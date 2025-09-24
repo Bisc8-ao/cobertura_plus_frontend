@@ -1,5 +1,6 @@
 import React from "react";
 import { Typography, Box, styled } from "@mui/material";
+import PropTypes from "prop-types";
 import { Card as MuiCard, CardContent as MuiCardContent } from "@mui/material";
 import { vectorImages } from "../../assets";
 
@@ -46,7 +47,7 @@ const CardFooter = styled("div")(({ theme }) => ({
     },
 }));
 
-function Card() {
+function Card({title, percent,total}) {
     return (
         <React.Fragment>
             <Cards>
@@ -55,7 +56,7 @@ function Card() {
                         <span>
                             <img src={vectorImages.icons.icglassusers} alt="" />
                         </span>
-                        <span>-0.1%</span>
+                        <span>-{percent}</span>
                     </CardHeader>
                     <CardFooter>
                         <Box
@@ -73,7 +74,7 @@ function Card() {
                                     fontWeight: "700",
                                 }}
                             >
-                                Novos teste
+                                {title}
                             </Typography>
                             <Typography
                                 variant="h5"
@@ -83,7 +84,7 @@ function Card() {
                                     fontWeight: "800",
                                 }}
                             >
-                                0
+                                {total}
                             </Typography>
                         </Box>
                         <span>2</span>
@@ -92,6 +93,12 @@ function Card() {
             </Cards>
         </React.Fragment>
     );
+}
+
+Card.propTypes = {
+    title: PropTypes.string.isRequired,
+    percent: PropTypes.number.isRequired,
+    total: PropTypes.number.isRequired,
 }
 
 export { Card };
