@@ -32,6 +32,7 @@ function LocationProvider({ children }) {
                         userLat: position.coords.latitude,
                         userLon: position.coords.longitude,
                     };
+                    console.log(payload);
 
                     try {
                         const result = await checkCoverage(payload);

@@ -228,6 +228,25 @@
 
             }
 
-        }
-    }
+        },
+
+  "sandbox": {
+
+      "input": {
+        "placeholder": "Digite sua localização"
+      },
+      "button": {
+        "checkCoverage": "Testar cobertura"
+      },
+      "errors": {
+        "geoNotSupported": "A geolocalização não é suportada neste navegador.",
+        "geoDenied": "Acesso à localização negado.",
+        "geoUnavailable": "A localização não está disponível.",
+        "geoTimeout": "Tempo de solicitação de localização expirou."
+      }
+
+  }
 }
+
+    }
+

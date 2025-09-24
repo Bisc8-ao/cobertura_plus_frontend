@@ -105,12 +105,14 @@ function ForgotPassword() {
                             </Styled.ContainerFormContent>
 
                             <Styled.ContainerInputs>
-                                {data.messsage && <Styled.AdaptiveAlert
-                                    severity="info"
-                                    icon={<Styled.AdaptiveInfoIcon />}
-                                >
-                                    {data.message}
-                                </Styled.AdaptiveAlert>}
+                                {data.messsage && (
+                                    <Styled.AdaptiveAlert
+                                        severity="info"
+                                        icon={<Styled.AdaptiveInfoIcon />}
+                                    >
+                                        {data.message}
+                                    </Styled.AdaptiveAlert>
+                                )}
                                 <Styled.Input
                                     helperText={
                                         errors.email ? errors.email.message : ""
@@ -136,7 +138,7 @@ function ForgotPassword() {
                                 />
 
                                 <div data-element="Link_back">
-                                    <Link to="/signin">
+                                    <Link to="/auth/signin">
                                         <span>
                                             <ArrowBackIosIcon />
                                         </span>{" "}

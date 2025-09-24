@@ -11,64 +11,21 @@ import { InputAdornment } from "@mui/material";
 import { Button, Loader } from "../../../components";
 import LocationSearchingIcon from "@mui/icons-material/LocationSearching";
 import { lotties } from "../../../assets";
-import { UseCheckCoverage, UseLocation, UseTimeoutEffect, UseUserIp } from "../../../hooks";
+import {
+    UseCheckCoverage,
+    UseTimeoutEffect,
+    UseUserIp,
+    UseLocation,
+    UseGetCoverageAreas,
+    useLangContext,
+} from "../../../hooks";
 import * as Styled from "../../../styles";
 
-// ---- Funções utilitárias para corrigir GeoJSON ----
-function closePolygon(coords) {
-    if (!coords.length) return coords;
-    const first = coords[0];
-    const last = coords[coords.length - 1];
-    if (first[0] !== last[0] || first[1] !== last[1]) {
-        coords.push([...first]); // fecha o polígono
-    }
-    return coords;
-}
+import { fixGeoJson } from "../../../utils";
 
-function fixGeoJson(geojson) {
-    const fixed = JSON.parse(JSON.stringify(geojson));
-    fixed.features.forEach((f) => {
-        if (f.geometry.type === "Polygon") {
-            f.geometry.coordinates = f.geometry.coordinates.map(closePolygon);
-        }
-        if (f.geometry.type === "MultiPolygon") {
-            f.geometry.coordinates = f.geometry.coordinates.map((poly) =>
-                poly.map(closePolygon)
-            );
-        }
-    });
-    return fixed;
-}
-
-// --- COMPONENTE QUE LIDA COM O GEOJSON ---
 function MapWithGeoJson({ onLoad, onZoneClick }) {
     const map = useMap();
-    const [geodata, setGeodata] = useState(null);
-    const API_URL = import.meta.env.VITE_API_URL;
-
-    useEffect(() => {
-        const url_api = `${API_URL}/api/coverage/areas`;
-        const controller = new AbortController();
-
-        const fetchData = async () => {
-            try {
-                const response = await fetch(url_api, {
-                    signal: controller.signal,
-                });
-                const data = await response.json();
-                if (data.type === "FeatureCollection") {
-                    setGeodata(data);
-                }
-            } catch (error) {
-                if (error.name !== "AbortError") {
-                    console.error("Erro ao buscar dados:", error);
-                }
-            }
-        };
-
-        fetchData();
-        return () => controller.abort();
-    }, [API_URL]);
+    const { geodata } = UseGetCoverageAreas();
 
     useEffect(() => {
         if (!map || !geodata?.features) return;
@@ -130,6 +87,8 @@ function MapWithGeoJson({ onLoad, onZoneClick }) {
     return null;
 }
 
+
+
 // Componente separado para controlar o mapa e manter funcionalidade
 function MapController({
     userLocation,
@@ -137,30 +96,22 @@ function MapController({
     shouldCenterOnUser = true,
 }) {
     const map = useMap();
-    const [hasInitialized, setHasInitialized] = useState(false);
 
-    // Efeito separado para posição clicada - sempre executa quando há clique
     useEffect(() => {
         if (map && clickedPosition?.lat && clickedPosition?.lng) {
+            // Prioriza a posição clicada
             map.setCenter(clickedPosition);
             map.setZoom(15);
-        }
-    }, [map, clickedPosition]);
-
-    // Efeito separado para localização do usuário - só executa uma vez no início
-    useEffect(() => {
-        if (
+        } else if (
             map &&
             userLocation?.lat &&
             userLocation?.lng &&
-            shouldCenterOnUser &&
-            !hasInitialized
+            shouldCenterOnUser
         ) {
+            // Só centraliza na localização do usuário se não houver clique e for permitido
             map.setCenter(userLocation);
-            map.setZoom(15);
-            setHasInitialized(true);
         }
-    }, [map, userLocation, shouldCenterOnUser, hasInitialized]);
+    }, [map, userLocation, clickedPosition, shouldCenterOnUser]);
 
     return null; // Não renderiza nada visual
 }
@@ -168,37 +119,32 @@ function MapController({
 function MapWithUserLocation({ userLocation, showUserMarker }) {
     const [location, setLocation] = useState({});
     const { checkCoverage: rawCheckCoverage } = UseCheckCoverage();
-
     const { getIpUser } = UseUserIp();
 
-    const checkCoverage = useCallback(
-        (payload) => rawCheckCoverage(payload),
-        [rawCheckCoverage]
-    );
+
 
     useEffect(() => {
         if (userLocation?.lat && userLocation?.lng) {
             const checkCoveraged = async () => {
                 const payload = {
-                    getIpUser,
+                    userIp: getIpUser,
                     userLat: userLocation.lat,
                     userLon: userLocation.lng,
                 };
 
-                const result = await checkCoverage(payload);
+                const result = await rawCheckCoverage(payload);
 
                 setLocation({
-                    lat: result.userLat,
-                    lng: result.userLon,
-                    ip: result.userIp,
-                    covered: result.covered ?? false,
+                    lat: userLocation.lat,
+                    lng: userLocation.lng,
+                    ip: getIpUser,
+                    covered: result.available ?? false,
                 });
-
             };
-
             checkCoveraged();
         }
-    }, [userLocation, checkCoverage, getIpUser]);
+    }, [userLocation, getIpUser, rawCheckCoverage]);
+
 
     return showUserMarker && userLocation?.lat && userLocation?.lng ? (
         <Marker
@@ -216,10 +162,11 @@ function MapWithUserLocation({ userLocation, showUserMarker }) {
 }
 
 // --- MAPA PRINCIPAL ---
+
 function Sandbox() {
     const [markerPos, setMarkerPos] = useState(null);
-    const { location, setLocation } =
-        UseLocation();
+    const { location, setLocation } = UseLocation();
+    const { translations } = useLangContext();
     const API_KEY_GOOGLEMAPS =
         (window.__RUNTIME__ && window.__RUNTIME__.VITE_API_KEY_GOOGLE) ||
         import.meta.env.VITE_API_KEY_GOOGLE;
@@ -229,8 +176,6 @@ function Sandbox() {
     const { checkCoverage } = UseCheckCoverage();
     const { getIpUser } = UseUserIp();
 
-
-    // clique no mapa fora das zonas
     const handleMapClick = async (event) => {
         const lat = event.detail.latLng.lat;
         const lng = event.detail.latLng.lng;
@@ -248,12 +193,11 @@ function Sandbox() {
 
             const result = await checkCoverage(payload);
 
-
             setLocation({
                 lat,
                 lng,
                 ip: getIpUser,
-                corvaged: result.available ?? false,
+                corvaged: result.available,
             });
         }
     };
@@ -272,14 +216,13 @@ function Sandbox() {
             };
 
             const result = await checkCoverage(payload);
+
             setLocation({
                 lat: pos.lat,
                 lng: pos.lng,
                 ip: getIpUser,
-                corvaged: result.available ?? false,
+                corvaged: result.available,
             });
-
-
         }
     };
 
@@ -299,7 +242,7 @@ function Sandbox() {
             (err) => {
                 console.error("Erro:", err);
             },
-            { enableHighAccuracy: true, maximumAge: 0, timeout: 10000 }
+            { enableHighAccuracy: true, maximumAge: 0, timeout: 1000 }
         );
 
         return () => navigator.geolocation.clearWatch(watcher);
@@ -313,7 +256,7 @@ function Sandbox() {
         [userLoctaion]
     );
 
-    console.log(location);
+
 
     return (
         <React.Fragment>
@@ -336,14 +279,10 @@ function Sandbox() {
                         disableDefaultUI
                         onClick={(e) => handleMapClick(e)}
                     >
+                        {/* Sempre presente - mantém funcionalidade do mapa */}
+                        <MapController userLocation={memoizedUserLocation} />
 
-                        <MapController
-                            userLocation={memoizedUserLocation}
-                            clickedPosition={markerPos}
-                            shouldCenterOnUser={markerPos === null}
-                        />
-
-
+                        {/* Marker da localização do usuário - só mostra quando não tem marker manual */}
                         <MapWithUserLocation
                             userLocation={memoizedUserLocation}
                             showUserMarker={markerPos === null}
@@ -352,12 +291,10 @@ function Sandbox() {
                         <MapWithGeoJson
                             onZoneClick={handleZoneClick}
                             onLoad={(map) => {
-
                                 if (
                                     map &&
                                     userLoctaion?.lat &&
-                                    userLoctaion?.lng &&
-                                    !markerPos
+                                    userLoctaion?.lng
                                 ) {
                                     map.setCenter(userLoctaion);
                                     map.setZoom(15);
@@ -397,7 +334,9 @@ function Sandbox() {
                         sx={{ width: "70%" }}
                     >
                         <Styled.Sand_OutlinedInput
-                            placeholder="Digite sua localização"
+                            placeholder={
+                                translations.pages.sandbox.input.placeholder
+                            }
                             endAdornment={
                                 <InputAdornment position="end">
                                     <Styled.Sand_IconButton>
@@ -407,7 +346,10 @@ function Sandbox() {
                             }
                         />
                     </Styled.Sand_FormControl>
-                    <Button text={"Testar cobertura"} variant="contained" />
+                    <Button
+                        text={translations.pages.sandbox.button.checkCoverage}
+                        variant="contained"
+                    />
                 </Styled.Sand_ContainerForm>
             </Styled.Sand_Wrapper>
         </React.Fragment>

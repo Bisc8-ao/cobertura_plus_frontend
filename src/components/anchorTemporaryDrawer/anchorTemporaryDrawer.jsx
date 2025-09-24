@@ -89,12 +89,12 @@ function AnchorTemporaryDrawer({
 }
 
 AnchorTemporaryDrawer.propTypes = {
-    anchor: PropTypes.string.isRequired,
-    icon: PropTypes.node.isRequired,
+    anchor: PropTypes.string,
+    icon: PropTypes.node,
     children: PropTypes.node.isRequired,
-    width: PropTypes.string.isRequired,
-    btnWidth: PropTypes.string.isRequired,
-    btnRadius: PropTypes.string.isRequired,
+    width: PropTypes.string,
+    btnWidth: PropTypes.string,
+    btnRadius: PropTypes.string,
 };
 
 export { AnchorTemporaryDrawer };

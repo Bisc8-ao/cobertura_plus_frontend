@@ -16,7 +16,13 @@ import { vectorImages } from "../../assets";
 import { UseThemeMode } from "../../hooks";
 import { Link } from "react-router-dom";
 
-
+const Nav = styled("nav", {
+    shouldForwardProp: (prop) => !["open"].includes(prop),
+})(({ open }) => ({
+    paddingLeft: open ? "2rem" : "0",
+    paddingRight: open ? "2rem" : "0",
+   
+}));
 const DrawerHeader = styled("div")(({ theme }) => ({
     display: "flex",
     alignItems: "center",
@@ -99,7 +105,9 @@ function MiniDrawer({ children }) {
                         </Link>
                     )}
                 </DrawerHeader>
-                <NavLink open={open} />
+                <Nav open={open}>
+                    <NavLink open={open} />
+                </Nav>
             </Drawer>
             <Box component="main" sx={{ flexGrow: 1, p: 2 }}>
                 <DrawerHeader />

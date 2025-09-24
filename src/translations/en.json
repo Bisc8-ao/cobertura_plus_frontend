@@ -223,6 +223,22 @@
                 "updateData": "Update data",
                 "updatePassword": "Update password"
             }
+        },
+        "sandbox": {
+
+                "input": {
+                    "placeholder": "Enter your location"
+                },
+                "button": {
+                    "checkCoverage": "Check coverage"
+                },
+                "errors": {
+                    "geoNotSupported": "Geolocation is not supported by this browser.",
+                    "geoDenied": "Location access denied.",
+                    "geoUnavailable": "Location unavailable.",
+                    "geoTimeout": "Location request timed out."
+                }
+            
         }
     }
 }

@@ -6,6 +6,17 @@ import {
     useMapsLibrary,
 } from "@vis.gl/react-google-maps";
 
+import { styled } from "@mui/material";
+
+const Wrapper = styled("div")(() => ({
+    width: "100%",
+    height: "85vh",
+
+    "@media (min-width:1920px)": {
+        height: "90vh",
+    },
+}));
+
 // ---- Estilo Dark ----
 const darkMapStyle = [
     { elementType: "geometry", stylers: [{ color: "#212121" }] },
@@ -138,31 +149,33 @@ function HeatMap() {
     }, [data]);
 
     return (
-        <APIProvider apiKey={API_KEY_GOOGLEMAPS}>
-            <Map
-                mapId={"7a9e2ebecd32a903"}
-                gestureHandling={"greedy"}
-                disableDefaultUI={true}
-                style={{
-                    width: "100%",
-                    height: "90vh",
-                    borderRadius: "2rem",
-                    overflow: "hidden",
-                }}
-                defaultCenter={{ lat: -8.839, lng: 13.2344 }}
-                defaultZoom={12}
-                options={{ styles: darkMapStyle }}
-                minZoom={3}
-            />
-
-            {angolaGeojson && (
-                <HeatmapExemple
-                    geojson={angolaGeojson}
-                    radius={radius}
-                    opacity={opacity}
+        <Wrapper>
+            <APIProvider apiKey={API_KEY_GOOGLEMAPS}>
+                <Map
+                    mapId={"7a9e2ebecd32a903"}
+                    gestureHandling={"greedy"}
+                    disableDefaultUI={true}
+                    style={{
+                        width: "100%",
+                        height: "100%",
+                        borderRadius: "2rem",
+                        overflow: "hidden",
+                    }}
+                    defaultCenter={{ lat: -8.839, lng: 13.2344 }}
+                    defaultZoom={12}
+                    options={{ styles: darkMapStyle }}
+                    minZoom={3}
                 />
-            )}
-        </APIProvider>
+
+                {angolaGeojson && (
+                    <HeatmapExemple
+                        geojson={angolaGeojson}
+                        radius={radius}
+                        opacity={opacity}
+                    />
+                )}
+            </APIProvider>
+        </Wrapper>
     );
 }
 
