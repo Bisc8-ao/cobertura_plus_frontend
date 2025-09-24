@@ -2,6 +2,17 @@ import { useState, useEffect, useMemo } from "react";
 import { APIProvider, Map as GooleMap, useMap } from "@vis.gl/react-google-maps";
 import { fixGeoJson } from "../../../utils";
 import { UseGetCoverageAreas } from "../../../hooks";
+import { styled } from "@mui/material";
+
+
+const Wrapper = styled("div")(() => ({
+    width: "100%",
+    height: "85vh",
+
+    "@media (min-width:1920px)": {
+        height: "90vh",
+    },
+}));
 
 
 
@@ -70,7 +81,7 @@ function MapWithGeoJson({ onLoad, onZoneClick }) {
     return null;
 }
 
-// Componente separado para controlar o mapa e manter funcionalidade
+
 function MapController({
     userLocation,
     clickedPosition,
@@ -138,33 +149,35 @@ function Map() {
                     : null,
             [userLoctaion]
         );
-
+        console.log(window.innerWidth)
     return (
-        <APIProvider apiKey={API_KEY_GOOGLEMAPS}>
-            <GooleMap
-                style={{
-                    width: "100%",
-                    height: "90vh",
-                    borderRadius: "2rem",
-                    overflow: "hidden",
-                }}
-                defaultCenter={{ lat: -8.839, lng: 13.2344 }}
-                defaultZoom={12}
-                gestureHandling="greedy"
-                disableDefaultUI={false}
-                minZoom={3}
-            >
-                <MapController userLocation={memoizedUserLocation} />
-                <MapWithGeoJson
-                    onLoad={(map) => {
-                        if (map && userLoctaion?.lat && userLoctaion?.lng) {
-                            map.setCenter(userLoctaion);
-                            map.setZoom(15);
-                        }
+        <Wrapper>
+            <APIProvider apiKey={API_KEY_GOOGLEMAPS}>
+                <GooleMap
+                    style={{
+                        width: "100%",
+                        height: "100%",
+                        borderRadius: "2rem",
+                        overflow: "hidden",
                     }}
-                />
-            </GooleMap>
-        </APIProvider>
+                    defaultCenter={{ lat: -8.839, lng: 13.2344 }}
+                    defaultZoom={12}
+                    gestureHandling="greedy"
+                    disableDefaultUI={false}
+                    minZoom={3}
+                >
+                    <MapController userLocation={memoizedUserLocation} />
+                    <MapWithGeoJson
+                        onLoad={(map) => {
+                            if (map && userLoctaion?.lat && userLoctaion?.lng) {
+                                map.setCenter(userLoctaion);
+                                map.setZoom(15);
+                            }
+                        }}
+                    />
+                </GooleMap>
+            </APIProvider>
+        </Wrapper>
     );
 }
 

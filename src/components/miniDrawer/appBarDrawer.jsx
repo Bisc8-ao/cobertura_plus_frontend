@@ -77,6 +77,13 @@ const Badge = styled(MuiBadge)(({ theme }) => ({
         fontSize: "1.2rem",
     },
 }));
+
+const Nav = styled("nav")(() => ({
+    paddingLeft:".5rem" ,
+    paddingRight:"1rem" ,
+
+}));
+
 function AppBarDrawer({ handleDrawerOpen, handleDrawerClose, open }) {
     const [headerChangeBg, setHeaderChangeBg] = useState(false);
 
@@ -108,7 +115,9 @@ function AppBarDrawer({ handleDrawerOpen, handleDrawerClose, open }) {
                         width="310px"
                         icon={<MenuIcon fontSize="1rem" />}
                     >
-                        <NavLink />
+                        <Nav>
+                            <NavLink />
+                        </Nav>
                     </AnchorTemporaryDrawer>
                     <IconButton
                         color="inherit"

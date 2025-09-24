@@ -130,6 +130,9 @@ function NavLink({ open }) {
                                     mr: open ? 1 : "auto",
                                     justifyContent: "center",
                                     fontSize: "2rem",
+                                    "@media (max-width:1024px)": {
+                                        mr: 1 ,
+                                    },
                                 }}
                             >
                                 {item.icon}
@@ -143,7 +146,7 @@ function NavLink({ open }) {
                             {isOpen ? <ExpandLess /> : <ExpandMore />}
                         </ListItemButton>
                     </ListItem>
-                    <Collapse in={isOpen} timeout="auto" unmountOnExit >
+                    <Collapse in={isOpen} timeout="auto" unmountOnExit>
                         <List component="div" disablePadding>
                             {item.children.map((child, i) => {
                                 const isActiveChild =
@@ -205,6 +208,9 @@ function NavLink({ open }) {
                             mr: open ? 1 : "auto",
                             justifyContent: "center",
                             fontSize: "2rem",
+                            "@media (max-width:1024px)": {
+                                mr: 1,
+                            },
                         }}
                     >
                         {item.icon}
@@ -221,7 +227,7 @@ function NavLink({ open }) {
     };
 
     const renderList = (title, items, index) => (
-        <List key={index} sx={{ paddingX: open ? "1.6rem": "0" }}>
+        <List key={index} >
             <ListItem>
                 <ListText
                     open={open}

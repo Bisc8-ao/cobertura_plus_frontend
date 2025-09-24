@@ -256,7 +256,7 @@ function Sandbox() {
         [userLoctaion]
     );
 
-    console.log(markerPos);
+   
 
     return (
         <React.Fragment>
