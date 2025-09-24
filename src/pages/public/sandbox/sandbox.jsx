@@ -242,7 +242,7 @@ function Sandbox() {
             (err) => {
                 console.error("Erro:", err);
             },
-            { enableHighAccuracy: true, maximumAge: 0, timeout: 1000 }
+            { enableHighAccuracy: true, maximumAge: 0, timeout: 10000 }
         );
 
         return () => navigator.geolocation.clearWatch(watcher);
