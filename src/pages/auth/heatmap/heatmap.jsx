@@ -44,7 +44,6 @@ const darkMapStyle = [
         stylers: [{ color: "#000000" }],
     },
 ];
-
 // ---- Hook para buscar dados da API ----
 function GetAllTest() {
     const [data, setData] = useState(null);
@@ -152,7 +151,7 @@ function HeatMap() {
         <Wrapper>
             <APIProvider apiKey={API_KEY_GOOGLEMAPS}>
                 <Map
-                    mapId={"7a9e2ebecd32a903"}
+
                     gestureHandling={"greedy"}
                     disableDefaultUI={true}
                     style={{
@@ -162,8 +161,11 @@ function HeatMap() {
                         overflow: "hidden",
                     }}
                     defaultCenter={{ lat: -8.839, lng: 13.2344 }}
-                    defaultZoom={12}
-                    options={{ styles: darkMapStyle }}
+                    defaultZoom={5}
+                    options={{
+                        styles: darkMapStyle,
+
+                    }}
                     minZoom={3}
                 />
 

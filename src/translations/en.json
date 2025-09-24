@@ -55,10 +55,23 @@
                 "fName": "First name",
                 "lName": "Last name",
                 "dt": "Date of birth",
+                "gender": "Gender",
+                "service": "Services",
                 "email": "Email address",
                 "tel": "Phone",
                 "bi": "B.I",
                 "message": "Leave your message here"
+            },
+            "options": {
+                "gender": {
+                    "masculine": "Male",
+                    "feminine": "Female"
+                },
+                "service": {
+                    "internet": "Internet",
+                    "tv": "TV",
+                    "voz": "Voice"
+                }
             },
             "steps": ["Presentation", "Data", "Message"],
             "errors": {
@@ -69,7 +82,9 @@
                 "biInvalid": "Invalid ID number. Example: 001234567LA001",
                 "emailInvalid": "Invalid email address",
                 "phoneMin": "The phone number must be at least 9 digits",
-                "phoneMax": "The phone number must be at most 12 digits"
+                "phoneMax": "The phone number must be at most 12 digits",
+                "genderRequired": "Gender is required",
+                "serviceRequired": "Service is required"
             },
             "btnText": {
                 "end": "Finish"
@@ -238,7 +253,7 @@
                     "geoUnavailable": "Location unavailable.",
                     "geoTimeout": "Location request timed out."
                 }
-            
+
         }
     }
 }

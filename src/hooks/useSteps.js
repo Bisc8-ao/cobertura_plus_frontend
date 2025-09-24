@@ -24,6 +24,12 @@ function useSteps() {
         bi: z.string().regex(/^00\d{7}[A-Z]{2}\d{3}$/, {
             message: translations.pages.subscribe.errors.biInvalid,
         }),
+        gender: z.string().min(1, {
+            message: translations.pages.subscribe.errors.genderRequired,
+        }),
+        service: z.string().min(1, {
+            message: translations.pages.subscribe.errors.serviceRequired,
+        }),
         email: z.string().email({
             message: translations.pages.subscribe.errors.emailInvalid,
         }),
@@ -43,8 +49,8 @@ function useSteps() {
         trigger,
     } = useForm({
         resolver: zodResolver(schena),
-        mode: "onChange",
-        reValidateMode: "onChange",
+        //mode: "onChange",
+        //reValidateMode: "onChange",
     });
     const navigate = useNavigate();
 
@@ -56,9 +62,9 @@ function useSteps() {
         let fieldsToValidate = [];
 
         if (activeStep === 0) {
-            fieldsToValidate = ["firstName", "lastName", "birthDate"];
+            fieldsToValidate = ["firstName", "lastName", "birthDate", "gender"];
         } else if (activeStep === 1) {
-            fieldsToValidate = ["bi", "email", "phone"];
+            fieldsToValidate = ["service", "bi", "email", "phone"];
         } else if (activeStep === 2) {
             fieldsToValidate = ["message"];
         }

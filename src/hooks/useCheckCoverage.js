@@ -19,6 +19,7 @@ function UseCheckCoverage() {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
+                        "User-Agent": navigator.userAgent,
                     },
                     body: JSON.stringify(payload),
                 });
