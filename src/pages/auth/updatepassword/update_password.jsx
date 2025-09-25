@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {
+    FormHelperText,
     IconButton,
     InputAdornment,
     InputLabel,
@@ -18,31 +19,43 @@ import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { useLangContext } from "../../../hooks";
+import { useLangContext, useUserContext } from "../../../hooks";
 
 const Wrapper = styled("div")({
     width: "100%",
     height: "100vh",
 });
-const schema = z.object({
-    email: z
-        .string()
-        .nonempty("O email é obrigatório")
-        .email("Endereço de email inválido")
-        .refine((val) => val.endsWith("@tvcabo.co.ao"), {
-            message: "O email deve terminar com @tvcabo.co.ao",
-        }),
-    otp: z.string().length(6, "O código deve ter 6 dígitos"),
-    password: z
-        .string()
-        .nonempty("A senha é obrigatória")
-        .min(6, "A senha deve ter no mínimo 6 caracteres"),
-});
+const schema = z
+    .object({
+        email: z
+            .string()
+            .nonempty("O email é obrigatório")
+            .email("Endereço de email inválido")
+            .refine((val) => val.endsWith("@tvcabo.co.ao"), {
+                message: "O email deve terminar com @tvcabo.co.ao",
+            }),
+        otp: z.string().length(6, "O código deve ter 6 dígitos"),
+        password: z
+            .string()
+            .nonempty("A senha é obrigatória")
+            .min(8, "A senha deve ter no mínimo 6 caracteres"),
+        newPassword: z
+            .string()
+            .nonempty("A senha é obrigatória")
+            .min(8, "A senha deve ter no mínimo 6 caracteres"),
+    })
+    .refine((data) => data.password !== data.newPassword, {
+        path: ["confirmPassword"],
+        message: "A senha é mesma ",
+    });
 
 function UpdatePassword() {
+    const API_URL = import.meta.env.VITE_API_URL;
+    const userToken = localStorage.getItem("auth_token");
     const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
     const { translations } = useLangContext();
+    const { state } = useUserContext();
 
     const {
         register,
@@ -51,11 +64,10 @@ function UpdatePassword() {
         formState: { errors },
     } = useForm({
         resolver: zodResolver(schema),
+        defaultValues: {
+            email: state.user_email,
+        },
     });
-    function onSubmit() {
-        navigate("/verifyaccount");
-    //    console.log(data);
-    }
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -66,6 +78,30 @@ function UpdatePassword() {
     const handleMouseUpPassword = (event) => {
         event.preventDefault();
     };
+
+    async function onSubmit(data) {
+        const payload = {
+            currentPassword: data.password,
+            newPassword: data.newPassword,
+        };
+        try {
+            const response = await fetch(`${API_URL}/api/users/me/password`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${userToken}`,
+                },
+                body: JSON.stringify(payload),
+            });
+            if (!response.ok)
+                throw new Error("Erro ao atualizar a palavra pass");
+
+            const result = await response.json();
+            console.log(result);
+        } catch (error) {
+            console.log(error);
+        }
+    }
     return (
         <React.Fragment>
             <Wrapper>
@@ -102,6 +138,7 @@ function UpdatePassword() {
                                     helperText={
                                         errors.email ? errors.email.message : ""
                                     }
+                                    disabled
                                     error={!!errors.email}
                                     {...register("email")}
                                     id="outlined-basic"
@@ -127,20 +164,16 @@ function UpdatePassword() {
                                     variant="outlined"
                                     error={!!errors.password}
                                 >
-                                    <InputLabel htmlFor="outlined-adornment-password">
+                                    <InputLabel htmlFor="outlined-adornment-password-1">
                                         {
                                             translations.pages.updatepassword
                                                 .inputText.pass
                                         }
                                     </InputLabel>
                                     <OutlinedInput
-                                        helperText={
-                                            errors.password
-                                                ? errors.password.message
-                                                : ""
-                                        }
+                                        
                                         {...register("password")}
-                                        id="outlined-adornment-password"
+                                        id="outlined-adornment-password-1"
                                         type={
                                             showPassword ? "text" : "password"
                                         }
@@ -176,26 +209,26 @@ function UpdatePassword() {
                                                 .inputText.pass
                                         }
                                     />
+                                    {errors.password && (
+                                        <FormHelperText error>
+                                            {errors.password.message}
+                                        </FormHelperText>
+                                    )}
                                 </Styled.FormControlPassword>
 
                                 <Styled.FormControlPassword
                                     variant="outlined"
-                                    error={!!errors.password}
+                                    error={!!errors.newPassword}
                                 >
-                                    <InputLabel htmlFor="outlined-adornment-password">
+                                    <InputLabel htmlFor="outlined-adornment-password-2">
                                         {
                                             translations.pages.updatepassword
                                                 .inputText.cpass
                                         }
                                     </InputLabel>
                                     <OutlinedInput
-                                        helperText={
-                                            errors.password
-                                                ? errors.password.message
-                                                : ""
-                                        }
-                                        {...register("password")}
-                                        id="outlined-adornment-password"
+                                        {...register("newPassword")}
+                                        id="outlined-adornment-password-2"
                                         type={
                                             showPassword ? "text" : "password"
                                         }
@@ -231,6 +264,11 @@ function UpdatePassword() {
                                                 .inputText.cpass
                                         }
                                     />
+                                    {errors.newPassword && (
+                                        <FormHelperText error>
+                                            {errors.newPassword.message}
+                                        </FormHelperText>
+                                    )}
                                 </Styled.FormControlPassword>
 
                                 <Button
@@ -257,7 +295,7 @@ function UpdatePassword() {
                                 </Styled.ContainerFormContent>
 
                                 <div data-element="Link_back">
-                                    <Link to="dashboard/profile">
+                                    <Link to="/dashboard/user/profile">
                                         <span>
                                             <ArrowBackIosIcon />
                                         </span>{" "}

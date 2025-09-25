@@ -207,8 +207,8 @@
             "inputText": {
                 "email": "Endereço de email",
                 "otp": "Código de 6 dígitos",
-                "pass": "Palavra passe",
-                "cpass": "Confirmar a palavra passe"
+                "pass": "Palavra passe atual",
+                "cpass": "Nova palavra passe"
             },
             "errors": {
                 "emailRequired": "O email é obrigatório",
@@ -237,7 +237,7 @@
                 "email": "E-mail",
                 "phone": "Telefone",
                 "country": "País",
-                "city": "Cidade",
+                "dateOfBirth": "Data de nascimento",
                 "address": "Endereço",
                 "role": "Papel"
             },

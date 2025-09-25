@@ -294,6 +294,7 @@ function MapWithUserLocation({ userLocation, showUserMarker }) {
                     userIp: getIpUser,
                     userLat: userLocation.lat,
                     userLon: userLocation.lng,
+                    userAgent: navigator.userAgent,
                 };
 
                 const result = await rawCheckCoverage(payload);
@@ -354,6 +355,7 @@ function Sandbox() {
                 userIp: getIpUser,
                 userLat: lat,
                 userLon: lng,
+                userAgent: navigator.userAgent,
             };
 
             const result = await checkCoverage(payload);
@@ -378,6 +380,7 @@ function Sandbox() {
                 userIp: getIpUser,
                 userLat: pos.lat,
                 userLon: pos.lng,
+                userAgent: navigator.userAgent,
             };
 
             const result = await checkCoverage(payload);

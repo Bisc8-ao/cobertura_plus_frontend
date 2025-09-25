@@ -7,7 +7,7 @@ import {
     ListItemText,
     Collapse,
 } from "@mui/material";
-import { useLangContext } from "../../hooks";
+import { useLangContext, useUserContext } from "../../hooks";
 import PersonIcon from "@mui/icons-material/Person";
 import SpeedIcon from "@mui/icons-material/Speed";
 import MapIcon from "@mui/icons-material/Map";
@@ -17,7 +17,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
-import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
+import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 
 const ListText = styled(ListItemText, {
     shouldForwardProp: (prop) =>
@@ -42,6 +42,7 @@ function NavLink({ open }) {
     const location = useLocation();
     const navigate = useNavigate();
     const { translations } = useLangContext();
+    const { state } = useUserContext();
 
     const [openMap, setOpenMap] = useState(false);
     const [openUser, setOpenUser] = useState(false);
@@ -97,12 +98,12 @@ function NavLink({ open }) {
                             icon: <PersonIcon fontSize="2.4rem" />,
                             to: "/dashboard/user/profile",
                         },
-                        {
+                        state.user_role === "admin" && {
                             text: translations.navlink.userlist,
                             icon: <PeopleAltIcon fontSize="2.4rem" />,
                             to: "/dashboard/user/list",
                         },
-                    ],
+                    ].filter(Boolean),
                 },
             ],
         },
@@ -121,9 +122,8 @@ function NavLink({ open }) {
                 <div key={index}>
                     <ListItem
                         disablePadding
-                        sx={{ display: "block"}}
+                        sx={{ display: "block" }}
                         onClick={(e) => e.stopPropagation()}
-
                     >
                         <ListItemButton
                             onClick={toggle}
@@ -202,7 +202,7 @@ function NavLink({ open }) {
 
         // Normal item sem collapse
         return (
-            <ListItem key={index} disablePadding sx={{ display: "block" }} >
+            <ListItem key={index} disablePadding sx={{ display: "block",  }}>
                 <ListItemButton
                     onClick={() => navigate(item.to)}
                     sx={{
@@ -238,8 +238,13 @@ function NavLink({ open }) {
     };
 
     const renderList = (title, items, index) => (
-        <List key={index} >
-            <ListItem>
+        <List key={index} sx={{ padding: open ? ".8rem 0" : " 0" }}>
+            <ListItem
+                sx={{
+                    display: open ? "block" : "none",
+                    "@media (max-width: 1024px)": { display: "block" },
+                }}
+            >
                 <ListText
                     open={open}
                     fontSize="1.2rem"

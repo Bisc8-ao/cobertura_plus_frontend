@@ -40,7 +40,7 @@ export function useSignin() {
 
     const API_URL = import.meta.env.VITE_API_URL;
 
-    const url_api = `${API_URL} /api/sessions`;
+    const url_api = `${API_URL}/api/sessions`;
 
     const handleClickShowPassword = useCallback(() => {
         setShowPassword((v) => !v);
@@ -119,6 +119,10 @@ export function useSignin() {
                         email: user.email || data?.email || value.email,
                         name,
                         photo: user.photo || null,
+                        id: user.userId,
+                        role: user.userRole,
+                        phone: user.user_phone || null,
+                        dateOfBirth: user.dateOfBirth || null,
                     },
                 });
 

@@ -61,12 +61,12 @@ function SignUp() {
                             </Styled.ContainerFormContent>
 
                             <Styled.ContainerInputs>
-                                {data.messsage && (
+                                {data.message && (
                                     <Styled.AdaptiveAlert
                                         severity="info"
                                         icon={<Styled.AdaptiveInfoIcon />}
                                     >
-                                        {data.messsage}
+                                        {data.message}
                                     </Styled.AdaptiveAlert>
                                 )}
                                 <Styled.NameContainer>

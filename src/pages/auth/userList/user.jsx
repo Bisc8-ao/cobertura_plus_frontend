@@ -1,15 +1,11 @@
 import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
-import {
-    Typography,
-
-    Paper,
-} from "@mui/material";
+import { Typography, Paper } from "@mui/material";
 import { Button } from "../../../components";
 import styled from "@emotion/styled";
 
-import { DataGrid as MuiDataGrid} from "@mui/x-data-grid";
+import { DataGrid as MuiDataGrid } from "@mui/x-data-grid";
 
 const Wrapper = styled("section")({
     display: "flex",
@@ -28,16 +24,15 @@ const ContainerContent = styled("div")(() => ({
 const DataGrid = styled(MuiDataGrid)(() => ({
     border: "none",
     "& .MuiDataGrid-columnHeader": {
-        backgroundColor: "#1976d2",
+        backgroundColor: "#e2e2e227",
 
-        width: "100%",
-        fontSize: "1rem",
+        fontSize: "1.4rem",
         fontWeight: "bold",
     },
     "& .MuiDataGrid-cell": {
         //borderBottom: "1px solid #e0e0e0",
-        fontSize: "1rem",
-        border:"none"
+        fontSize: "1.4rem",
+        border: "none",
     },
     "& .MuiDataGrid-row:hover": {
         backgroundColor: "#f5f5f5",
@@ -46,24 +41,22 @@ const DataGrid = styled(MuiDataGrid)(() => ({
         color: "#1976d2 !important",
     },
     "& .MuiDataGrid-footerContainer": {
-        backgroundColor: "#fafafa",
         borderTop: "1px solid #e0e0e0",
     },
 }));
 const columns = [
-    { field: "name", headerName: "Name",  },
-    { field: "phoneNumber", headerName: "Phone number", },
+    { field: "name", headerName: "Name", width: 190 },
+    { field: "phoneNumber", headerName: "Phone number", width: 190 },
     {
         field: "role",
         headerName: "Role",
         type: "number",
-
+        width: 90,
     },
     {
         field: "status",
         headerName: "Staus",
-
-
+        width: 90,
     },
 ];
 

@@ -256,3 +256,29 @@ export const Prof_BoxBtn = styled(Box)(() => ({
         padding: "0 1rem 3rem 1rem",
     },
 }));
+
+export const Prof_DeleteAccount = styled("button")(({ theme }) => ({
+    position: "absolute",
+    background: "transparent",
+    color:
+        theme.palette.mode === "dark"
+            ? theme.palette.common.white
+            : theme.palette.common.black,
+
+    height: "4rem",
+    width: "4rem",
+    top: "2rem",
+    right: "2rem",
+    borderRadius: "50%",
+    border: `1px solid ${theme.palette.red[100]}`,
+    cursor: "pointer",
+    transition: "background .3s ease-in-out",
+
+    "& svg": {
+        fontSize: "1.8rem",
+    },
+
+    "&:hover": {
+        background: theme.palette.red[100],
+    },
+}));

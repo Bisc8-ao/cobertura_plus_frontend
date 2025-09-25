@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 function useSignUp() {
     const API_URL = import.meta.env.VITE_API_URL;
     const url_api = `${API_URL}/api/users`;
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
     const [data, setData] = useState({});
     const [loading, setLoading] = useState(false);
@@ -89,26 +89,33 @@ function useSignUp() {
 
             const result = await response.json();
             setData(result);
-            console.log(result)
+            console.log(result);
             if (response.ok) {
                 const user = result?.user || {};
-                const fullName = `${user.userFirstName ?? ""} ${
-                    user.userLastName ?? ""
+                const fullName = `${user.firstName ?? ""} ${
+                    user.lastName ?? ""
                 }`.trim();
+                const emailUsername = user.email
+                    ? user.email.split("@")[0]
+                    : "";
                 dispatch({
                     type: "user_active",
                     payload: {
-                        email: user.userEmail || result.email,
+                        email: user.email,
                         name:
                             fullName ||
                             user.name ||
-                            user.username ||
+                            emailUsername ||
                             result.email,
                         photo: user.photo || null,
+                        id: user.id,
+                        role: user.role,
+                        phone: user.user_phone || null,
+                        dateOfBirth: user.dateOfBirth || null,
                     },
                 });
 
-                navigate("/auth/verifyaccount", { replace: true });
+                //navigate("/auth/verifyaccount", { replace: true });
 
                 setLoading(false);
             } else {

@@ -12,8 +12,7 @@ function LocationProvider({ children }) {
     const { getIpUser } = UseUserIp();
 
     function handleLocation(callback) {
-
-
+       
 
         if (!navigator.geolocation) {
             setError("Geolocalização não suportada");
@@ -33,6 +32,7 @@ function LocationProvider({ children }) {
                         userIp: getIpUser,
                         userLat: position.coords.latitude,
                         userLon: position.coords.longitude,
+                        userAgent: navigator.userAgent,
                     };
                     console.log(payload);
 
@@ -58,26 +58,26 @@ function LocationProvider({ children }) {
                 }
             },
             (err) => {
-               switch (err.code) {
-                   case 1:
-                       setError("Usuário recusou o acesso à localização ");
-                       console.log("Usuário recusou o acesso à localização ");
-                       break;
-                   case 2:
-                       setError("Localização indisponível");
-                       console.log("Localização indisponível");
-                       break;
-                   case 3:
-                       setError("Tempo esgotado para obter a localização ");
+                switch (err.code) {
+                    case 1:
+                        setError("Usuário recusou o acesso à localização ");
+                        console.log("Usuário recusou o acesso à localização ");
+                        break;
+                    case 2:
+                        setError("Localização indisponível");
+                        console.log("Localização indisponível");
+                        break;
+                    case 3:
+                        setError("Tempo esgotado para obter a localização ");
+                        console.log("Tempo esgotado para obter a localização ");
+                        break;
+                    default:
+                        setError("Erro desconhecido ao obter a localização");
                         console.log(
-                            "Tempo esgotado para obter a localização "
+                            "Erro desconhecido ao obter a localização "
                         );
-                       break;
-                   default:
-                       setError("Erro desconhecido ao obter a localização");
-                       console.log("Erro desconhecido ao obter a localização ");
-               }
-               setIsLoading(false);
+                }
+                setIsLoading(false);
             },
             { enableHighAccuracy: true, maximumAge: 0, timeout: 10000 }
         );

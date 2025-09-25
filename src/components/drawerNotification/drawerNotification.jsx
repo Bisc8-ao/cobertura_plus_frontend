@@ -1,30 +1,39 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { Box, styled, Typography, IconButton, Tabs as MuiTabs, Tab as MuiTab } from "@mui/material";
+import {
+    Box,
+    styled,
+    Typography,
+    IconButton,
+    Tabs as MuiTabs,
+    Tab as MuiTab,
+} from "@mui/material";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { useLangContext } from "../../hooks";
-
 
 const Wrapper = styled("div")({
     height: "100%",
 });
 
 const Tabs = styled(MuiTabs)(({ theme }) => ({
-    background: "#adadad1a",
+    background: theme.palette.mode === "dark" ? "#28323c" : "#adadad1a",
     display: "flex",
     alignItems: "center",
-    padding:"0 1.5rem",
-
+    padding: "0 1.5rem",
     "& .MuiTabs-indicator": {
+        gap: "1rem",
         display: "none",
+    },
+    "& .MuiTabs-list": {
+        gap: "1.5rem",
     },
 }));
 const Tab = styled(MuiTab)(({ theme }) => ({
-    width: "33%",
+    width: "30%",
     textTransform: "capitalize",
     fontWeight: 600,
     fontSize: "1.2rem",
-    color: "#555",
+    color: theme.palette.mode ==="dark" ? "#58636f" : "#555",
     padding: "1rem",
     minHeight: "unset",
     borderRadius: ".8rem",

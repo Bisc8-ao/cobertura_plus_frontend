@@ -6,15 +6,15 @@ import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 
 
-const Container = styled("div")({
+const Container = styled("div")(({ theme }) => ({
     width: "30%",
-    background:"#fff",
+    background: theme.palette.background.default,
     borderRadius: "1.5rem",
     padding: "2rem 0",
     display: "flex",
     flexDirection: "column",
-    gap:"1rem"
-});
+    gap: "1rem",
+}));
 
 function Search() {
     const [open, setOpen] = useState(false);
@@ -58,13 +58,15 @@ function Search() {
                   <Container onClick={(e) => e.stopPropagation()}>
                       <Paper
                           component="form"
-                          sx={{
+                          sx={[(theme) => ({
                               p: "2px 4px",
                               display: "flex",
                               alignItems: "center",
                               width: "100%",
+                              background:theme.palette.background.default,
                               boxShadow: "none",
-                          }}
+
+                          })]}
                       >
                           <IconButton
                               type="button"
