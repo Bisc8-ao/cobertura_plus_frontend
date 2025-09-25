@@ -6,6 +6,7 @@ export const UserReducer = (state, action) => {
             const { name, email, photo } = action.payload;
             const userStorage = { name, email, photo };
 
+            //if()
             localStorage.setItem("user", JSON.stringify(userStorage))
 
             return {

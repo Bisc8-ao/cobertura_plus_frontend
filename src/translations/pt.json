@@ -5,6 +5,8 @@
         "map": "Mapa",
         "user": "Utilizador",
         "hatmap": "Mapa de calor",
+        "profile": "Perfil",
+        "userlist": "Lista de utilizador",
         "category": {
             "overview": "Visão geral",
             "management": "Gestão"

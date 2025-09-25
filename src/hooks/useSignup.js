@@ -4,11 +4,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useUserContext } from "./useUserContext";
 import { useLangContext } from "./useLangContext";
+import { useNavigate } from "react-router-dom";
 
 function useSignUp() {
     const API_URL = import.meta.env.VITE_API_URL;
-    const url_api = `${API_URL}/api/auth/sign-up`;
-
+    const url_api = `${API_URL}/api/users`;
+    const navigate = useNavigate()
     const [showPassword, setShowPassword] = useState(false);
     const [data, setData] = useState({});
     const [loading, setLoading] = useState(false);
@@ -106,6 +107,8 @@ function useSignUp() {
                         photo: user.photo || null,
                     },
                 });
+
+                navigate("/auth/verifyaccount", { replace: true });
 
                 setLoading(false);
             } else {

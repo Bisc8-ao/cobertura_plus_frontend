@@ -17,6 +17,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 
 const ListText = styled(ListItemText, {
     shouldForwardProp: (prop) =>
@@ -92,9 +93,14 @@ function NavLink({ open }) {
                     collapse: true,
                     children: [
                         {
-                            text: translations.navlink.user,
+                            text: translations.navlink.profile,
                             icon: <PersonIcon fontSize="2.4rem" />,
-                            to: "/dashboard/profile",
+                            to: "/dashboard/user/profile",
+                        },
+                        {
+                            text: translations.navlink.userlist,
+                            icon: <PeopleAltIcon fontSize="2.4rem" />,
+                            to: "/dashboard/user/list",
                         },
                     ],
                 },
@@ -115,8 +121,9 @@ function NavLink({ open }) {
                 <div key={index}>
                     <ListItem
                         disablePadding
-                        sx={{ display: "block" }}
+                        sx={{ display: "block"}}
                         onClick={(e) => e.stopPropagation()}
+
                     >
                         <ListItemButton
                             onClick={toggle}
@@ -195,7 +202,7 @@ function NavLink({ open }) {
 
         // Normal item sem collapse
         return (
-            <ListItem key={index} disablePadding sx={{ display: "block" }}>
+            <ListItem key={index} disablePadding sx={{ display: "block" }} >
                 <ListItemButton
                     onClick={() => navigate(item.to)}
                     sx={{

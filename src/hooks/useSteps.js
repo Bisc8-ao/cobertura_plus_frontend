@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useLangContext } from "./useLangContext";
 
 function useSteps() {
-    const {translations} = useLangContext()
+    const { translations } = useLangContext();
     const schena = z.object({
         firstName: z.string().min(2, {
             message: translations.pages.subscribe.errors.firstNameMin,
@@ -24,9 +24,7 @@ function useSteps() {
         bi: z.string().regex(/^00\d{7}[A-Z]{2}\d{3}$/, {
             message: translations.pages.subscribe.errors.biInvalid,
         }),
-        gender: z.string().min(1, {
-            message: translations.pages.subscribe.errors.genderRequired,
-        }),
+
         service: z.string().min(1, {
             message: translations.pages.subscribe.errors.serviceRequired,
         }),
@@ -54,7 +52,7 @@ function useSteps() {
     });
     const navigate = useNavigate();
 
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false);
     const steps = [...translations.pages.subscribe.steps];
     const [activeStep, setActiveStep] = useState(0);
 
@@ -62,7 +60,7 @@ function useSteps() {
         let fieldsToValidate = [];
 
         if (activeStep === 0) {
-            fieldsToValidate = ["firstName", "lastName", "birthDate", "gender"];
+            fieldsToValidate = ["firstName", "lastName", "birthDate"];
         } else if (activeStep === 1) {
             fieldsToValidate = ["service", "bi", "email", "phone"];
         } else if (activeStep === 2) {
@@ -81,11 +79,9 @@ function useSteps() {
     };
 
     function onSubmit() {
-
-        setLoading(true)
+        setLoading(true);
         navigate("/coverage/subscription-confirmation");
     }
-
 
     return {
         register,
@@ -96,7 +92,7 @@ function useSteps() {
         handleNext,
         handleBack,
         onSubmit,
-        loading
+        loading,
     };
 }
 

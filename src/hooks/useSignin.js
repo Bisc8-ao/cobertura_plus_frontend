@@ -40,7 +40,7 @@ export function useSignin() {
 
     const API_URL = import.meta.env.VITE_API_URL;
 
-    const url_api = `${API_URL}/api/auth/sign-in`;
+    const url_api = `${API_URL} /api/sessions`;
 
     const handleClickShowPassword = useCallback(() => {
         setShowPassword((v) => !v);

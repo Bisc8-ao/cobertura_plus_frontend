@@ -1,32 +1,91 @@
 import React, { useState, useRef } from "react";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
-
 import { Typography } from "@mui/material";
 import { Button } from "../../../components";
 import { useLangContext, useUserContext } from "../../../hooks";
-
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import * as Styled from "../../../styles";
 
+const schema = z.object({
+    firstName: z.string().optional(),
+    lastName: z.string().optional(),
+    email: z.string().email().optional(),
+    phone: z.string().optional(),
+    country: z.string().optional(),
+    city: z.string().optional(),
+    address: z.string().optional(),
+    role: z.string().optional(),
+});
+
 function Profile() {
+    const API_URL = import.meta.env.VITE_API_URL;
+    const [loading,setLoading] = useState()
     const { translations } = useLangContext();
     const InputFile = useRef(null);
     const [getImage, setImage] = useState(null);
     const navigate = useNavigate();
-    const{state} = useUserContext()
+    const { state,dispatch } = useUserContext();
+
+    const {
+        register,
+        handleSubmit,
+        formState: { isSubmitting },
+    } = useForm({
+        resolver: zodResolver(schema),
+        defaultValues: {
+            firstName: state.user_name.split(" ")[0] || "",
+            lastName: state.user_name.split(" ")[1] || "",
+            email: state.user_email,
+        },
+    });
 
     const handleChangeFile = (e) => {
-        const image = e.target.files[0];
+        const image = e.target.files?.[0];
         if (image) {
             setImage(image);
         }
     };
 
     function handleUpdate() {
-        navigate("/updatePassword");
+        navigate("/dashboard/auth/updatePassword");
     }
-    const firstName = state.user_name.split(" ")[0];
-    const lastName = state.user_name.split(" ")[1]
+
+    const onSubmit = async (data) => {
+        try {
+            const formData = new FormData();
+            setLoading(true)
+
+             //formData.append("userId", state.user_id);
+            if (getImage) {
+                formData.append("photo", getImage);
+            }
+
+
+            Object.entries(data).forEach(([key, value]) => {
+                if (value) {
+                    formData.append(key, value);
+                }
+            });
+
+            const response = await fetch(`${API_URL}/profile/update`, {
+                method: "POST",
+                body: formData,
+            });
+
+            if (!response.ok) throw new Error("Erro ao atualizar perfil");
+             setLoading(false);
+            const result = await response.json();
+            console.log("Perfil atualizado:", result);
+        } catch (error) {
+            console.error(error);
+             setLoading(false);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     return (
         <React.Fragment>
@@ -39,23 +98,22 @@ function Profile() {
                     >
                         {translations.pages.profile.title}
                     </Typography>
-                    <form>
+                    <form onSubmit={handleSubmit(onSubmit)}>
                         <Styled.Prof_ContainerForm>
+                            {/* FOTO */}
                             <Styled.Prof_Card gridColumn="span 2">
                                 <Styled.Prof_CardContent padding="8rem 2rem">
                                     <Styled.Prof_BoxContainer>
                                         <Styled.Prof_ContainerPhoto
                                             onClick={() =>
-                                                InputFile.current.click()
+                                                InputFile.current?.click()
                                             }
                                         >
                                             <Styled.Prof_PhotoInput
                                                 type="file"
                                                 accept="image/*"
                                                 ref={InputFile}
-                                                onChange={(e) =>
-                                                    handleChangeFile(e)
-                                                }
+                                                onChange={handleChangeFile}
                                             />
                                             <Styled.Prof_ContainerSvg>
                                                 {getImage ? (
@@ -69,8 +127,7 @@ function Profile() {
                                                         <AddAPhotoIcon />
                                                         <span>
                                                             {
-                                                                translations
-                                                                    .pages
+                                                                translations.pages
                                                                     .profile
                                                                     .uploadText
                                                             }
@@ -86,67 +143,73 @@ function Profile() {
                                     </Styled.Prof_BoxContainer>
                                 </Styled.Prof_CardContent>
                             </Styled.Prof_Card>
+                            {/* CAMPOS */}
                             <Styled.Prof_Card gridColumn="span 4">
                                 <Styled.Prof_CardContent padding="4rem">
                                     <Styled.Prof_CardInputs>
                                         <Styled.Prof_Input
                                             label={
-                                                translations.pages.profile
-                                                    .inputs.firstName
+                                                translations.pages.profile.inputs
+                                                    .firstName
                                             }
                                             type="text"
-                                            defaultValue={firstName}
+                                            {...register("firstName")}
                                         />
                                         <Styled.Prof_Input
                                             label={
-                                                translations.pages.profile
-                                                    .inputs.lastName
+                                                translations.pages.profile.inputs
+                                                    .lastName
                                             }
                                             type="text"
-                                            defaultValue={lastName}
+                                            {...register("lastName")}
                                         />
                                         <Styled.Prof_Input
                                             label={
-                                                translations.pages.profile
-                                                    .inputs.email
+                                                translations.pages.profile.inputs
+                                                    .email
                                             }
                                             type="email"
-                                            defaultValue={state.user_email}
+                                            {...register("email")}
                                         />
                                         <Styled.Prof_Input
                                             label={
-                                                translations.pages.profile
-                                                    .inputs.phone
+                                                translations.pages.profile.inputs
+                                                    .phone
                                             }
                                             type="tel"
+                                            {...register("phone")}
                                         />
                                         <Styled.Prof_Input
                                             label={
-                                                translations.pages.profile
-                                                    .inputs.country
+                                                translations.pages.profile.inputs
+                                                    .country
                                             }
                                             type="text"
+                                            {...register("country")}
                                         />
                                         <Styled.Prof_Input
                                             label={
-                                                translations.pages.profile
-                                                    .inputs.city
+                                                translations.pages.profile.inputs
+                                                    .city
                                             }
                                             type="text"
+                                            {...register("city")}
                                         />
                                         <Styled.Prof_Input
                                             label={
-                                                translations.pages.profile
-                                                    .inputs.address
+                                                translations.pages.profile.inputs
+                                                    .address
                                             }
                                             type="text"
+                                            {...register("address")}
                                         />
                                         <Styled.Prof_Input
                                             label={
-                                                translations.pages.profile
-                                                    .inputs.role
+                                                translations.pages.profile.inputs
+                                                    .role
                                             }
                                             type="text"
+                                            {...register("role")}
                                         />
                                     </Styled.Prof_CardInputs>
                                 </Styled.Prof_CardContent>
@@ -158,6 +221,7 @@ function Profile() {
                                         }
                                         variant="contained"
                                         type="submit"
+                                        disabled={isSubmitting}
                                     />
                                     <Styled.Prof_ButtonResetPass
                                         variant="outilene"

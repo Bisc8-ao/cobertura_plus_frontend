@@ -176,32 +176,7 @@ function Subscribe() {
                                     )}
                                     {activeStep === 1 && (
                                         <Styled.ContainerInputs>
-                                            <Styled.Input
-                                                error={!!errors.service}
-                                                helperText={
-                                                    errors.service
-                                                        ? errors.service.message
-                                                        : ""
-                                                }
-                                                id="outlined-basic"
-                                                label={
-                                                    translations.pages.subscribe
-                                                        .inputText.service
-                                                }
-                                                select
-                                                {...register("service")}
-                                            >
-                                                {itemInputService.map(
-                                                    (option, index) => (
-                                                        <MenuItem
-                                                            key={index}
-                                                            value={option.value}
-                                                        >
-                                                            {option.label}
-                                                        </MenuItem>
-                                                    )
-                                                )}
-                                            </Styled.Input>
+                                            
                                             <Styled.Input
                                                 error={!!errors.bi}
                                                 id="outlined-basic"

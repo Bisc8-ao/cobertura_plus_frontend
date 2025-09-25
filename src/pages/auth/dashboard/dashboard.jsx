@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
     Typography,
     Box,
@@ -11,12 +11,15 @@ import {
     TableCell,
     TableBody,
     IconButton,
+    Menu as MuiMenu,
+    MenuItem as MuiMenuItem,
     Card as Muicard,
 } from "@mui/material";
 import { Card } from "../../../components";
 import { vectorImages } from "../../../assets";
 import { useLangContext } from "../../../hooks";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+
 
 const Wrapper = styled("section")({
     display: "flex",
@@ -29,10 +32,10 @@ const Container = styled("div")({
     flexDirection: "column",
     gap: "2.4rem",
 });
-const MuiCard = styled(Muicard, {
-
-})(({ theme }) => ({
-
+const MuiCard = styled(
+    Muicard,
+    {}
+)(({ theme }) => ({
     borderRadius: "1.6rem",
     position: "relative",
     background: theme.palette.card.background,
@@ -41,6 +44,17 @@ const MuiCard = styled(Muicard, {
         gridColumn: "span 1",
     },
 }));
+
+const Menu = styled(MuiMenu)({
+    left: "-5rem",
+
+});
+const MenuItem = styled(MuiMenuItem)({
+    display: "flex",
+    gap: "1rem",
+    fontSize: "1.2rem",
+    fontWeight: "700",
+});
 function createData(name, calories, fat, carbs, protein) {
     return { name, calories, fat, carbs, protein };
 }
@@ -53,7 +67,15 @@ const rows = [
 
 function Dashboard() {
     const { translations } = useLangContext();
+    const [anchorEl, setAnchorEl] = useState(null);
 
+    const open = Boolean(anchorEl);
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleMenuItemClick = (lang) => {
+        setAnchorEl(null);
+    };
     const itemCards = [
         {
             title: "Diarios",
@@ -107,7 +129,6 @@ function Dashboard() {
                         {itemCards.map((item, index) => (
                             <Card key={index} {...item} />
                         ))}
-
                     </Box>
                 </Container>
 
@@ -240,9 +261,34 @@ function Dashboard() {
                                                 }),
                                             ]}
                                         >
-                                            <IconButton>
+                                            <IconButton
+                                                aria-controls={
+                                                    open
+                                                        ? "basic-menu"
+                                                        : undefined
+                                                }
+                                                aria-haspopup="true"
+                                                aria-expanded={
+                                                    open ? "true" : undefined
+                                                }
+                                                onClick={handleClick}
+                                            >
                                                 <MoreVertIcon />
                                             </IconButton>
+                                            <Menu
+                                                anchorEl={anchorEl}
+                                                open={open}
+                                                slotProps={{
+                                                    list: {
+                                                        "aria-labelledby":
+                                                            "basic-button",
+                                                    },
+                                                }}
+                                                onClose={handleMenuItemClick}
+                                            >
+                                                <MenuItem>Apagar</MenuItem>
+                                                <MenuItem>Resetar</MenuItem>
+                                            </Menu>
                                         </TableCell>
                                     </TableRow>
                                 ))}

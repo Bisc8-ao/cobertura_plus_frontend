@@ -5,6 +5,8 @@
         "map": "Map",
         "user": "User",
         "hatmap": "Hat map",
+        "profile": "Profile",
+        "userlist":"User list",
         "category": {
             "overview": "Overview",
             "management": "Management"

@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { APIProvider, Map as GooleMap, useMap } from "@vis.gl/react-google-maps";
 import { fixGeoJson } from "../../../utils";
-import { UseGetCoverageAreas } from "../../../hooks";
+import { UseGetCoverageAreas, UseThemeMode } from "../../../hooks";
 import { styled } from "@mui/material";
 
 
@@ -14,7 +14,167 @@ const Wrapper = styled("div")(() => ({
     },
 }));
 
-
+const darkMapStyles = [
+    {
+        elementType: "geometry",
+        stylers: [
+            {
+                color: "#242f3e",
+            },
+        ],
+    },
+    {
+        elementType: "labels.text.stroke",
+        stylers: [
+            {
+                color: "#242f3e",
+            },
+        ],
+    },
+    {
+        elementType: "labels.text.fill",
+        stylers: [
+            {
+                color: "#746855",
+            },
+        ],
+    },
+    {
+        featureType: "administrative.locality",
+        elementType: "labels.text.fill",
+        stylers: [
+            {
+                color: "#d59563",
+            },
+        ],
+    },
+    {
+        featureType: "poi",
+        elementType: "labels.text.fill",
+        stylers: [
+            {
+                color: "#d59563",
+            },
+        ],
+    },
+    {
+        featureType: "poi.park",
+        elementType: "geometry",
+        stylers: [
+            {
+                color: "#263c3f",
+            },
+        ],
+    },
+    {
+        featureType: "poi.park",
+        elementType: "labels.text.fill",
+        stylers: [
+            {
+                color: "#6b9a76",
+            },
+        ],
+    },
+    {
+        featureType: "road",
+        elementType: "geometry",
+        stylers: [
+            {
+                color: "#38414e",
+            },
+        ],
+    },
+    {
+        featureType: "road",
+        elementType: "geometry.stroke",
+        stylers: [
+            {
+                color: "#212a37",
+            },
+        ],
+    },
+    {
+        featureType: "road",
+        elementType: "labels.text.fill",
+        stylers: [
+            {
+                color: "#9ca5b3",
+            },
+        ],
+    },
+    {
+        featureType: "road.highway",
+        elementType: "geometry",
+        stylers: [
+            {
+                color: "#746855",
+            },
+        ],
+    },
+    {
+        featureType: "road.highway",
+        elementType: "geometry.stroke",
+        stylers: [
+            {
+                color: "#1f2835",
+            },
+        ],
+    },
+    {
+        featureType: "road.highway",
+        elementType: "labels.text.fill",
+        stylers: [
+            {
+                color: "#f3d19c",
+            },
+        ],
+    },
+    {
+        featureType: "transit",
+        elementType: "geometry",
+        stylers: [
+            {
+                color: "#2f3948",
+            },
+        ],
+    },
+    {
+        featureType: "transit.station",
+        elementType: "labels.text.fill",
+        stylers: [
+            {
+                color: "#d59563",
+            },
+        ],
+    },
+    {
+        featureType: "water",
+        elementType: "geometry",
+        stylers: [
+            {
+                color: "#17263c",
+            },
+        ],
+    },
+    {
+        featureType: "water",
+        elementType: "labels.text.fill",
+        stylers: [
+            {
+                color: "#515c6d",
+            },
+        ],
+    },
+    {
+        featureType: "water",
+        elementType: "labels.text.stroke",
+        stylers: [
+            {
+                color: "#17263c",
+            },
+        ],
+    },
+];
 
 
 function MapWithGeoJson({ onLoad, onZoneClick }) {
@@ -109,7 +269,7 @@ function MapController({
 }
 
 function Map() {
-
+     const {mode}= UseThemeMode()
      const API_KEY_GOOGLEMAPS =
          (window.__RUNTIME__ && window.__RUNTIME__.VITE_API_KEY_GOOGLE) ||
          import.meta.env.VITE_API_KEY_GOOGLE;
@@ -127,7 +287,7 @@ function Map() {
 
          const watcher = navigator.geolocation.watchPosition(
              (pos) => {
-                 
+
                  setUserLocation({
                      lat: pos.coords.latitude,
                      lng: pos.coords.longitude,
@@ -160,6 +320,7 @@ function Map() {
                         borderRadius: "2rem",
                         overflow: "hidden",
                     }}
+                    styles={mode == "dark" ? darkMapStyles : []}
                     defaultCenter={{ lat: -8.839, lng: 13.2344 }}
                     defaultZoom={12}
                     gestureHandling="greedy"
