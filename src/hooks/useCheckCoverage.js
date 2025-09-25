@@ -7,7 +7,7 @@ function UseCheckCoverage() {
     const [loading, setLoading] = useState(false);
 
     const API_URL = import.meta.env.VITE_API_URL;
-    const url_api = `${API_URL}/api/coverage/quick-test`;
+    const url_api = `${API_URL}/api/coverage/tests`;
 
     const checkCoverage = useCallback(
         async (payload) => {
@@ -19,6 +19,7 @@ function UseCheckCoverage() {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
+                        "User-Agent": navigator.userAgent,
                     },
                     body: JSON.stringify(payload),
                 });

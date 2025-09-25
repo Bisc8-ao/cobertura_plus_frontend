@@ -71,7 +71,7 @@ function Statistics() {
             total: 2008,
         },
         {
-            title: "Anual",
+            title: "Geral",
             percent: 73.5,
             total: 20008,
         },

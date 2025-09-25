@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useLangContext } from "./useLangContext";
 
 function useSteps() {
-    const {translations} = useLangContext()
+    const { translations } = useLangContext();
     const schena = z.object({
         firstName: z.string().min(2, {
             message: translations.pages.subscribe.errors.firstNameMin,
@@ -23,6 +23,10 @@ function useSteps() {
             }, translations.pages.subscribe.errors.birthDateInvalid),
         bi: z.string().regex(/^00\d{7}[A-Z]{2}\d{3}$/, {
             message: translations.pages.subscribe.errors.biInvalid,
+        }),
+
+        service: z.string().min(1, {
+            message: translations.pages.subscribe.errors.serviceRequired,
         }),
         email: z.string().email({
             message: translations.pages.subscribe.errors.emailInvalid,
@@ -43,12 +47,12 @@ function useSteps() {
         trigger,
     } = useForm({
         resolver: zodResolver(schena),
-        mode: "onChange",
-        reValidateMode: "onChange",
+        //mode: "onChange",
+        //reValidateMode: "onChange",
     });
     const navigate = useNavigate();
 
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false);
     const steps = [...translations.pages.subscribe.steps];
     const [activeStep, setActiveStep] = useState(0);
 
@@ -58,7 +62,7 @@ function useSteps() {
         if (activeStep === 0) {
             fieldsToValidate = ["firstName", "lastName", "birthDate"];
         } else if (activeStep === 1) {
-            fieldsToValidate = ["bi", "email", "phone"];
+            fieldsToValidate = ["service", "bi", "email", "phone"];
         } else if (activeStep === 2) {
             fieldsToValidate = ["message"];
         }
@@ -75,11 +79,9 @@ function useSteps() {
     };
 
     function onSubmit() {
-
-        setLoading(true)
+        setLoading(true);
         navigate("/coverage/subscription-confirmation");
     }
-
 
     return {
         register,
@@ -90,7 +92,7 @@ function useSteps() {
         handleNext,
         handleBack,
         onSubmit,
-        loading
+        loading,
     };
 }
 

@@ -12,8 +12,8 @@ function LocationProvider({ children }) {
     const { getIpUser } = UseUserIp();
 
     function handleLocation(callback) {
-        callback?.();
-        setIsLoading(true);
+
+
 
         if (!navigator.geolocation) {
             setError("Geolocalização não suportada");
@@ -22,6 +22,8 @@ function LocationProvider({ children }) {
 
         navigator.geolocation.getCurrentPosition(
             async (position) => {
+                callback?.();
+                setIsLoading(true);
                 if (
                     position.coords.latitude &&
                     position.coords.longitude &&
@@ -56,8 +58,26 @@ function LocationProvider({ children }) {
                 }
             },
             (err) => {
-                setError("Erro a obter a localização: " + err.message);
-                setIsLoading(false);
+               switch (err.code) {
+                   case 1:
+                       setError("Usuário recusou o acesso à localização ");
+                       console.log("Usuário recusou o acesso à localização ");
+                       break;
+                   case 2:
+                       setError("Localização indisponível");
+                       console.log("Localização indisponível");
+                       break;
+                   case 3:
+                       setError("Tempo esgotado para obter a localização ");
+                        console.log(
+                            "Tempo esgotado para obter a localização "
+                        );
+                       break;
+                   default:
+                       setError("Erro desconhecido ao obter a localização");
+                       console.log("Erro desconhecido ao obter a localização ");
+               }
+               setIsLoading(false);
             },
             { enableHighAccuracy: true, maximumAge: 0, timeout: 10000 }
         );

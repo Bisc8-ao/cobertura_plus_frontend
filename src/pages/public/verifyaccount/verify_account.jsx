@@ -109,7 +109,7 @@ function VerifyAccount() {
                             </span>
                         </Styled.ContainerFormContent>
                         <div data-element="Link_back">
-                            <Link to="/forgotpassword">
+                            <Link to="/auth/signin">
                                 <ArrowBackIosIcon />{" "}
                                 {translations.pages.verifyaccount.link.back}
                             </Link>

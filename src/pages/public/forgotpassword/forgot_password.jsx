@@ -32,7 +32,7 @@ function ForgotPassword() {
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState({})
     const API_URL = import.meta.env.VITE_API_URL;
-    const url_api = `${API_URL}/forgot-password`;
+    const url_api = `${API_URL}/api/users/password-reset`;
     const { translations } = useLangContext();
 
     const {

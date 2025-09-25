@@ -5,6 +5,8 @@
         "map": "Mapa",
         "user": "Utilizador",
         "hatmap": "Mapa de calor",
+        "profile": "Perfil",
+        "userlist": "Lista de utilizador",
         "category": {
             "overview": "Visão geral",
             "management": "Gestão"
@@ -56,15 +58,30 @@
                 "fName": "Primeiro nome",
                 "lName": "Último nome",
                 "dt": "Data de nascimento",
+                "gender": "Gênero",
+                "service": "Serviços",
                 "email": "Endereço de email",
                 "tel": "Telefone",
                 "bi": "B.I",
                 "message": "Deixe aqui a sua mensagem..."
             },
+            "options": {
+                "gender": {
+                    "masculine": "Masculino",
+                    "feminine": "Feminino"
+                },
+                "service": {
+                    "internet": "Internet",
+                    "tv": "TV",
+                    "voz": "Voz"
+                }
+            },
             "steps": ["Apresentação", "Dados", "Mensagem"],
             "errors": {
                 "firstNameMin": "O nome deve ter no mínimo 2 caracteres",
                 "lastNameMin": "O sobrenome deve ter no mínimo 2 caracteres",
+                "genderRequired": "O gênero é obrigatório",
+                "serviceRequired": "O serviço é obrigatório",
                 "birthDateRequired": "A data de nascimento é obrigatória",
                 "birthDateInvalid": "Data inválida",
                 "biInvalid": "Número de B.I inválido. Ex: 001234567LA001",
@@ -94,6 +111,7 @@
                 "email": "Endereço de email",
                 "pass": "Senha"
             },
+
             "alert": {
                 "title": "O seu email deve possuir"
             },
@@ -101,7 +119,9 @@
                 "emailRequired": "O email é obrigatório",
                 "emailInvalid": "Endereço de email inválido",
                 "passwordRequired": "A senha é obrigatória",
-                "passwordMin": "A senha deve ter no mínimo 8 caracteres"
+                "passwordMin": "A senha deve ter no mínimo 8 caracteres",
+                "genderRequired": "O gênero é obrigatório",
+                "serviceRequired": "O serviço é obrigatório"
             },
             "btnText": {
                 "log": "Iniciar sessão"
@@ -209,44 +229,37 @@
             "notReceived": "Não recebeu o código?"
         },
         "profile": {
-
-                "title": "Perfil",
-                "uploadText": "Atualizar imagem",
-                "inputs": {
-                    "firstName": "Primeiro nome",
-                    "lastName": "Último nome",
-                    "email": "E-mail",
-                    "phone": "Telefone",
-                    "country": "País",
-                    "city": "Cidade",
-                    "address": "Endereço",
-                    "role": "Papel"
-                },
-                "buttons": {
-                    "updateData": "Atualizar os dados",
-                    "updatePassword": "Atualizar senha"
-
+            "title": "Perfil",
+            "uploadText": "Atualizar imagem",
+            "inputs": {
+                "firstName": "Primeiro nome",
+                "lastName": "Último nome",
+                "email": "E-mail",
+                "phone": "Telefone",
+                "country": "País",
+                "city": "Cidade",
+                "address": "Endereço",
+                "role": "Papel"
+            },
+            "buttons": {
+                "updateData": "Atualizar os dados",
+                "updatePassword": "Atualizar senha"
             }
-
         },
 
-  "sandbox": {
-
-      "input": {
-        "placeholder": "Digite sua localização"
-      },
-      "button": {
-        "checkCoverage": "Testar cobertura"
-      },
-      "errors": {
-        "geoNotSupported": "A geolocalização não é suportada neste navegador.",
-        "geoDenied": "Acesso à localização negado.",
-        "geoUnavailable": "A localização não está disponível.",
-        "geoTimeout": "Tempo de solicitação de localização expirou."
-      }
-
-  }
-}
-
+        "sandbox": {
+            "input": {
+                "placeholder": "Digite sua localização"
+            },
+            "button": {
+                "checkCoverage": "Testar cobertura"
+            },
+            "errors": {
+                "geoNotSupported": "A geolocalização não é suportada neste navegador.",
+                "geoDenied": "Acesso à localização negado.",
+                "geoUnavailable": "A localização não está disponível.",
+                "geoTimeout": "Tempo de solicitação de localização expirou."
+            }
+        }
     }
-
+}

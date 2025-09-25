@@ -1,14 +1,13 @@
 import React from "react";
 import { useLangContext, UseLocation, useSteps } from "../../../hooks";
-import { Typography, StepLabel, Step, Box } from "@mui/material";
+import { Typography, StepLabel, Step, Box, MenuItem } from "@mui/material";
 import { images } from "../../../assets";
 
 import * as Styled from "../../../styles";
 import { Button } from "../../../components";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import { Navigate } from "react-router-dom";
-
+import { Navigate } from "react-router-dom"
 
 
 function Subscribe() {
@@ -28,7 +27,32 @@ function Subscribe() {
 
   if (Object.keys(location).length === 0) {
           return <Navigate to="/" replace />;
-      }
+  }
+    const gender = [
+        {
+            label: translations.pages.subscribe.options.gender.masculine,
+            value: "masculine",
+        },
+        {
+            label: translations.pages.subscribe.options.gender.feminine,
+            value: "feminine",
+        },
+    ];
+
+    const itemInputService = [
+        {
+            label: translations.pages.subscribe.options.service.internet,
+            value: "internet",
+        },
+        {
+            label: translations.pages.subscribe.options.service.tv,
+            value: "tv",
+        },
+        {
+            label: translations.pages.subscribe.options.service.voz,
+            value: "voz",
+        },
+    ];
 
     return (
         <React.Fragment>
@@ -124,10 +148,35 @@ function Subscribe() {
                                                 type="date"
                                                 {...register("birthDate")}
                                             />
+                                            <Styled.Input
+                                                error={!!errors.gender}
+                                                helperText={
+                                                    errors.gender
+                                                        ? errors.gender.message
+                                                        : ""
+                                                }
+                                                id="outlined-basic"
+                                                label={
+                                                    translations.pages.subscribe
+                                                        .inputText.gender
+                                                }
+                                                select
+                                                {...register("gender")}
+                                            >
+                                                {gender.map((option, index) => (
+                                                    <MenuItem
+                                                        key={index}
+                                                        value={option.value}
+                                                    >
+                                                        {option.label}
+                                                    </MenuItem>
+                                                ))}
+                                            </Styled.Input>
                                         </Styled.ContainerInputs>
                                     )}
                                     {activeStep === 1 && (
                                         <Styled.ContainerInputs>
+                                            
                                             <Styled.Input
                                                 error={!!errors.bi}
                                                 id="outlined-basic"
