@@ -3,6 +3,7 @@ import {
     FormControl as MuiFormControl,
     OutlinedInput as MuiOutlinedInput,
     IconButton as MuiIconButton,
+    TextField
 } from "@mui/material";
 
 export const Sand_Wrapper = styled("div")({
@@ -47,7 +48,7 @@ export const Sand_FormControl = styled(MuiFormControl)(({ theme }) => ({
     },
 }));
 
-export const Sand_OutlinedInput = styled(MuiOutlinedInput)(({ theme }) => ({
+export const Sand_OutlinedInput = styled(TextField)(({ theme }) => ({
     "& .MuiOutlinedInput-notchedOutline": {
         borderColor: theme.palette.gray[200],
         borderWidth: "2px",
@@ -59,7 +60,8 @@ export const Sand_OutlinedInput = styled(MuiOutlinedInput)(({ theme }) => ({
                 : theme.palette.common.black,
     },
     "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-        borderColor: theme.palette.mode === "dark"
+        borderColor:
+            theme.palette.mode === "dark"
                 ? theme.palette.common.white
                 : theme.palette.common.black,
     },
