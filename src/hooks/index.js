@@ -3,10 +3,11 @@ export { useSteps } from "./useSteps";
 export { useUserContext } from "./useUserContext";
 export { useLangContext } from "./useLangContext";
 export { UseLocation } from "./useLocation";
-export { useSignin} from "./useSignin"
+export { useSignin } from "./useSignin";
 export { useSignUp } from "./useSignup";
 export { UseCheckCoverage } from "./useCheckCoverage";
 export { UseTimeoutEffect } from "./useTimeoutEffect";
 export { UseUserIp } from "./useUserIp";
 export { UseThemeMode } from "./useThemeMode";
 export { UseGetCoverageAreas } from "./useGetCoverageAreas";
+export { useReverseGeocode } from "./useReverseGeocode";

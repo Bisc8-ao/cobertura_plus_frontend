@@ -67,7 +67,7 @@ function Profile() {
                     Authorization: `Bearer ${userToken}`,
                 },
             });
-            if (!response.ok) throw new Error("Erro ao atualizar perfil");
+            if (!response.ok) throw new Error("Erro ao deletar o perfil");
             const result = await response.json();
 
             console.log(result);
