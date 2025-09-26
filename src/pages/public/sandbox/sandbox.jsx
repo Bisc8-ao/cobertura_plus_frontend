@@ -5,12 +5,21 @@ import {
     Marker,
     useMap,
 } from "@vis.gl/react-google-maps";
-
+import parse from "autosuggest-highlight/parse";
 import { vectorImages } from "../../../assets";
-import { InputAdornment } from "@mui/material";
+import {
+    InputAdornment,
+    Autocomplete,
+    Typography,
+    Box,
+    Grid,
+    TextField,
+    CircularProgress,
+} from "@mui/material";
 import { Button, Loader } from "../../../components";
 import LocationSearchingIcon from "@mui/icons-material/LocationSearching";
 import { lotties } from "../../../assets";
+import debounce from "lodash/debounce";
 import {
     UseCheckCoverage,
     UseTimeoutEffect,
@@ -19,174 +28,102 @@ import {
     UseGetCoverageAreas,
     useLangContext,
     UseThemeMode,
+    useReverseGeocode,
 } from "../../../hooks";
 import * as Styled from "../../../styles";
-
 import { fixGeoJson } from "../../../utils";
-
 
 const darkMapStyles = [
     {
         elementType: "geometry",
-        stylers: [
-            {
-                color: "#242f3e",
-            },
-        ],
+        stylers: [{ color: "#242f3e" }],
     },
     {
         elementType: "labels.text.stroke",
-        stylers: [
-            {
-                color: "#242f3e",
-            },
-        ],
+        stylers: [{ color: "#242f3e" }],
     },
     {
         elementType: "labels.text.fill",
-        stylers: [
-            {
-                color: "#746855",
-            },
-        ],
+        stylers: [{ color: "#746855" }],
     },
     {
         featureType: "administrative.locality",
         elementType: "labels.text.fill",
-        stylers: [
-            {
-                color: "#d59563",
-            },
-        ],
+        stylers: [{ color: "#d59563" }],
     },
     {
         featureType: "poi",
         elementType: "labels.text.fill",
-        stylers: [
-            {
-                color: "#d59563",
-            },
-        ],
+        stylers: [{ color: "#d59563" }],
     },
     {
         featureType: "poi.park",
         elementType: "geometry",
-        stylers: [
-            {
-                color: "#263c3f",
-            },
-        ],
+        stylers: [{ color: "#263c3f" }],
     },
     {
         featureType: "poi.park",
         elementType: "labels.text.fill",
-        stylers: [
-            {
-                color: "#6b9a76",
-            },
-        ],
+        stylers: [{ color: "#6b9a76" }],
     },
     {
         featureType: "road",
         elementType: "geometry",
-        stylers: [
-            {
-                color: "#38414e",
-            },
-        ],
+        stylers: [{ color: "#38414e" }],
     },
     {
         featureType: "road",
         elementType: "geometry.stroke",
-        stylers: [
-            {
-                color: "#212a37",
-            },
-        ],
+        stylers: [{ color: "#212a37" }],
     },
     {
         featureType: "road",
         elementType: "labels.text.fill",
-        stylers: [
-            {
-                color: "#9ca5b3",
-            },
-        ],
+        stylers: [{ color: "#9ca5b3" }],
     },
     {
         featureType: "road.highway",
         elementType: "geometry",
-        stylers: [
-            {
-                color: "#746855",
-            },
-        ],
+        stylers: [{ color: "#746855" }],
     },
     {
         featureType: "road.highway",
         elementType: "geometry.stroke",
-        stylers: [
-            {
-                color: "#1f2835",
-            },
-        ],
+        stylers: [{ color: "#1f2835" }],
     },
     {
         featureType: "road.highway",
         elementType: "labels.text.fill",
-        stylers: [
-            {
-                color: "#f3d19c",
-            },
-        ],
+        stylers: [{ color: "#f3d19c" }],
     },
     {
         featureType: "transit",
         elementType: "geometry",
-        stylers: [
-            {
-                color: "#2f3948",
-            },
-        ],
+        stylers: [{ color: "#2f3948" }],
     },
     {
         featureType: "transit.station",
         elementType: "labels.text.fill",
-        stylers: [
-            {
-                color: "#d59563",
-            },
-        ],
+        stylers: [{ color: "#d59563" }],
     },
     {
         featureType: "water",
         elementType: "geometry",
-        stylers: [
-            {
-                color: "#17263c",
-            },
-        ],
+        stylers: [{ color: "#17263c" }],
     },
     {
         featureType: "water",
         elementType: "labels.text.fill",
-        stylers: [
-            {
-                color: "#515c6d",
-            },
-        ],
+        stylers: [{ color: "#515c6d" }],
     },
     {
         featureType: "water",
         elementType: "labels.text.stroke",
-        stylers: [
-            {
-                color: "#17263c",
-            },
-        ],
+        stylers: [{ color: "#17263c" }],
     },
 ];
 
+// Componente para controlar GeoJSON no mapa
 function MapWithGeoJson({ onLoad, onZoneClick }) {
     const map = useMap();
     const { geodata } = UseGetCoverageAreas();
@@ -215,11 +152,10 @@ function MapWithGeoJson({ onLoad, onZoneClick }) {
             };
         });
 
-        // Clique em polígono → chama callback para marcar posição
+        // Clique em polígono
         map.data.addListener("click", (e) => {
             const lat = e.latLng.lat();
             const lng = e.latLng.lng();
-
             if (onZoneClick) {
                 onZoneClick({ lat, lng });
             }
@@ -251,9 +187,7 @@ function MapWithGeoJson({ onLoad, onZoneClick }) {
     return null;
 }
 
-
-
-// Componente separado para controlar o mapa e manter funcionalidade
+// Componente para controlar o mapa
 function MapController({
     userLocation,
     clickedPosition,
@@ -263,7 +197,6 @@ function MapController({
 
     useEffect(() => {
         if (map && clickedPosition?.lat && clickedPosition?.lng) {
-            // Prioriza a posição clicada
             map.setCenter(clickedPosition);
             map.setZoom(15);
         } else if (
@@ -272,20 +205,18 @@ function MapController({
             userLocation?.lng &&
             shouldCenterOnUser
         ) {
-            // Só centraliza na localização do usuário se não houver clique e for permitido
             map.setCenter(userLocation);
         }
     }, [map, userLocation, clickedPosition, shouldCenterOnUser]);
 
-    return null; // Não renderiza nada visual
+    return null;
 }
 
+// Componente para mostrar marcador do usuário
 function MapWithUserLocation({ userLocation, showUserMarker }) {
     const [location, setLocation] = useState({});
     const { checkCoverage: rawCheckCoverage } = UseCheckCoverage();
     const { getIpUser } = UseUserIp();
-
-
 
     useEffect(() => {
         if (userLocation?.lat && userLocation?.lng) {
@@ -294,30 +225,28 @@ function MapWithUserLocation({ userLocation, showUserMarker }) {
                     userIp: getIpUser,
                     userLat: userLocation.lat,
                     userLon: userLocation.lng,
+                    userAgent: navigator.userAgent,
                 };
-
-                const result = await rawCheckCoverage(payload);
-
-                setLocation({
-                    lat: userLocation.lat,
-                    lng: userLocation.lng,
-                    ip: getIpUser,
-                    covered: result.available ?? false,
-                });
+                // Descomente quando necessário
+                // const result = await rawCheckCoverage(payload);
+                // setLocation({
+                //     lat: userLocation.lat,
+                //     lng: userLocation.lng,
+                //     ip: getIpUser,
+                //     covered: result.available ?? false,
+                // });
             };
             checkCoveraged();
         }
     }, [userLocation, getIpUser, rawCheckCoverage]);
-
 
     return showUserMarker && userLocation?.lat && userLocation?.lng ? (
         <Marker
             position={userLocation}
             icon={{
                 url:
-                    location.covered === false
-                        ? vectorImages.icons.PinHasNoCoverage
-                        : vectorImages.icons.PinHasCoverage,
+                    location.covered === false &&
+                    vectorImages.icons.PinHasNoCoverage,
                 scaledSize: new window.google.maps.Size(48, 48),
                 anchor: new window.google.maps.Point(24, 48),
             }}
@@ -325,101 +254,295 @@ function MapWithUserLocation({ userLocation, showUserMarker }) {
     ) : null;
 }
 
-// --- MAPA PRINCIPAL ---
+const debouncedFetchSuggestions = debounce(
+    async (input, callback, apiKey, setIsSearching, setOptions) => {
+        if (!input || input.length < 2) {
+            callback([]);
+            return;
+        }
 
+        try {
+            setIsSearching(true);
+
+            const response = await fetch(
+                `https://places.googleapis.com/v1/places:autocomplete?key=${apiKey}`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-Goog-FieldMask":
+                            "suggestions.placePrediction.placeId,suggestions.placePrediction.text,suggestions.placePrediction.structuredFormat",
+                    },
+                    body: JSON.stringify({
+                        input,
+                        languageCode: "pt",
+                        regionCode: "AO",
+                    }),
+                }
+            );
+
+            if (!response.ok) throw new Error("Erro HTTP: " + response.status);
+
+            const data = await response.json();
+
+            const formattedPredictions =
+                data.suggestions?.map((s) => ({
+                    description: s.placePrediction?.text?.text,
+                    structured_formatting: {
+                        main_text:
+                            s.placePrediction?.structuredFormat?.mainText
+                                ?.text || "",
+                        secondary_text:
+                            s.placePrediction?.structuredFormat?.secondaryText
+                                ?.text || "",
+                        main_text_matched_substrings:
+                            s.placePrediction?.structuredFormat?.mainText?.matches?.map(
+                                (m) => ({
+                                    offset: m.startOffset,
+                                    length: m.endOffset - m.startOffset,
+                                })
+                            ) || [],
+                    },
+                    place_id: s.placePrediction?.placeId,
+                })) || [];
+
+            callback(formattedPredictions);
+        } catch (error) {
+            console.error("Erro ao buscar sugestões:", error);
+            callback([]);
+        } finally {
+            setIsSearching(false);
+        }
+    },
+    300
+);
+// Componente principal
 function Sandbox() {
+    // Estados
     const [markerPos, setMarkerPos] = useState(null);
+    const [userLocation, setUserLocation] = useState({});
+    const [address, setAddress] = useState("");
+    const [options, setOptions] = useState([]);
+    const [isSearching, setIsSearching] = useState(false);
+    const [apiLoaded, setApiLoaded] = useState(false);
+    const [loading, setLoading] = useState(false)
+    // Hooks
     const { location, setLocation } = UseLocation();
     const { translations } = useLangContext();
-    const {mode}= UseThemeMode()
-    const API_KEY_GOOGLEMAPS =
-        (window.__RUNTIME__ && window.__RUNTIME__.VITE_API_KEY_GOOGLE) ||
-        import.meta.env.VITE_API_KEY_GOOGLE;
 
-    const [userLoctaion, setUserLocation] = useState({});
-    const { showAvalibe, setShowAvalibe, showVerific } = UseTimeoutEffect();
+    const { mode } = UseThemeMode();
+    const { showAvalibe, setShowAvalibe, showVerific, setShowNavigate } =
+        UseTimeoutEffect();
     const { checkCoverage } = UseCheckCoverage();
     const { getIpUser } = UseUserIp();
+    const { getAddressFromLatLng } = useReverseGeocode();
 
-    const handleMapClick = async (event) => {
-        const lat = event.detail.latLng.lat;
-        const lng = event.detail.latLng.lng;
-        const clickPosition = { lat, lng };
+    const API_KEY_GOOGLEMAPS = import.meta.env.VITE_API_KEY_GOOGLE;
 
-        setMarkerPos(clickPosition);
-        setShowAvalibe(true);
+    // Verifica se a API do Google Maps está carregada
+    useEffect(() => {
+        const checkGoogleAPI = () => {
+            if (
+                window.google &&
+                window.google.maps &&
+                window.google.maps.places
+            ) {
+                console.log("Google Maps API carregada com sucesso");
+                setApiLoaded(true);
+            } else {
+                console.log("Aguardando Google Maps API...");
+                setTimeout(checkGoogleAPI, 100);
+            }
+        };
+        checkGoogleAPI();
+    }, []);
 
-        if (lat && lng && getIpUser) {
-            const payload = {
-                userIp: getIpUser,
-                userLat: lat,
-                userLon: lng,
-            };
 
-            const result = await checkCoverage(payload);
 
-            setLocation({
-                lat,
-                lng,
-                ip: getIpUser,
-                corvaged: result.available,
-            });
+  const fetchSuggestions = useCallback(
+      (input, callback) => {
+          debouncedFetchSuggestions(
+              input,
+              callback,
+              API_KEY_GOOGLEMAPS,
+              setIsSearching,
+              setOptions
+          );
+      },
+      [API_KEY_GOOGLEMAPS, setIsSearching, setOptions]
+  );
+
+
+
+    const handleInputChange = useCallback(
+        (event, newInputValue) => {
+
+            setAddress(newInputValue || "");
+
+            if (newInputValue && newInputValue.length >= 2 && apiLoaded) {
+                fetchSuggestions(newInputValue, (results) => {
+                    ///console.log(" Resultados recebidos:", results);
+                    setOptions(results || []);
+                });
+            } else {
+                setOptions([]);
+            }
+        },
+        [fetchSuggestions, apiLoaded]
+    );
+
+
+const handleSelect = useCallback(
+    async (event, newValue) => {
+        if (!newValue?.place_id) return;
+
+        try {
+            const res = await fetch(
+                `https://places.googleapis.com/v1/places/${newValue.place_id}?key=${API_KEY_GOOGLEMAPS}`,
+                {
+                    headers: {
+                        "X-Goog-FieldMask":
+                            "id,displayName,formattedAddress,location",
+                    },
+                }
+            );
+            const data = await res.json();
+
+            if (data?.location) {
+                const pos = {
+                    lat: data.location.latitude,
+                    lng: data.location.longitude,
+                };
+
+                setMarkerPos(pos);
+                setAddress(newValue.description);
+            }
+        } catch (error) {
+            console.error("Erro ao buscar detalhes do lugar:", error);
         }
-    };
+    },
+    [API_KEY_GOOGLEMAPS]
+);
 
-    // clique dentro da zona (GeoJSON)
-    const handleZoneClick = async (pos) => {
-        console.log(pos);
-        setMarkerPos(pos);
-        setShowAvalibe(true);
 
-        if (pos.lat && pos.lng && getIpUser) {
-            const payload = {
-                userIp: getIpUser,
-                userLat: pos.lat,
-                userLon: pos.lng,
-            };
+    // Handle map click
+    const handleMapClick = useCallback(
+        async (event) => {
+            const lat = event.detail.latLng.lat;
+            const lng = event.detail.latLng.lng;
+            const clickPosition = { lat, lng };
 
-            const result = await checkCoverage(payload);
+            console.log(" Clique no mapa:", clickPosition);
+            setMarkerPos(clickPosition);
 
-            setLocation({
-                lat: pos.lat,
-                lng: pos.lng,
-                ip: getIpUser,
-                corvaged: result.available,
-            });
-        }
-    };
+            if (lat && lng && getIpUser) {
+                try {
+                    const result = await getAddressFromLatLng(lat, lng);
 
+                    setAddress(result.results[0]?.formatted_address);
+                } catch (error) {
+                    console.error("Erro ao obter endereço:", error);
+                    setAddress(`${lat.toFixed(6)}, ${lng.toFixed(6)}`);
+                }
+            }
+        },
+        [getIpUser, getAddressFromLatLng]
+    );
+
+    // Handle zone click
+    const handleZoneClick = useCallback(
+        async (pos) => {
+            console.log("Clique na zona:", pos);
+            setMarkerPos(pos);
+
+            if (pos.lat && pos.lng) {
+                try {
+                    const result = await getAddressFromLatLng(pos.lat, pos.lng);
+                   setAddress(result.results[0]?.formatted_address);
+                } catch (error) {
+                    console.error("Erro ao obter endereço da zona:", error);
+                    setAddress(`${pos.lat.toFixed(6)}, ${pos.lng.toFixed(6)}`);
+                }
+            }
+        },
+        [getAddressFromLatLng]
+    );
+
+    // Geolocalização do usuário
     useEffect(() => {
         if (!navigator.geolocation) {
+            console.warn("Geolocalização não suportada");
             return;
         }
 
         const watcher = navigator.geolocation.watchPosition(
             (pos) => {
-                console.log(pos.coords.latitude, pos.coords.longitude);
-                setUserLocation({
+                const userPos = {
                     lat: pos.coords.latitude,
                     lng: pos.coords.longitude,
-                });
+                };
+                console.log("Localização do usuário:", userPos);
+                setUserLocation(userPos);
             },
             (err) => {
-                console.error("Erro:", err);
+                console.error(" Erro na geolocalização:", err);
             },
-            { enableHighAccuracy: true, maximumAge: 0, timeout: 10000 }
+            { enableHighAccuracy: true, maximumAge: 10000, timeout: 15000 }
         );
 
         return () => navigator.geolocation.clearWatch(watcher);
     }, []);
 
+    // Memoized user location
     const memoizedUserLocation = useMemo(
         () =>
-            userLoctaion
-                ? { lat: userLoctaion.lat, lng: userLoctaion.lng }
+            userLocation
+                ? { lat: userLocation.lat, lng: userLocation.lng }
                 : null,
-        [userLoctaion]
+        [userLocation]
     );
+
+
+    const handleCheckCoverage = useCallback(async () => {
+        if (!markerPos || !getIpUser) {
+            console.warn(
+                " Posição ou IP não disponível para verificar cobertura"
+            );
+            return;
+        }
+        setLoading(true)
+
+
+        try {
+            const payload = {
+                userIp: getIpUser,
+                userLat: markerPos.lat,
+                userLon: markerPos.lng,
+                userAgent: navigator.userAgent,
+            };
+
+            const result = await checkCoverage(payload);
+             setLoading(false);
+             setShowAvalibe(true);
+            setShowNavigate(result.available);
+            setLocation({
+                lat: markerPos.lat,
+                lng: markerPos.lng,
+                ip: getIpUser,
+                corvaged: result.available,
+            });
+        } catch (error) {
+            console.error(" Erro ao verificar cobertura:", error);
+        }
+    }, [
+        markerPos,
+        getIpUser,
+        checkCoverage,
+        setLocation,
+        setShowAvalibe,
+        setShowNavigate,
+    ]);
+
 
 
 
@@ -434,24 +557,44 @@ function Sandbox() {
                     />
                 )}
 
-                <APIProvider apiKey={API_KEY_GOOGLEMAPS}>
+                {showVerific && (
+                    <Loader
+                        Animation={
+                            location.corvaged
+                                ? lotties.CheckAnimation
+                                : lotties.Erroranimation
+                        }
+                        width="20%"
+                        bg={true}
+                    />
+                )}
+
+                <APIProvider
+                    apiKey={API_KEY_GOOGLEMAPS}
+                    libraries={["places"]}
+                    onLoad={() => {
+                        console.log("🚀 APIProvider carregado");
+                        setApiLoaded(true);
+                    }}
+                >
                     <GoogleMap
                         style={{ width: "100%", height: "100vh" }}
-                        styles= {mode == "dark" ? darkMapStyles: []}
+                        styles={mode === "dark" ? darkMapStyles : []}
                         defaultCenter={{ lat: -8.8383, lng: 13.2344 }}
                         defaultZoom={12}
                         gestureHandling="auto"
                         minZoom={4.5}
                         disableDefaultUI
-                        onClick={(e) => handleMapClick(e)}
+                        onClick={handleMapClick}
                     >
-                        {/* Sempre presente - mantém funcionalidade do mapa */}
-                        <MapController userLocation={memoizedUserLocation} />
+                        <MapController
+                            userLocation={memoizedUserLocation}
+                            clickedPosition={markerPos}
+                        />
 
-                        {/* Marker da localização do usuário - só mostra quando não tem marker manual */}
                         <MapWithUserLocation
                             userLocation={memoizedUserLocation}
-                            showUserMarker={markerPos === null}
+                            showUserMarker={!markerPos}
                         />
 
                         <MapWithGeoJson
@@ -459,62 +602,153 @@ function Sandbox() {
                             onLoad={(map) => {
                                 if (
                                     map &&
-                                    userLoctaion?.lat &&
-                                    userLoctaion?.lng
+                                    userLocation?.lat &&
+                                    userLocation?.lng
                                 ) {
-                                    map.setCenter(userLoctaion);
+                                    map.setCenter(userLocation);
                                     map.setZoom(15);
                                 }
                             }}
                         />
 
-                        {/* Marker clicado pelo usuário */}
                         {markerPos && (
                             <Marker
                                 position={markerPos}
                                 icon={
-                                    showVerific === false && {
-                                        url:
-                                            location.corvaged === false
-                                                ? vectorImages.icons
-                                                      .PinHasNoCoverage
-                                                : vectorImages.icons
-                                                      .PinHasCoverage,
-                                        scaledSize: new window.google.maps.Size(
-                                            48,
-                                            48
-                                        ),
-                                        anchor: new window.google.maps.Point(
-                                            24,
-                                            48
-                                        ),
-                                    }
+                                    showVerific === false &&
+                                    location.corvaged === false
+                                        ? {
+                                              url: vectorImages.icons
+                                                  .PinHasNoCoverage,
+                                              scaledSize:
+                                                  new window.google.maps.Size(
+                                                      48,
+                                                      48
+                                                  ),
+                                              anchor: new window.google.maps.Point(
+                                                  24,
+                                                  48
+                                              ),
+                                          }
+                                        : undefined
                                 }
                             />
                         )}
                     </GoogleMap>
                 </APIProvider>
+
                 <Styled.Sand_ContainerForm>
-                    <Styled.Sand_FormControl
-                        variant="outlined"
+                    <Autocomplete
                         sx={{ width: "70%" }}
-                    >
-                        <Styled.Sand_OutlinedInput
-                            placeholder={
-                                translations.pages.sandbox.input.placeholder
-                            }
-                            endAdornment={
-                                <InputAdornment position="end">
-                                    <Styled.Sand_IconButton>
-                                        <LocationSearchingIcon />
-                                    </Styled.Sand_IconButton>
-                                </InputAdornment>
-                            }
-                        />
-                    </Styled.Sand_FormControl>
+                        options={options}
+                        value={address}
+                        loading={isSearching}
+                        getOptionLabel={(option) =>
+                            typeof option === "string"
+                                ? option
+                                : option.description || ""
+                        }
+                        filterOptions={(x) => x}
+                        autoComplete
+                        includeInputInList
+                        filterSelectedOptions
+                        noOptionsText={
+                            apiLoaded ? "Sem resultados" : "Carregando API..."
+                        }
+                        onInputChange={handleInputChange}
+                        onChange={handleSelect}
+                        renderInput={(params) => (
+                            <Styled.Sand_OutlinedInput
+                                {...params}
+                                label={
+                                    translations.pages.sandbox.input.placeholder
+                                }
+                                variant="outlined"
+                                InputProps={{
+                                    ...params.InputProps,
+                                    endAdornment: (
+                                        <>
+                                            {isSearching ? (
+                                                <CircularProgress
+                                                    color="inherit"
+                                                    size={20}
+                                                />
+                                            ) : null}
+                                            {params.InputProps.endAdornment}
+                                        </>
+                                    ),
+                                }}
+                            />
+                        )}
+                        renderOption={(props, option) => {
+                            const matches =
+                                option.structured_formatting
+                                    ?.main_text_matched_substrings || [];
+                            const parts = parse(
+                                option.structured_formatting?.main_text ||
+                                    option.description,
+                                matches.map((m) => [
+                                    m.offset,
+                                    m.offset + m.length,
+                                ])
+                            );
+
+                            return (
+                                <li {...props}>
+                                    <Grid container alignItems="center">
+                                        <Grid
+                                            sx={{ display: "flex", width: 44 }}
+                                        >
+                                            <LocationSearchingIcon
+                                                sx={{ color: "text.secondary" }}
+                                            />
+                                        </Grid>
+                                        <Grid
+                                            sx={{
+                                                width: "calc(100% - 44px)",
+                                                wordWrap: "break-word",
+                                            }}
+                                        >
+                                            {parts.map((part, index) => (
+                                                <Box
+                                                    key={index}
+                                                    component="span"
+                                                    sx={{
+                                                        fontWeight:
+                                                            part.highlight
+                                                                ? "bold"
+                                                                : "regular",
+                                                    }}
+                                                >
+                                                    {part.text}
+                                                </Box>
+                                            ))}
+                                            {option.structured_formatting
+                                                ?.secondary_text && (
+                                                <Typography
+                                                    variant="body2"
+                                                    color="text.secondary"
+                                                >
+                                                    {
+                                                        option
+                                                            .structured_formatting
+                                                            .secondary_text
+                                                    }
+                                                </Typography>
+                                            )}
+                                        </Grid>
+                                    </Grid>
+                                </li>
+                            );
+                        }}
+                    />
+
                     <Button
                         text={translations.pages.sandbox.button.checkCoverage}
                         variant="contained"
+                        onClick={handleCheckCoverage}
+                        disabled={!markerPos}
+                        
                     />
                 </Styled.Sand_ContainerForm>
             </Styled.Sand_Wrapper>

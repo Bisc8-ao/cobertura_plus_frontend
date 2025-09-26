@@ -1,6 +1,5 @@
 import { useCallback, useState } from "react";
 
-
 function UseCheckCoverage() {
     const [responseBack, setResponseBack] = useState(null);
     const [error, setError] = useState(null);
@@ -19,7 +18,6 @@ function UseCheckCoverage() {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
-                        "User-Agent": navigator.userAgent,
                     },
                     body: JSON.stringify(payload),
                 });

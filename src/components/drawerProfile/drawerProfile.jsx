@@ -47,7 +47,7 @@ function DrawerProfile() {
 
         dispatch({ type: "user_desactive" });
 
-        navigate("/signin", { replace: true });
+        navigate("/auth/signin", { replace: true });
     }
     return (
         <React.Fragment>

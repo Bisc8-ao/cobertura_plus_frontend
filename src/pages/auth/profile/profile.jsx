@@ -7,6 +7,7 @@ import { Typography } from "@mui/material";
 import { Button } from "../../../components";
 import { useLangContext, useUserContext } from "../../../hooks";
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
+import DeleteIcon from "@mui/icons-material/Delete";
 import * as Styled from "../../../styles";
 
 const schema = z.object({
@@ -15,19 +16,20 @@ const schema = z.object({
     email: z.string().email().optional(),
     phone: z.string().optional(),
     country: z.string().optional(),
-    city: z.string().optional(),
+    dateOfBirth: z.string().optional(),
     address: z.string().optional(),
     role: z.string().optional(),
 });
 
 function Profile() {
     const API_URL = import.meta.env.VITE_API_URL;
-    const [loading,setLoading] = useState()
+    const [loading, setLoading] = useState();
     const { translations } = useLangContext();
     const InputFile = useRef(null);
     const [getImage, setImage] = useState(null);
     const navigate = useNavigate();
-    const { state,dispatch } = useUserContext();
+    const { state, dispatch } = useUserContext();
+    const userToken = localStorage.getItem("auth_token");
 
     const {
         register,
@@ -36,9 +38,12 @@ function Profile() {
     } = useForm({
         resolver: zodResolver(schema),
         defaultValues: {
-            firstName: state.user_name.split(" ")[0] || "",
-            lastName: state.user_name.split(" ")[1] || "",
+            firstName: state.user_name?.split(" ")[0] || "",
+            lastName: state.user_name?.split(" ")[1] || "",
             email: state.user_email,
+            role: state.user_role,
+            phone: state.user_photo,
+            dateOfBirth: state.user_dateOfBirth,
         },
     });
 
@@ -53,9 +58,28 @@ function Profile() {
         navigate("/dashboard/auth/updatePassword");
     }
 
+    async function handleDeleAccount() {
+        try {
+            const response = await fetch(`${API_URL}/api/users/me`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${userToken}`,
+                },
+            });
+            if (!response.ok) throw new Error("Erro ao deletar o perfil");
+            const result = await response.json();
+
+            console.log(result);
+            navigate("/auth/signin", { replace: true });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     const onSubmit = async (data) => {
         try {
-            const formData = new FormData();
+            /*const formData = new FormData();
             setLoading(true)
 
              //formData.append("userId", state.user_id);
@@ -68,20 +92,48 @@ function Profile() {
                 if (value) {
                     formData.append(key, value);
                 }
-            });
+            });*/
 
-            const response = await fetch(`${API_URL}/profile/update`, {
-                method: "POST",
-                body: formData,
+            const payload = {
+                userFirstName: data.firstName,
+                userLastName: data.lastName,
+                userPhone: data.phone,
+                userDateOfBirth: data.dateOfBirth,
+            };
+
+            const response = await fetch(`${API_URL}/api/users/me`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${userToken}`,
+                },
+                body: JSON.stringify(payload),
             });
 
             if (!response.ok) throw new Error("Erro ao atualizar perfil");
-             setLoading(false);
+            setLoading(false);
+
             const result = await response.json();
+            const user = result?.user || {};
+            const fullName = `${user.firstName ?? ""} ${
+                user.lastName ?? ""
+            }`.trim();
+            dispatch({
+                type: "user_active",
+                payload: {
+                    email: user.email,
+                    name: fullName,
+                    photo: user.photo || null,
+                    id: user.id,
+                    role: user.role,
+                    phone: user.user_phone || null,
+                },
+            });
+
             console.log("Perfil atualizado:", result);
         } catch (error) {
             console.error(error);
-             setLoading(false);
+            setLoading(false);
         } finally {
             setLoading(false);
         }
@@ -102,6 +154,12 @@ function Profile() {
                         <Styled.Prof_ContainerForm>
                             {/* FOTO */}
                             <Styled.Prof_Card gridColumn="span 2">
+                                <Styled.Prof_DeleteAccount
+                                    type="button"
+                                    onClick={handleDeleAccount}
+                                >
+                                    <DeleteIcon />
+                                </Styled.Prof_DeleteAccount>
                                 <Styled.Prof_CardContent padding="8rem 2rem">
                                     <Styled.Prof_BoxContainer>
                                         <Styled.Prof_ContainerPhoto
@@ -127,7 +185,8 @@ function Profile() {
                                                         <AddAPhotoIcon />
                                                         <span>
                                                             {
-                                                                translations.pages
+                                                                translations
+                                                                    .pages
                                                                     .profile
                                                                     .uploadText
                                                             }
@@ -137,8 +196,8 @@ function Profile() {
                                             </Styled.Prof_ContainerSvg>
                                         </Styled.Prof_ContainerPhoto>
                                         <Styled.Prof_BoxInfo>
-                                            <span>{state.user_name}</span>
-                                            <span>{state.user_email}</span>
+                                            {/* <span>{state.user_name}</span>
+                                            <span>{state.user_email}</span>*/}
                                         </Styled.Prof_BoxInfo>
                                     </Styled.Prof_BoxContainer>
                                 </Styled.Prof_CardContent>
@@ -149,66 +208,68 @@ function Profile() {
                                     <Styled.Prof_CardInputs>
                                         <Styled.Prof_Input
                                             label={
-                                                translations.pages.profile.inputs
-                                                    .firstName
+                                                translations.pages.profile
+                                                    .inputs.firstName
                                             }
                                             type="text"
                                             {...register("firstName")}
                                         />
                                         <Styled.Prof_Input
                                             label={
-                                                translations.pages.profile.inputs
-                                                    .lastName
+                                                translations.pages.profile
+                                                    .inputs.lastName
                                             }
                                             type="text"
                                             {...register("lastName")}
                                         />
                                         <Styled.Prof_Input
                                             label={
-                                                translations.pages.profile.inputs
-                                                    .email
+                                                translations.pages.profile
+                                                    .inputs.email
                                             }
                                             type="email"
+                                            disabled
                                             {...register("email")}
                                         />
                                         <Styled.Prof_Input
                                             label={
-                                                translations.pages.profile.inputs
-                                                    .phone
+                                                translations.pages.profile
+                                                    .inputs.phone
                                             }
                                             type="tel"
                                             {...register("phone")}
                                         />
                                         <Styled.Prof_Input
                                             label={
-                                                translations.pages.profile.inputs
-                                                    .country
+                                                translations.pages.profile
+                                                    .inputs.country
                                             }
                                             type="text"
                                             {...register("country")}
                                         />
                                         <Styled.Prof_Input
                                             label={
-                                                translations.pages.profile.inputs
-                                                    .city
+                                                translations.pages.profile
+                                                    .inputs.dateOfBirth
                                             }
-                                            type="text"
-                                            {...register("city")}
+                                            type="date"
+                                            {...register("dateOfBirth")}
                                         />
                                         <Styled.Prof_Input
                                             label={
-                                                translations.pages.profile.inputs
-                                                    .address
+                                                translations.pages.profile
+                                                    .inputs.address
                                             }
                                             type="text"
                                             {...register("address")}
                                         />
                                         <Styled.Prof_Input
                                             label={
-                                                translations.pages.profile.inputs
-                                                    .role
+                                                translations.pages.profile
+                                                    .inputs.role
                                             }
                                             type="text"
+                                            disabled
                                             {...register("role")}
                                         />
                                     </Styled.Prof_CardInputs>
@@ -221,6 +282,7 @@ function Profile() {
                                         }
                                         variant="contained"
                                         type="submit"
+                                        loading={loading}
                                         disabled={isSubmitting}
                                     />
                                     <Styled.Prof_ButtonResetPass

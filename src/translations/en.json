@@ -202,8 +202,8 @@
             "inputText": {
                 "email": "Email address",
                 "otp": "6-digit code",
-                "pass": "Password",
-                "cpass": "Confirm password"
+                "pass": "Current password",
+                "cpass": "New password"
             },
             "errors": {
                 "emailRequired": "Email is required",
@@ -232,7 +232,7 @@
                 "email": "Email",
                 "phone": "Phone",
                 "country": "Country",
-                "city": "City",
+                "dateOfBirth": "Date of birth",
                 "address": "Address",
                 "role": "Role"
             },

@@ -28,6 +28,7 @@ export const Theme = (mode = "light") =>
                 950: "#1C252E",
             },
             red: {
+                100: "#f76363ad",
                 500: "#fa0000ff",
                 700: "#d30000ff",
             },
@@ -37,7 +38,6 @@ export const Theme = (mode = "light") =>
             cyan: {
                 500: "#00B8D9",
             },
-
 
             appBar:
                 mode === "dark"

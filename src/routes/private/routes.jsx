@@ -36,6 +36,7 @@ function PrivateRoutes() {
                     />
                 </Route>
             </Route>
+          
         </>
     );
 }

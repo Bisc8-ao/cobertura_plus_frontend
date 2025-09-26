@@ -9,7 +9,8 @@ import { UseTimeoutEffect } from "../../../hooks";
 
 function Home() {
     const navigate = useNavigate();
-    const { showAvalibe, setShowAvalibe, showVerific } = UseTimeoutEffect();
+    const { showAvalibe, setShowAvalibe, showVerific, setShowNavigate } =
+        UseTimeoutEffect();
     const {mode} = UseThemeMode()
     const { handleLocation, location } = UseLocation();
 
@@ -22,10 +23,11 @@ function Home() {
     function handleClickLocation() {
         handleLocation(() => {
             setShowAvalibe(true);
+            setShowNavigate(true)
         });
     }
 
-   
+
     return (
         <React.Fragment>
             {showAvalibe ? (
