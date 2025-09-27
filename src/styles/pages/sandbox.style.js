@@ -1,9 +1,7 @@
 import {
     styled,
     FormControl as MuiFormControl,
-    OutlinedInput as MuiOutlinedInput,
     IconButton as MuiIconButton,
-    TextField
 } from "@mui/material";
 
 export const Sand_Wrapper = styled("div")({
@@ -16,7 +14,7 @@ export const Sand_Wrapper = styled("div")({
     zIndex: 1,
 });
 
-export const Sand_ContainerForm = styled("form")(({theme}) => ({
+export const Sand_ContainerForm = styled("form")(({ theme }) => ({
     display: "flex",
     justifyContent: "center",
 
@@ -38,6 +36,7 @@ export const Sand_ContainerForm = styled("form")(({theme}) => ({
 }));
 
 export const Sand_FormControl = styled(MuiFormControl)(({ theme }) => ({
+    width: "70%",
     "@media (max-width: 942px)": {
         width: "100%",
     },
@@ -45,28 +44,6 @@ export const Sand_FormControl = styled(MuiFormControl)(({ theme }) => ({
         fontSize: theme.typography.sizes.base,
         background: "#fff",
         color: theme.palette.gray[800],
-    },
-}));
-
-export const Sand_OutlinedInput = styled(TextField)(({ theme }) => ({
-    "& .MuiOutlinedInput-notchedOutline": {
-        borderColor: theme.palette.gray[200],
-        borderWidth: "2px",
-    },
-    "&:hover .MuiOutlinedInput-notchedOutline": {
-        borderColor:
-            theme.palette.mode === "dark"
-                ? theme.palette.common.white
-                : theme.palette.common.black,
-    },
-    "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-        borderColor:
-            theme.palette.mode === "dark"
-                ? theme.palette.common.white
-                : theme.palette.common.black,
-    },
-    "& .MuiInputBase-input": {
-        fontSize: "1.4rem",
     },
 }));
 
